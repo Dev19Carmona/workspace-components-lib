@@ -1,0 +1,39 @@
+@let config = buttonConfig(); @let tooltipConfig = buttonConfig().tooltipConfig;
+@if (!config.hideButton) {
+  <div
+    [ngClass]="{
+      'full-width-button': config.fullWidth,
+      'full-height-button': config.fullHeight,
+      'cursor-pointer': this.onClick
+    }"
+    [class]="config.class ?? ''"
+  >
+    <p-button
+      [label]="config.hasTemplate ? undefined : label"
+      [icon]="config.hasTemplate ? undefined : config.icon"
+      [severity]="config.hasTemplate ? 'secondary' : config.severity"
+      [loading]="config.loading || false"
+      [disabled]="config.disabled || false"
+      [rounded]="config.rounded || false"
+      [raised]="config.raised || false"
+      [variant]="config.hasTemplate ? 'text' : config.variant"
+      [badge]="config.badge"
+      (onClick)="config?.onClick?.() ?? onClickButton()"
+      [size]="config?.size"
+      pTooltip="{{ tooltipConfig?.pTooltip }}"
+      [tooltipPosition]="tooltipConfig?.tooltipPosition ?? 'top'"
+      [iconPos]="config?.iconPos ?? 'left'"
+      [ngClass]="{
+        'cursor-pointer': (config.onClick || config.hasStaticClick) && !config.disabled,
+        'cursor-auto': !((config.onClick || config.hasStaticClick) && !config.disabled),
+        'no-hover-template': config.hasTemplate
+      }"
+      [outlined]="config.outlined || false"
+      [text]="config.text || false"
+    >
+      @if (config.hasTemplate) {
+        <ng-content></ng-content>
+      }
+    </p-button>
+  </div>
+}

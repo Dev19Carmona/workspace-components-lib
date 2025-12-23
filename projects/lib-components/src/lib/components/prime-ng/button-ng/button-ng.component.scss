@@ -1,0 +1,32 @@
+.full-width-button ::ng-deep p-button button {
+  width: 100%;
+}
+
+.full-height-button ::ng-deep p-button button {
+  height: 100%;
+}
+
+
+::ng-deep .cursor-auto button {
+  cursor: auto !important;
+}
+
+::ng-deep .cursor-pointer button {
+  cursor: pointer !important;
+}
+
+// Desactivar hover cuando se usa template personalizado
+::ng-deep .no-hover-template button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  
+  &:hover,
+  &:focus,
+  &:active {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
