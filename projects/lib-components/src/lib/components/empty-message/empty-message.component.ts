@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'lib-empty-message',
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   imports: [CommonModule],
   template: `
     <div class="empty-message">
-      <p class="empty-message-text">NO DATA AVAILABLE</p>
+      <p class="empty-message-text">{{ message() }}</p>
     </div>
   `,
   styles: [`
@@ -26,13 +26,6 @@ import { Component, OnInit } from '@angular/core';
     }
   `]
 })
-export class EmptyMessageComponent implements OnInit{
-
-  constructor() {
-    console.log('EmptyMessageComponent constructor');
-  }
-
-  ngOnInit(): void {
-    console.log('EmptyMessageComponent ngOnInit');
-  }
+export class EmptyMessageComponent {
+  message = input<string>('NO DATA AVAILABLE');
 }

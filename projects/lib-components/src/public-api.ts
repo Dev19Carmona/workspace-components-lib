@@ -11,6 +11,6 @@ de13d65e8a0357ce9f2e18c899c8e7f6f728181baa031761ecdd7ef5cb166eb2
 
 export * from './lib/lib-components.service';
 export * from './lib/lib-components.component';
-export * from './lib/button/button.component';
-export * from './lib/empty-message/empty-message.component';
+export * from './lib/components/index';
+export * from './lib/interfaces/index';
 
