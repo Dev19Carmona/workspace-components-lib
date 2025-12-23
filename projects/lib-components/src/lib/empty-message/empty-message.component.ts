@@ -1,13 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'lib-empty-message',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="empty-message">
-      <p class="empty-message-text">{{ message || 'No data available' }}</p>
+      <p class="empty-message-text">{{ message }}</p>
     </div>
   `,
   styles: [`
@@ -27,5 +26,5 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class EmptyMessageComponent {
-  @Input() message?: string;
+  @Input() message: string = 'No data available';
 }

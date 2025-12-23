@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'lib-button',
@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       [class]="'lib-button ' + (variant || 'primary')" 
       [disabled]="disabled" 
       (click)="onClick.emit()">
+      <ng-content></ng-content>
     </button>
   `,
   styles: [`
@@ -45,8 +46,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     }
   `]
 })
-export class ButtonComponent {
+export class ButtonComponent implements OnInit {
+
   @Input() variant: 'primary' | 'secondary' = 'primary';
   @Input() disabled: boolean = false;
   @Output() onClick = new EventEmitter<void>();
+
+  constructor() {
+    console.log('ButtonComponent constructor');
+  }
+  ngOnInit(): void {
+    console.log('ButtonComponent ngOnInit');
+  }
 }
