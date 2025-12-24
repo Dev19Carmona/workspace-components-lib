@@ -1,13 +1,11 @@
 import { computed, effect, inject, Injectable, type Signal, signal } from '@angular/core'
 import type { IButtonConfig } from '../interfaces'
-import { TranslocoService } from '@jsverse/transloco'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppButtonNgService {
   private buttonConfig = signal<IButtonConfig>({} as IButtonConfig)
-  private readonly transloco = inject(TranslocoService)
 
   constructor() {
     // Effect para manejar automáticamente la rotación de mensajes
@@ -37,7 +35,7 @@ export class AppButtonNgService {
     }
 
     // Si no está cargando, retornar el label normal
-    return config.label ? this.transloco.translate(config.label) : ''
+    return config.label ? config.label : ''
   })
 
   //#region Loading Messages
