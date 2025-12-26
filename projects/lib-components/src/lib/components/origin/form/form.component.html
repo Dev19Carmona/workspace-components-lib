@@ -1,0 +1,7 @@
+<div class="w-full p-2 rounded-lg" [style.backgroundColor]="formConfig()?.backgroundColor || 'transparent'">
+  <app-form-child [controlsData]="controls()" [formGroup]="formGroup()" (formSubmit)="submit($event)">
+  </app-form-child>
+  @if (httpMessage()) {
+  <app-http-message [(httpMessage)]="httpMessage"></app-http-message>
+  }
+</div>

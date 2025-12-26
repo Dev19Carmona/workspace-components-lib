@@ -1,0 +1,11 @@
+<div class="h-full w-full" [class]="containerClass()">
+    <div class="dynamic-grid" [style.--grid-cols]="cols()">
+      @for (element of elements(); track element.id) {
+        <div class="grid-item">
+          @if (element.buttonConfig) {
+            <app-button-ng [(buttonConfig)]="element.buttonConfig" (onClick)="onButtonClick(element)"></app-button-ng>
+          }
+        </div>
+      }
+    </div>
+</div>

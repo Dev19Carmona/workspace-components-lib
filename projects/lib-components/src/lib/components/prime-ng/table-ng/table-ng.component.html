@@ -1,0 +1,574 @@
+@let paginationConfig = config()?.paginationConfig;
+@let globalFilterConfig = config()?.globalFilterConfig;
+@let selectionTableConfig = config()?.selectionTableConfig;
+@let filterConfigByKey = config()?.filterConfigByKey;
+@let frozenColumnConfigByKey = config()?.frozenColumnConfigByKey;
+@let scrollConfig = config()?.scrollConfig;
+@let lazyLoadingConfig = config()?.lazyLoadingConfig;
+@let keysNames = config()?.keysNames;
+@let columnConfig = config()?.columnConfig;
+@let editEnabled = editConfig()?.isEnabled ?? false;
+@let editType = editConfig()?.type ?? 'cell';
+@let inlineControls = editConfig()?.inlineControls;
+@let rowErrorConfig = editConfig()?.rowEditConfig?.rowErrorConfig;
+@let footerRows = footerConfig()?.footerRows;
+@let footerEnabled = footerConfig()?.isEnabled ?? false;
+@let titleConfig = config()?.titleConfig;
+@let selectedColumns = config()?.selectedColumns;
+@let rowExpansionConfig = config()?.rowExpansionConfig;
+@let advancedIdentifierFiltersConfig = config()?.globalFilterConfig?.advancedIdentifierFiltersConfig;
+
+<app-aminated-container>
+  <div class="p-datatable-wrapper">
+    @if (titleConfig?.isEnabled && titleConfig?.title) {
+    <div class="table-title-container">
+      <h2 class="table-title">{{ titleConfig!.title }}</h2>
+    </div>
+    }
+    @if (!hideToolbar || (filteredValue || advancedFiltersPerformed.length > 0)) {
+    <app-toolbar-ng class="p-toolbar-header sticky top-0 z-30 dark:bg-gray-800">
+      <div class="flex gap-2" toolbarStart>
+        @if (globalFilterConfig?.isEnabled && !lazyLoadingConfig?.isEnabled) {
+        <app-form [controls]="controlsGlobalFilter" [(formGroup)]="searchFormGroupGlobalFilter"
+          (formSubmit)="submitGlobalSearch($event)"></app-form>
+        }
+        @if (advancedIdentifierFiltersConfig?.isEnabled) {
+        <lib-button-ng class="animate__animated animate__fadeIn"
+          [buttonConfig]="advancedIdentifierFiltersButton()"></lib-button-ng>
+        }
+        @if (filteredValue || advancedFiltersPerformed.length > 0) {
+        <lib-button-ng class="animate__animated animate__fadeIn" [buttonConfig]="clearFiltersButton()"></lib-button-ng>
+        }
+      </div>
+      <div class="flex gap-2" toolbarEnd>
+        @if (toolbarButtons().length > 0) {
+        @for (button of toolbarButtons(); track $index) {
+        <lib-button-ng [buttonConfig]="button"></lib-button-ng>
+        }
+        }
+        @if ((editType === 'row' || editType === 'cell') && editEnabled) {
+        <lib-button-ng [buttonConfig]="addRowButton()"></lib-button-ng>
+        }
+        @if (enableExcelButton()) {
+        <lib-button-ng [buttonConfig]="excelButton" (onClick)="exportData(dt,'excel')"></lib-button-ng>
+        }
+        @if (enablePdfButton()) {
+        <lib-button-ng [buttonConfig]="pdfButton" (onClick)="exportData(dt,'pdf')"></lib-button-ng>
+        }
+      </div>
+    </app-toolbar-ng>
+    }
+    <p-table #dt styleClass="p-datatable-sm" [value]="data()" [lazy]="lazyLoadingConfig?.isEnabled ?? false"
+      [editMode]="editType" [totalRecords]="
+        lazyLoadingConfig?.isEnabled
+          ? (lazyLoadingConfig?.totalRecords ?? 0)
+          : data().length
+      " [customSort]="true" [paginator]="paginationConfig?.paginator ?? true" [showCurrentPageReport]="true"
+      [rows]="paginationConfig?.rows ?? 5" [rowsPerPageOptions]="paginationConfig?.rowsPerPageOptions ?? [5, 10, 20]"
+      [paginatorStyleClass]="paginatorStyleClass()" [resizableColumns]="true" [rowTrackBy]="trackById"
+      [columns]="selectedColumns" [scrollable]="scrollConfig?.isEnabled ?? false"
+      [scrollHeight]="scrollConfig?.isEnabled ? scrollHeight() : undefined" (onLazyLoad)="onLazyLoad($event)"
+      (sortFunction)="customSort($event)" (onFilter)="onFilter($event)" [(selection)]="selectedItems"
+      [currentPageReportTemplate]="'custom-page-report'" selectionPageOnly="true"
+      dataKey="id" class="w-full">
+      <ng-template #header let-columns>
+        <tr>
+          @if (rowExpansionConfig?.isEnabled) {
+          <th alignFrozen="left" pFrozenColumn style="width: 2rem" class="p-datatable-header-cell p-frozen-column">
+
+          </th>
+          }
+          @if (selectionTableConfig?.isEnabled) {
+          <th alignFrozen="left" pFrozenColumn style="width: 2rem" class="p-datatable-header-cell p-frozen-column">
+            <p-tableHeaderCheckbox />
+          </th>
+          }
+
+          @if (selectedColumns) {
+          @for (column of columns; track $index) {
+          <th pResizableColumn [id]="column.field" alignFrozen="right" pFrozenColumn
+            [frozen]="frozenHandle(frozenColumnConfigByKey?.[column.field])" [pSortableColumn]="column.field"
+            class="p-datatable-header-cell" [style.width.%]="columnConfig?.sizeByKey?.[column.field] ?? null" [ngClass]="{
+                          'p-frozen-column': frozenHandle(
+                            frozenColumnConfigByKey?.[column.field]
+                          ),
+                        }">
+            <div class="flex gap-2 justify-center items-center py-0 px-0">
+              {{ column.field | keyToDisplayName: keysNames }}
+              @if(!editEnabled){
+              <p-sortIcon [field]="column.field" />
+              }
+              @if (filterConfigByKey?.[column.field]?.isEnabled) {
+              <p-columnFilter type="text" [field]="`rowData.${column.field}`" display="menu" [ngClass]="{
+                  'bg-green-200 rounded-full p-1 shadow-sm text-green-500 transition-all duration-300 ease-in-out':
+                    advancedFiltersPerformed.includes(column.field),
+                }" [type]="
+                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig?.type ??
+                  'text'
+                " [matchMode]="
+                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
+                    ?.matchMode
+                " [showMatchModes]="
+                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
+                    ?.showMatchModes ?? false
+                " [showOperator]="
+                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
+                    ?.showOperator ?? false
+                " [showAddButton]="
+                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
+                    ?.showAddButton ?? false
+                " [showApplyButton]="
+                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
+                    ?.showApplyButton ?? false
+                " [showClearButton]="
+                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
+                    ?.showClearButton ?? false
+                ">
+                @if (
+                filterConfigByKey?.[column.field]?.customColumnFilterConfig
+                ?.isEnabled ?? false
+                ) {
+                <ng-template #filter let-value let-filter="filterCallback">
+                  <div style="min-width: 20rem" class="">
+                      <app-inline-input 
+                      (outputValue)="inlineFormChanges($event, filter, filterConfigByKey?.[column.field]?.customColumnFilterConfig?.inlineControlConfig?.typeInput, column.field)" 
+                      (outputDebounced)="onFilter($event)"
+                      [(ngModel)]="advancedFiltersValues()[column.field]" 
+                      [config]="filterConfigByKey?.[column.field]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></app-inline-input>
+                  </div>
+                </ng-template>
+                }
+              </p-columnFilter>
+              }
+            </div>
+          </th>
+          }
+          }@else {
+          @for (key of keys(); track $index) {
+          <th [id]="key" pResizableColumn alignFrozen="right" pFrozenColumn
+            [frozen]="frozenHandle(frozenColumnConfigByKey?.[key])" [pSortableColumn]="key"
+            class="p-datatable-header-cell" [style.width.%]="columnConfig?.sizeByKey?.[key] ?? null" [ngClass]="{
+              'p-frozen-column': frozenHandle(frozenColumnConfigByKey?.[key]),
+            }">
+            <div class="flex gap-2 justify-center items-center py-0 px-0">
+              {{ key | keyToDisplayName: keysNames }}
+              @if(!editEnabled){
+              <p-sortIcon [field]="key" />
+              }
+              @if (filterConfigByKey?.[key]?.isEnabled) {
+              <p-columnFilter type="text" [field]="`rowData.${key}`" display="menu" [ngClass]="{
+                  'bg-green-200 rounded-full p-1 shadow-sm text-green-500 transition-all duration-300 ease-in-out':
+                    advancedFiltersPerformed.includes(key),
+                }" [type]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.type ?? 'text'"
+                [matchMode]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.matchMode"
+                [showMatchModes]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showMatchModes ?? false"
+                [showOperator]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showOperator ?? false"
+                [showAddButton]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showAddButton ?? false"
+                [showApplyButton]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showApplyButton ?? false"
+                [showClearButton]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showClearButton ?? false">
+                @if (
+                filterConfigByKey?.[key]?.customColumnFilterConfig
+                ?.isEnabled ?? false
+                ) {
+                <ng-template #filter let-value let-filter="filterCallback">
+                  <div style="min-width: 20rem" class="">
+                    <!-- <app-custom-advanced-filter filter
+                      [customColumnFilterConfig]="filterConfigByKey![key]!.customColumnFilterConfig!"
+                      (formChanges)="formChanges($event, filter, key)"
+                      [initialValue]="advancedFiltersValues[key]"></app-custom-advanced-filter> -->
+                      <app-inline-input (outputValue)="inlineFormChanges($event, filter, filterConfigByKey?.[key]?.customColumnFilterConfig?.inlineControlConfig?.typeInput, key)" [(ngModel)]="advancedFiltersValues()[key]" [config]="filterConfigByKey?.[key]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></app-inline-input>
+                  </div>
+                </ng-template>
+                }
+              </p-columnFilter>
+              }
+            </div>
+          </th>
+          }
+          }
+
+          @if (editType === 'cell' && editEnabled) {
+          <th class="p-datatable-header-cell" style="width: 100px">
+          </th>
+          }
+          @if (editType === 'row' && editEnabled) {
+          <th class="p-datatable-header-cell" style="width: 100px">
+          </th>
+          }
+
+        </tr>
+      </ng-template>
+
+      <ng-template #emptymessage>
+        <tr>
+          <td [attr.colspan]="totalColumns()">
+            @if (isLoading()) {
+            <!-- Estado de carga -->
+            <div class="p-8 text-center">
+              <div class="flex flex-col items-center justify-center gap-4">
+                <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
+                <p class="text-gray-600 text-lg">{{ '' }}</p>
+              </div>
+            </div>
+            } @else if (timeoutExpired()) {
+            <!-- Timeout expirado sin datos -->
+            <div class="p-8 text-center text-gray-500">
+              <div class="flex flex-col items-center justify-center gap-3">
+                <i class="pi pi-info-circle text-4xl text-gray-400"></i>
+                <p class="text-lg">{{ '' }}</p>
+              </div>
+            </div>
+            }
+          </td>
+        </tr>
+      </ng-template>
+
+      @if (hasRecords()) {
+      @if (editEnabled) {
+      @switch (editType) {
+      @case ('cell') {
+      <ng-template #body let-item let-editing="editing">
+        <tr class="p-datatable-row p-selectable-row">
+          @if (selectedColumns) {
+          @for (column of selectedColumns; track $index){
+          <td [pEditableColumn]="column.field" pEditableColumnField="rowData.{{column.field}}">
+            <p-cellEditor>
+              <ng-template #input>
+                <app-inline-input [(ngModel)]="item.rowData[column.field]" (outputDebounced)="onEditData()"
+                  [config]="inlineControls?.[column.field] ?? {typeInput: ETypeInput.TEXT}">
+                </app-inline-input>
+              </ng-template>
+              <ng-template #output>
+                @if (inlineControls?.[column.field]?.typeInput === ETypeInput.NUMBER) {
+                <div class="text-right">
+                  {{ item.rowData[column.field] | number: '1.2-2' }}
+
+                </div>
+                } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.CURRENCY) {
+                <div class="text-right">
+                  {{ item.rowData[column.field] | currency: item?.currencyTypeCellConfig?.[column.field]?.currency ?? 'USD' }}
+                </div>
+                } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.DATE) {
+                <div class="text-left">
+                  {{ item.rowData[column.field] | date: "dd/MM/yyyy" }}
+                </div>
+                } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.DATETIME_LOCAL) {
+                <div class="text-left">
+                  {{ item.rowData[column.field] | date: "dd/MM/yyyy HH:mm" }}
+                </div>
+                } @else {
+                @if (item.rowData[column.field]?.name) {
+                {{ item.rowData[column.field]?.name }}
+                } @else {
+                {{ item.rowData[column.field] }}
+                }
+                }
+
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          }
+          } @else {
+          @for (key of keys(); track $index){
+          <td [pEditableColumn]="key" pEditableColumnField="rowData.{{key}}">
+            <p-cellEditor>
+              <ng-template #input>
+                <app-inline-input [(ngModel)]="item.rowData[key]" (outputDebounced)="onEditData()"
+                  [config]="inlineControls?.[key] ?? {typeInput: ETypeInput.TEXT}">
+                </app-inline-input>
+              </ng-template>
+              <ng-template #output>
+                {{ item.rowData[key] }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          }
+          }
+          @if (editType === 'cell' && editEnabled) {
+          <td class="px-2 py-1 text-center">
+            <div class="flex justify-center items-center gap-2">
+              <lib-button-ng [buttonConfig]="getDeleteRowButton()" (onClick)="deleteRow(item)"></lib-button-ng>
+            </div>
+          </td>
+          }
+        </tr>
+      </ng-template>
+      }
+      @case ('row') {
+      <ng-template #body let-item let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="item" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 border-b">
+          @if (selectedColumns) {
+          @for (column of selectedColumns; track $index){
+          <td>
+            <div class="flex flex-col gap-2">
+              <p-cellEditor>
+                <ng-template #input>
+                  <app-inline-input [(ngModel)]="item.rowData[column.field]"
+                    (outputValue)="inlineChange($event, column.field)" (outputDebounced)="onEditData()"
+                    [config]="inlineControls?.[column.field] ?? {typeInput: ETypeInput.TEXT}">
+                  </app-inline-input>
+                  
+                </ng-template>
+                <ng-template #output>
+
+                  @if (inlineControls?.[column.field]?.typeInput === ETypeInput.NUMBER) {
+                  <div class="text-right">
+                    {{ item.rowData[column.field] | number: '1.2-2' }}
+
+                  </div>
+                  } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.CURRENCY) {
+                  <div class="text-right">
+                    {{ item.rowData[column.field] | currency: item?.currencyTypeCellConfig?.[column.field]?.currency ?? 'USD' : item?.currencyTypeCellConfig?.[column.field]?.locale ?? 'es-CO' }} 
+                  </div>
+                  } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.DATE) {
+                  <div class="text-left">
+                    {{ item.rowData[column.field] | date: "dd/MM/yyyy" }}
+                  </div>
+                  } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.DATETIME_LOCAL) {
+                  <div class="text-left">
+                    {{ item.rowData[column.field] | date: "dd/MM/yyyy HH:mm" }}
+                  </div>
+                  } @else {
+                  @if (item.rowData[column.field]?.name) {
+                  {{ item.rowData[column.field]?.name }}
+                  } @else {
+                  {{ item.rowData[column.field] }}
+                  }
+                  }
+
+
+                </ng-template>
+              </p-cellEditor>
+
+              @if (rowErrorConfig?.isEnabled && enableErrors && !rowFieldsHasValue()[column.field]) {
+              <span class="text-red-500 italic text-xs">{{
+                rowErrorConfig?.fieldErrors?.[item.id]?.[column.field]?.message ??
+                '' }}</span>
+              }
+            </div>
+          </td>
+          }
+          } @else {
+          @for (key of keys(); track $index){
+          <td>
+            <div class="flex flex-col gap-2">
+              <p-cellEditor>
+                <ng-template #input>
+                  <app-inline-input [(ngModel)]="item.rowData[key]" (outputValue)="inlineChange($event, key)"
+                    (outputDebounced)="onEditData()" [config]="inlineControls?.[key] ?? {typeInput: ETypeInput.TEXT}">
+                  </app-inline-input>
+                </ng-template>
+                <ng-template #output>
+
+                  @if (inlineControls?.[key]?.typeInput === ETypeInput.NUMBER) {
+                  <div class="text-right">
+                    {{ item.rowData[key] | number: '1.2-2' }}
+
+                  </div>
+                  }
+                  @else if(inlineControls?.[key]?.typeInput === ETypeInput.CURRENCY) {
+                  <div class="text-right">
+                    {{ item.rowData[key] | currency: item?.currencyTypeCellConfig?.[key]?.currency ?? 'USD' }}
+                  </div>
+                  } @else {
+                  @if (item.rowData[key]?.name) {
+                  {{ item.rowData[key]?.name }}
+                  } @else {
+                  {{ item.rowData[key] }}
+                  }
+                  }
+
+
+                </ng-template>
+              </p-cellEditor>
+
+              @if (rowErrorConfig?.isEnabled && enableErrors && !rowFieldsHasValue()[key]) {
+              <span class="text-red-500 italic text-xs">{{ rowErrorConfig?.fieldErrors?.[item.id]?.[key]?.message ??
+                '' }}</span>
+              }
+            </div>
+          </td>
+          }
+          }
+          <td>
+            <div class="flex justify-center items-center gap-2">
+              @if(!editing){
+              <lib-button-ng pButton pRipple pInitEditableRow [buttonConfig]="getEditInitButton(item.id)"
+                (onClick)="onRowEditInit(item)"></lib-button-ng>
+                @if(!editConfig()?.rowEditConfig?.isDisabledDeleteButton){
+                <lib-button-ng [buttonConfig]="getDeleteRowButton()" (onClick)="deleteRow(item)"></lib-button-ng>
+                }
+              }
+              @if(editing){
+              @if (hasErrorValues(rowErrorConfig?.fieldErrors?.[item.id] ?? {})) {
+              <lib-button-ng [buttonConfig]="editSaveButtonWithErrors()"
+                (onClick)="onEditSaveWithErrors()"></lib-button-ng>
+              }
+              @else {
+              <lib-button-ng pButton pRipple pSaveEditableRow [buttonConfig]="editSaveButton()"
+                (onClick)="onRowEditSave(item)"></lib-button-ng>
+              }
+              <lib-button-ng pButton pRipple pCancelEditableRow [buttonConfig]="editCancelButton()"
+                (onClick)="onRowEditCancel(item, ri)"></lib-button-ng>
+              }
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      }
+      }
+      } @else {
+
+      <ng-template #body let-item let-expanded="expanded">
+        <tr class="p-datatable-row p-selectable-row"
+          [ngClass]="{
+            'bg-gray-50 dark:bg-gray-800 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700': item.onClick && !item.isSelected && !item.isLoading,
+            'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600': !item.onClick && !item.isSelected && !item.isLoading,
+            'bg-blue-100 dark:bg-blue-900 border-l-4 border-blue-500 hover:bg-blue-200 dark:hover:bg-blue-800': item.isSelected && !item.isLoading,
+            'skeleton-row': item.isLoading
+          }"
+          (click)="item?.isLoading ? null : onRowClick(item)">
+
+          @if (rowExpansionConfig?.isEnabled) {
+          <td (click)="$event.stopPropagation()" 
+            [class.skeleton-cell]="item.isLoading"
+            [style.height]="item.isLoading ? '3rem' : 'auto'">
+            @if (!item.isLoading) {
+            <lib-button-ng [buttonConfig]="rowExpansionButton(expanded)()" type="button" pRipple
+              [pRowToggler]="item"></lib-button-ng>
+            } @else {
+            <div class="skeleton-content"></div>
+            }
+          </td>
+          }
+
+          @if (selectionTableConfig?.isEnabled) {
+          <td (click)="$event.stopPropagation()" 
+            alignFrozen="left" 
+            pFrozenColumn 
+            class="shadow-lg" 
+            [class.skeleton-cell]="item.isLoading"
+            [style.height]="item.isLoading ? '3rem' : 'auto'">
+            @if (!item.isLoading) {
+            <p-tableCheckbox [id]="item" [value]="item" />
+            } @else {
+            <div class="skeleton-content"></div>
+            }
+          </td>
+          }
+
+          @for (key of keys(); track $index) {
+          @if (isThatItemInTheProductSelection(key)) {
+          <td [id]="key" class="p-datatable-cell" 
+            [style.height]="item.isLoading ? '3rem' : 'min-content'"
+            alignFrozen="right" pFrozenColumn
+            [ngClass]="{
+                'p-frozen-column': frozenHandle(frozenColumnConfigByKey?.[key]),
+                'text-center': item.rowDataButtons?.[key] || item.typeCell?.[key] === ETypeInput.BADGE,
+                'skeleton-cell': item.isLoading
+              }" [frozen]="frozenHandle(frozenColumnConfigByKey?.[key])">
+            @if (item.isLoading) {
+            <div class="skeleton-content"></div>
+            } @else {
+            @if (item.rowDataButtons?.[key]) {
+            <div class="flex gap-4 w-full justify-center items-center">
+              @for (btn of item.rowDataButtons[key]; track $index) {
+              @if (btn) {
+              <lib-button-ng class="w-full" (click)="$event.stopPropagation()" [buttonConfig]="btn"></lib-button-ng>
+              }
+              }
+            </div>
+            } @else {
+            @switch (item.typeCell?.[key]) {
+            @case (ETypeInput.IMAGE) {
+            <img [src]="item.rowData[key]" alt="Image" class="w-10 h-10 mx-auto">
+            }
+            @case (ETypeInput.DATE) {
+            {{ item.rowData[key] | date: "dd/MM/yyyy" }}
+            }
+            @case (ETypeInput.DATETIME_LOCAL) {
+            {{ item.rowData[key] | date: "dd/MM/yyyy HH:mm" }}
+            }
+            @case (ETypeInput.CURRENCY) {
+              {{item?.currencyTypeCellConfig?.[key]?.currency}} {{ item.rowData[key] | currency: item?.currencyTypeCellConfig?.[key]?.currency ?? 'USD' }}
+            }
+            @case (ETypeInput.BADGE) {
+            <app-badge-ng [config]="item.rowData[key]"></app-badge-ng>
+            }
+            @case (ETypeInput.COMPONENT) {
+            <ng-container *ngTemplateOutlet="item.rowDataComponents?.[key]; context: { $implicit: item.raw }"></ng-container>
+            }
+            @default {
+            @if (isDate(item.rowData[key])) {
+            {{ item.rowData[key] | date: "dd/MM/yyyy" }}
+            } @else if (typeof item.rowData[key] === "string") {
+            {{ item.rowData[key] }}
+            } @else if (isPrimeNgSelection(item.rowData[key])) {
+            {{ item.rowData[key].name }}
+            } @else if(typeof item.rowData[key] === "number") {
+            <p class="text-right">
+              {{ item.rowData[key] | number: '1.2-2' }}
+            </p>
+            }
+            }
+            }
+            }
+            }
+          </td>
+          }
+          }
+        </tr>
+      </ng-template>
+      }
+      }
+
+      <ng-template #footer>
+        @if (footerEnabled) {
+        @for (row of footerRows; track $index) {
+        <tr class="p-datatable-row p-datatable-footer-row">
+          @for (cell of row; track $index) {
+          <td colSpan="{{ cell.colSpan }}" class="{{ cell.class }} text-right font-bold p-3 pb-0">{{
+            applyPipe(cell.value,
+            cell.pipeConfig) }}</td>
+
+          }
+        </tr>
+        }
+
+        }
+      </ng-template>
+      <ng-template #expandedrow let-item>
+        <tr>
+          <td colspan="100%">
+            <div class="p-datatable-row-expansion">
+              <ng-container *ngTemplateOutlet="currentItemTemplate; context: { $implicit: item }"></ng-container>
+
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    @if (showBottomToolbar()) {
+    <div class="p-datatable-footer sticky bottom-2 z-9 animate__animated animate__fadeIn">
+      <app-toolbar-ng>
+        @if (showManagementSelectionConfig()) {
+        <div toolbarStart
+          class="p-datatable-footer-content flex items-center gap-3 px-4 rounded-lg animate__animated animate__fadeIn">
+          <span class="font-medium text-gray-700">Has seleccionado</span>
+          <div class="p-datatable-footer-badge flex items-center justify-center min-w-28 h-7 px-2 rounded-md">
+            <span class="font-semibold text-gray-900">{{
+              totalItemsSelected().toLocaleString()
+              }}</span>
+          </div>
+          <span class="text-sm text-gray-600">registros</span>
+          <lib-button-ng [buttonConfig]="showSelectedItemsManagementButton()"></lib-button-ng>
+        </div>
+        }
+      </app-toolbar-ng>
+    </div>
+    }
+  </div>
+  @if (httpMessage()) {
+    <app-http-message [(httpMessage)]="httpMessage"></app-http-message>
+  }
+</app-aminated-container>

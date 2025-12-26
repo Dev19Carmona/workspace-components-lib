@@ -1,0 +1,182 @@
+@let localControl = controlData().control;
+@let placeholder = controlData().label || controlUpperName();
+@let name = controlData().controlName;
+@let typeInput = controlData().typeInput;
+@let readonly = controlData().readonly || false;
+@let dateConfig = controlData().dateConfig;
+@let multiSelectConfig = controlData().multiSelectConfig;
+@let selectConfig = controlData().selectConfig;
+@let toggleConfig = controlData().toggleConfig;
+@let textareaConfig = controlData().textareaConfig;
+@let currencyConfig = controlData().currencyConfig;
+<div class="flex flex-col gap-1 ">
+  <app-disabled-container [disabled]="readonly">
+
+    <p style="font-size: 12px; letter-spacing: 0.5px;" class="text-sm text-gray-600 dark:text-gray-300 truncate"
+      [pTooltip]="placeholder | transloco" tooltipPosition="top" [showDelay]="300">
+      {{ placeholder | transloco }}
+    </p>
+    @switch (typeInput) {
+    @case (inputTypesEnum.EMAIL) {
+    <input 
+    [formControl]="localControl" 
+    (blur)="onTouched()" 
+    pInputText 
+    [id]="generateUniqueId(name)" 
+    [name]="name"
+    [type]="typeInput"
+      [readOnly]="readonly" 
+      autocomplete="email" 
+      autocorrect="on" 
+      autocapitalize="on" 
+      spellcheck="true" 
+      [ngClass]="{
+            'border-red-500 focus:ring-red-500':
+              localControl.invalid &&
+              (localControl.dirty || localControl.touched),
+            'bg-gray-100 cursor-not-allowed': readonly,
+          }"
+      class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
+    }
+    @case (inputTypesEnum.CURRENCY) {
+    <p-inputnumber [formControl]="localControl" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="currency"
+      [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'" [minFractionDigits]="2" [maxFractionDigits]="2" [readonly]="readonly" [disabled]="readonly" />
+    }
+    @case (inputTypesEnum.DATE) {
+    <app-disabled-container [disabled]="readonly">
+      <p-datepicker [formControl]="localControl" [selectionMode]="dateConfig?.selectionMode || 'single'"
+        [maxDate]="dateConfig?.maxDate || null" [minDate]="dateConfig?.minDate || null" class="custom-datepicker"
+        appendTo="body" />
+    </app-disabled-container>
+    }
+    @case (inputTypesEnum.TOGGLE) {
+    <div class="flex justify-center items-center p-4">
+      <p-togglebutton [formControl]="localControl" [onLabel]="toggleConfig?.onLabel || 'Si'"
+        [offLabel]="toggleConfig?.offLabel || 'No'" class="custom-toggle" />
+    </div>
+    }
+    @case (inputTypesEnum.MULTISELECT) {
+    <p-multiselect [filter]="true" [options]="multiSelectConfig?.options" [formControl]="localControl"
+      [optionLabel]="multiSelectConfig?.optionLabel ?? 'name'" placeholder="" [maxSelectedLabels]="3"
+      class="custom-multiselect" appendTo="body" />
+    }
+    @case (inputTypesEnum.SELECT) {
+    <p-select [filter]="true" [options]="selectConfig?.options" [formControl]="localControl"
+      [optionLabel]="selectConfig?.optionLabel ?? 'name'" placeholder="" class="custom-select"
+      (onChange)="onSelectChange()" appendTo="body" [disabled]="readonly" [readonly]="readonly" [styleClass]="
+      (localControl.invalid && (localControl.dirty || localControl.touched) ? 'border-red-500 focus:ring-red-500 ' : '') +
+      (readonly ? 'bg-gray-100 cursor-not-allowed' : '')
+    " />
+    }
+    @case (inputTypesEnum.PASSWORD) {
+    <div class="relative">
+      <input [readOnly]="readonly || false" [id]="generateUniqueId(name)" [type]="showPassword ? 'text' : 'password'"
+        autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false"
+        class="custom-password w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all duration-200"
+        aria-describedby="password-help" [formControl]="localControl" />
+      <button type="button"
+        class="custom-password-toggle absolute inset-y-0 right-0 flex items-center justify-center w-12 h-full text-gray-400 transition-colors duration-200 ease-in-out hover:text-gray-600 focus:outline-none focus:text-gray-600 active:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300 dark:focus:text-gray-300"
+        (click)="togglePasswordVisibility()" [attr.aria-label]="
+              showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+            ">
+        <i class="fas text-lg transition-all duration-200 ease-in-out" [ngClass]="{
+                'fa-solid fa-eye': !showPassword,
+                'fa-solid fa-eye-slash': showPassword,
+              }"></i>
+      </button>
+    </div>
+    }
+    @case (inputTypesEnum.CHECKBOX) {
+    <div class="flex justify-center items-center p-4">
+      <input [id]="generateUniqueId(name)" [readOnly]="readonly" [type]="typeInput" [checked]="localControl.value"
+        (change)="onCheckboxChange($event, localControl)"
+        class="custom-checkbox h-5 w-5 border-2 border-gray-300 dark:border-transparent rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 transition-all duration-200"
+        [formControl]="localControl" />
+    </div>
+    }
+    @case (inputTypesEnum.OTP) {
+    <div class="flex justify-center items-center p-4">
+      <p-inputotp [id]="generateUniqueId(name)" (onBlur)="onTouched()" [mask]="controlData().otpConfig?.mask ?? false"
+        [length]="controlData().otpConfig?.length ?? 6" [integerOnly]="controlData().otpConfig?.integerOnly ?? false"
+        class="custom-otp border-2 border-gray-300 dark:border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 transition-all duration-200"
+        [formControl]="localControl" />
+    </div>
+    }
+    @case (inputTypesEnum.SWITCH) {
+    <div class="flex justify-center items-center p-4">
+      <p-toggleswitch [id]="generateUniqueId(name)" [formControl]="localControl"
+        class="custom-switch border-2 border-gray-300 dark:border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 transition-all duration-200"
+        (change)="onCheckboxChange($event, localControl)">
+        <ng-template #handle let-checked="checked">
+          <span class="text-xs bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-full px-1">
+            @if (checked) {
+            Si
+            }
+            @else {
+            No
+            }
+          </span>
+        </ng-template>
+      </p-toggleswitch>
+    </div>
+    }
+    @case (inputTypesEnum.DECIMAL) {
+    <p-inputnumber [formControl]="localControl" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="decimal"
+      [locale]="'es-CO'" [minFractionDigits]="2" [maxFractionDigits]="2" [readonly]="readonly" [disabled]="readonly" />
+    }
+    @case (inputTypesEnum.TEXTAREA) {
+    <textarea pTextarea [formControl]="localControl" [rows]="textareaConfig?.rows ?? 3"
+      [cols]="textareaConfig?.cols ?? 30" [autoResize]="true" [variant]="textareaConfig?.variant ?? 'outlined'"
+      (blur)="onTouched()" [id]="generateUniqueId(name)" [readonly]="readonly" autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false"
+      class="custom-textarea w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"></textarea>
+    }
+    @default {
+    <input [formControl]="localControl" (blur)="onTouched()" pInputText [id]="generateUniqueId(name)" [type]="typeInput"
+      [readOnly]="readonly" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" [ngClass]="{
+            'border-red-500 focus:ring-red-500':
+              localControl.invalid &&
+              (localControl.dirty || localControl.touched),
+            'bg-gray-100 cursor-not-allowed': readonly,
+          }"
+      class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
+    }
+    }
+  </app-disabled-container>
+
+</div>
+
+@if (localControl.invalid && (localControl.dirty || localControl.touched)) {
+<div class="custom-error mt-1 text-sm text-red-600 dark:text-red-400">
+  @if (localControl.errors?.["required"]) {
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
+    'common.forms_validations.required_field' | transloco }}</span>
+  }
+  @if (localControl.errors?.["min"]) {
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{ 'common.forms_validations.min_value'
+    | transloco: { min: localControl.errors?.["min"].min.toFixed(2) } }}</span>
+  }
+  @if (localControl.errors?.["max"]) {
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{ 'common.forms_validations.max_value'
+    | transloco: { max: localControl.errors?.["max"].max.toFixed(2) } }}</span>
+  }
+  @if (localControl.errors?.["minlength"]) {
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
+    'common.forms_validations.min_length' | transloco: { min: localControl.errors?.["minlength"].requiredLength }
+    }}</span>
+  }
+  @if (localControl.errors?.["maxlength"]) {
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
+    'common.forms_validations.max_length' | transloco: { max: localControl.errors?.["maxlength"].requiredLength }
+    }}</span>
+  }
+  @if (localControl.errors?.["email"]) {
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
+    'common.forms_validations.invalid_email' | transloco }}</span>
+  }
+  @if (localControl.errors?.["pattern"]) {
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
+    'common.forms_validations.invalid_format' | transloco }}</span>
+  }
+</div>
+}

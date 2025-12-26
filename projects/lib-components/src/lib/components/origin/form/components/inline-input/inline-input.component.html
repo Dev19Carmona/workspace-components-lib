@@ -1,0 +1,94 @@
+@let valueInput = value();
+@let isDisabled = config().isDisabled ?? false;
+@let knobConfig = config().knobConfig;
+@let textareaConfig = config().textareaConfig;
+@let dateConfig = config().dateConfig;
+
+@switch (type) {
+@case (ETypeInput.CURRENCY) {
+<p-inputnumber [ngModel]="valueInput" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()"
+  (keydown)="onKeyDown($event)" mode="currency" [currency]="currency" [locale]="locale"
+  [minFractionDigits]="minFractionDigits" [maxFractionDigits]="maxFractionDigits" class="w-full"
+  [disabled]="isDisabled" />
+}
+@case (ETypeInput.DECIMAL) {
+<p-inputnumber [ngModel]="valueInput" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()"
+  (keydown)="onKeyDown($event)" mode="decimal" [locale]="locale" [minFractionDigits]="2" [maxFractionDigits]="2"
+  [useGrouping]="true" class="w-full" [disabled]="isDisabled" />
+}
+@case (ETypeInput.DATE) {
+<p-datepicker [ngModel]="valueInput" appendTo="body" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()"
+  (keydown)="onKeyDown($event)" class="w-full" [disabled]="isDisabled" [maxDate]="dateConfig?.maxDate || null"
+  [minDate]="dateConfig?.minDate || null" [selectionMode]="dateConfig?.selectionMode || 'single'" />
+}
+@case (ETypeInput.DATETIME_LOCAL) {
+<p-datepicker [ngModel]="valueInput" appendTo="body" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()"
+  (keydown)="onKeyDown($event)" class="w-full" [showTime]="true" [hourFormat]="'24'" [disabled]="isDisabled"
+  [maxDate]="dateConfig?.maxDate || null" [minDate]="dateConfig?.minDate || null" [selectionMode]="dateConfig?.selectionMode || 'single'" />
+}
+@case (ETypeInput.SELECT) {
+<p-select [options]="config().selectConfig?.options ?? []" [optionLabel]="config().selectConfig?.optionLabel ?? 'name'"
+  [(ngModel)]="valueSelect" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()" (keydown)="onKeyDown($event)"
+  appendTo="body" class="w-full inline-input-select" [disabled]="config().isDisabled ?? false" >
+  @for (template of templates; track $index) {
+    <ng-template [pTemplate]="template.getType()" let-item>
+      <ng-container *ngTemplateOutlet="template.template; context: { $implicit: item }"></ng-container>
+    </ng-template>
+  }
+</p-select>
+}
+@case (ETypeInput.MULTISELECT) {
+<p-multiselect [options]="config().multiSelectConfig?.options ?? []"
+  [optionLabel]="config().multiSelectConfig?.optionLabel ?? 'name'" [ngModel]="valueInput"
+  (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()" (keydown)="onKeyDown($event)" [filter]="true"
+  appendTo="body" class="w-full" [disabled]="isDisabled" />
+}
+@case (ETypeInput.OTP) {
+<p-inputotp class="w-full" [mask]="config().otpConfig?.mask ?? false" [length]="config().otpConfig?.length ?? 6"
+  [integerOnly]="config().otpConfig?.integerOnly ?? false" [ngModel]="valueInput"
+  (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()" (keydown)="onKeyDown($event)" [disabled]="isDisabled" />
+}
+@case (ETypeInput.KNOB) {
+<p-knob [ngModel]="knobValueInput()" (ngModelChange)="onChangeValue($event)" class="w-full" [min]="knobConfig?.min ?? 0"
+  [max]="knobConfig?.max ?? 100" [step]="knobConfig?.step ?? 1" [disabled]="isDisabled" [readonly]="true"
+  [valueTemplate]="knobValueTemplate()" [size]="knobConfig?.size ?? 100" />
+}
+@case (ETypeInput.TEXTAREA) {
+<textarea class="w-full h-full p-2 border border-gray-300 rounded-md" pTextarea [rows]="textareaConfig?.rows ?? 3"
+  [cols]="textareaConfig?.cols ?? 30" [autoResize]="true" [variant]="textareaConfig?.variant ?? 'outlined'"
+  [disabled]="isDisabled" [ngModel]="valueInput" (ngModelChange)="onChangeValue($event)" (blur)="onBlur()"
+  (keydown)="onKeyDown($event)"></textarea>
+}
+@case (ETypeInput.CHIPS) {
+<div class="chips-input-wrapper">
+  <div
+    class="chips-container w-full p-2 border border-gray-300 rounded-md min-h-[40px] flex flex-wrap items-center gap-2"
+    [class.border-red-500]="showDuplicateMessage">
+    @for (chip of chips; track $index) {
+    <p-chip [label]="chip" [removable]="!isDisabled" (onRemove)="removeChip($index)" class="chip-item" />
+    }
+    <input type="text" class="chip-input flex-1 border-0 outline-0 bg-transparent min-w-[100px]" [value]="currentInput"
+      (input)="onChipInputChange($event)" (keydown)="onChipKeydown($event); onKeyDown($event)"
+      (paste)="onChipPaste($event)" [disabled]="isDisabled"
+      placeholder="Escribe o pega elementos separados por espacios..." />
+  </div>
+  @if (showDuplicateMessage) {
+  <div class="duplicate-message text-red-500 text-sm mt-1 flex items-center gap-1">
+    <i class="pi pi-exclamation-triangle text-red-500"></i>
+    <span>
+      @if (duplicateChips.length === 1) {
+      El elemento "<strong>{{ duplicatesText }}</strong>" ya existe en la lista
+      } @else {
+      Los elementos "<strong>{{ duplicatesText }}</strong>" ya existen en la lista
+      }
+    </span>
+  </div>
+  }
+</div>
+}
+@default {
+<input pInputText class="w-full h-full p-2 border border-gray-300 rounded-md" [type]="type"
+  [readOnly]="config().readonly ?? false" [ngModel]="valueInput" (ngModelChange)="onChangeValue($event)"
+  (blur)="onBlur()" (keydown)="onKeyDown($event)" [disabled]="isDisabled" />
+}
+}
