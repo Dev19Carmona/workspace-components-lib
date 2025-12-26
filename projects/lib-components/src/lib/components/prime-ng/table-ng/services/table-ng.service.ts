@@ -10,7 +10,7 @@ import type { IControlConfig } from '../../../origin/form/interfaces'
 import type { IButtonConfig } from '../../button-ng/interfaces'
 import type { IGlobalSearchForm, ISelectionTableConfig, ITableNgConfig, ITableNgData } from '../interfaces'
 import { TableNgGeneralService } from './table-ng-general.service'
-// import { CustomDialogService } from '../../dynamic-dialog/services/custom-dialog.service'
+import { CustomDialogService } from '../../dynamic-dialog/services/custom-dialog.service'
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ import { TableNgGeneralService } from './table-ng-general.service'
 export class TableNgService {
   private readonly tableNgGeneralService = inject(TableNgGeneralService)
   private readonly filterService = inject(FilterService)
-  // private readonly dialogService = inject(CustomDialogService)
+  private readonly dialogService = inject(CustomDialogService)
   private initialValue!: ITableNgData[]
 
   constructor() {
@@ -283,22 +283,22 @@ export class TableNgService {
       configSelectedItems.selectionTableConfig = selectionTableConfig
 
     }
-    // const ref = this.dialogService?.open(SelectedItemsManagementComponent, {
-    //   header: 'Gestionar Seleccionados',
-    //   data: {
-    //     selectedItems: selectedItems(),
-    //     config: configSelectedItems
-    //   },
-    //   width: '90%',
-    //   height: '90%',
-    //   styleClass: 'overflow-hidden'
-    // })
+    const ref = this.dialogService?.open(SelectedItemsManagementComponent, {
+      header: 'Gestionar Seleccionados',
+      data: {
+        selectedItems: selectedItems(),
+        config: configSelectedItems
+      },
+      width: '90%',
+      height: '90%',
+      styleClass: 'overflow-hidden'
+    })
 
-    // ref.onClose.subscribe((selectedReturnItems: ITableNgData[] | undefined) => {
-    //   if (selectedReturnItems) {
-    //     selectedItems.set(selectedReturnItems)
-    //   }
-    // })
+    ref.onClose.subscribe((selectedReturnItems: ITableNgData[] | undefined) => {
+      if (selectedReturnItems) {
+        selectedItems.set(selectedReturnItems)
+      }
+    })
   }
   //#endregion
 

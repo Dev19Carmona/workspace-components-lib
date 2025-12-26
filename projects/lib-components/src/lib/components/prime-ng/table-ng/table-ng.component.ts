@@ -21,13 +21,14 @@ import type { IPickListElement } from '../../origin/pick-list/interfaces'
 import { BadgeNgComponent } from '../badge/badge-ng.component'
 import { ButtonNgComponent } from '../button-ng/button-ng.component'
 import type { IButtonConfig } from '../button-ng/interfaces'
-// import { CustomDialogService } from './services/custom-dialog.service'
 import { ToolbarNgComponent } from '../toolbar-ng/toolbar-ng.component'
 // import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
 import { IColumnPrimeNg, IPrimeNgSelection } from '../interfaces'
 import type { IEditTableNgConfig, IErrorConfig, IFooterConfig, IGlobalSearchForm, ILazyLoadResponse, IMetaPagination, IPipeConfig, ITableNgConfig, ITableNgData, ITableNgLazyLoading } from './interfaces'
 import { TableNgEditService } from './services/table-ng-edit.service'
 import { TableNgService } from './services/table-ng.service'
+import { CustomDialogService } from '../dynamic-dialog/services/custom-dialog.service'
+import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
 
 
 @Component({
@@ -52,7 +53,7 @@ import { TableNgService } from './services/table-ng.service'
 export class TableNgComponent<T extends Record<string, any> = Record<string, any>> implements OnInit, OnDestroy {
   private readonly tableNgService = inject(TableNgService)
   private readonly tableNgEditService = inject(TableNgEditService)
-  // private readonly dialogService = inject(CustomDialogService)
+  private readonly dialogService = inject(CustomDialogService)
 
   readonly data = model.required<ITableNgData<T>[]>()
 
@@ -845,32 +846,32 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     if (this.data().length === 0) {
       return
     }
-    // const ref = this.dialogService.open(ModalAdvancedFilterComponent, {
-    //   header: 'Filtros Avanzados',
-    //   width: '70%',
-    //   height: '70%',
-    //   styleClass: 'overflow-hidden',
-    //   data: {
-    //     sourceElements: this.sourceElements(),
-    //     targetElements: this.targetElements()
-    //   }
-    // })
-    // ref.onClose.subscribe((result: { success: boolean, data: { sourceElements: IPickListElement[], targetElements: IPickListElement[] } }) => {
-    //   const { sourceElements, targetElements } = result?.data ?? {}
-    //   if (!result?.success) {
-    //     return
-    //   }
-    //   if (result?.data?.targetElements?.length === 0) {
-    //     return
-    //   }
-    //   if (sourceElements.length === 0) {
-    //     return
-    //   }
-    //   this.sourceElements.set(sourceElements ?? [])
-    //   this.targetElements.set(targetElements ?? [])
-    //   this.identifiersSelected.set((this.targetElements() ?? []).filter((element: IPickListElement) => element.buttonConfig?.label).map((element: IPickListElement) => element.buttonConfig?.label as string) ?? [])
-    //   this.dt.filter(this.identifiersSelected(), 'rowData.identifier', 'arrayStringFilter')
-    // })
+    const ref = this.dialogService.open(ModalAdvancedFilterComponent, {
+      header: 'Filtros Avanzados',
+      width: '70%',
+      height: '70%',
+      styleClass: 'overflow-hidden',
+      data: {
+        sourceElements: this.sourceElements(),
+        targetElements: this.targetElements()
+      }
+    })
+    ref.onClose.subscribe((result: { success: boolean, data: { sourceElements: IPickListElement[], targetElements: IPickListElement[] } }) => {
+      const { sourceElements, targetElements } = result?.data ?? {}
+      if (!result?.success) {
+        return
+      }
+      if (result?.data?.targetElements?.length === 0) {
+        return
+      }
+      if (sourceElements.length === 0) {
+        return
+      }
+      this.sourceElements.set(sourceElements ?? [])
+      this.targetElements.set(targetElements ?? [])
+      this.identifiersSelected.set((this.targetElements() ?? []).filter((element: IPickListElement) => element.buttonConfig?.label).map((element: IPickListElement) => element.buttonConfig?.label as string) ?? [])
+      this.dt.filter(this.identifiersSelected(), 'rowData.identifier', 'arrayStringFilter')
+    })
   }
   private handleTableValueToSourceElements(): void {
     const value = this.data()
