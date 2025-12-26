@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { ButtonNgComponent, EmptyMessageComponent, IButtonConfig } from 'lib-components';
+import { RouterOutlet } from '@angular/router';
+import { IButtonConfig } from 'lib-components';
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonNgComponent, EmptyMessageComponent, ButtonNgComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
