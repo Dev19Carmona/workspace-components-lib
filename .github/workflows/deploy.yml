@@ -32,15 +32,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build library
-        run: npm run build:lib
-
       - name: Get repository name
         id: repo
         run: echo "name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
 
+      - name: Build library
+        run: npx ng build lib-components
+
       - name: Build application
-        run: ng build app-lib-components --configuration github-pages --base-href /${{ steps.repo.outputs.name }}/
+        run: npx ng build app-lib-components --configuration github-pages --base-href /${{ steps.repo.outputs.name }}/
 
       - name: Setup 404 page for SPA routing
         run: |

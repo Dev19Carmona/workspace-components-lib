@@ -28,7 +28,7 @@ Este proyecto está configurado para desplegarse automáticamente en GitHub Page
 
 4. **URL de tu sitio:**
    - Una vez completado el workflow, tu sitio estará disponible en:
-   - `https://[tu-usuario].github.io/[nombre-del-repositorio]/`
+   - `https://Dev19Carmona.github.io/workspace-components-lib/`
    - La URL aparecerá en la sección "Environments" después del primer despliegue exitoso
 
 ### Estructura del Proyecto
