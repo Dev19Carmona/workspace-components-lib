@@ -62,6 +62,10 @@ export interface IColumnConfig {
     sizeByKey?: Record<string, number> // columnKey, size%
 }
 
+export interface ITableNgLabelsTitleConfig {
+    customPageReport?: string;
+}
+
 export interface ITableNgConfig {
     keys: string[];
     keysNames?: Record<string, string>;

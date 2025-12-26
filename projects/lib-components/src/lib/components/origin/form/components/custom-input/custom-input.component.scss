@@ -19,7 +19,7 @@
     transition: all 0.2s ease-in-out;
   }
 
-  ::ng-deep .dark p-datepicker > .p-datepicker > .p-inputtext {
+  ::ng-deep .my-app-dark p-datepicker > .p-datepicker > .p-inputtext {
     // border: 1px solid transparent;
     background: transparent;
     background-color: #374151;
@@ -47,7 +47,7 @@
     z-index: 1 !important;
   }
 
-  ::ng-deep .dark p-datepicker .p-datepicker-trigger {
+  ::ng-deep .my-app-dark p-datepicker .p-datepicker-trigger {
     color: #9ca3af !important;
   }
   /* Asegurar que el icono del calendario esté centrado */
@@ -65,7 +65,7 @@
     transition: all 0.2s ease-in-out;
   }
 
-  ::ng-deep .dark p-multiselect {
+  ::ng-deep .my-app-dark p-multiselect {
     // border: 1px solid transparent;
     background: transparent;
     color: #f3f4f6;
@@ -82,7 +82,7 @@
     // border: none;
   }
 
-  ::ng-deep .dark p-select {
+  ::ng-deep .my-app-dark p-select {
     // border: 1px solid transparent;
     background: transparent;
     color: #f3f4f6;
@@ -103,16 +103,36 @@
     transition: all 0.2s ease-in-out;
   }
 
-  ::ng-deep .dark p-inputnumber {
+  ::ng-deep .my-app-dark p-inputnumber {
     background: transparent;
     color: #f3f4f6;
     // border: 1px solid transparent;
   }
 }
 
-:host-context(.dark),
 :host-context(.my-app-dark) {
   ::ng-deep .custom-datepicker > .p-inputwrapper > .p-inputtext {
     color: #f3f4f6;
+    background-color: #374151;
+  }
+  
+  ::ng-deep p-datepicker > span > .p-inputtext {
+    background-color: #374151;
+    color: #f3f4f6;
+  }
+  
+  // Asegurar que todos los inputs de PrimeNG tengan el estilo correcto en dark mode
+  ::ng-deep {
+    .p-inputtext {
+      background-color: #374151;
+      color: #f3f4f6;
+      border-color: transparent;
+    }
+    
+    .p-inputnumber-input {
+      background-color: #374151;
+      color: #f3f4f6;
+      border-color: transparent;
+    }
   }
 }

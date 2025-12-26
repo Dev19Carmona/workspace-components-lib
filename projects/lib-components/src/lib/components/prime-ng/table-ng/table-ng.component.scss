@@ -165,7 +165,7 @@
 }
 
 // Dark mode skeleton
-:host-context(.dark) {
+:host-context(.my-app-dark) {
   .skeleton-cell {
     .skeleton-content {
       background: linear-gradient(
@@ -605,8 +605,9 @@
   background-color: #1e40af;
 }
 
-// Dark mode utilities
-:host-context(.dark) {
+// Dark mode utilities - Estas clases son manejadas por Tailwind con la variante personalizada
+// Se mantienen aquí como fallback para compatibilidad
+:host-context(.my-app-dark) {
   .dark\:bg-gray-800 {
     background-color: #1f2937;
   }

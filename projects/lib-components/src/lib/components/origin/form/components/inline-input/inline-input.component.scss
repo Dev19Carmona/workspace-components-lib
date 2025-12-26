@@ -57,15 +57,53 @@
 }
 
 ::ng-deep p-select.inline-input-select {
-  // border: 1px solid #d1d5db;
+  border: 1px solid #d1d5db !important;
   background: transparent;
   color: rgb(17, 24, 39);
   height: 44px;
   width: 100%;
   border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
-  border: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
+  .p-select-label {
+    border: none;
+  }
+  
+  .p-select-trigger {
+    border: none;
+  }
+}
+
+::ng-deep .my-app-dark p-select.inline-input-select {
+  border: 1px solid transparent !important;
+  background: transparent;
+  color: #f3f4f6;
+}
+
+// Estilos para PrimeNG en modo dark
+::ng-deep .my-app-dark {
+  p-inputnumber {
+    .p-inputnumber-input {
+      background-color: #374151;
+      color: #f3f4f6;
+      border-color: transparent;
+    }
+  }
+  
+  p-datepicker {
+    .p-inputtext {
+      background-color: #374151;
+      color: #f3f4f6;
+    }
+  }
+  
+  p-multiselect {
+    .p-multiselect-label {
+      background-color: #374151;
+      color: #f3f4f6;
+    }
+  }
 }
