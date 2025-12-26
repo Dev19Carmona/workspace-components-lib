@@ -8,7 +8,27 @@
       </div>
     </nav>
   </aside>
-  <main class="content-area">
+  <main class="content-area" [class.with-doc-nav]="showDocNavigation()" #contentArea>
     <router-outlet></router-outlet>
   </main>
+  @if (showDocNavigation()) {
+  <aside class="doc-navigation">
+    <nav class="doc-nav">
+      <h3 class="doc-nav-title">Contenido</h3>
+      <ul class="doc-nav-list">
+        @for (section of docSections(); track section.id) {
+        <li>
+          <a
+            [href]="'#' + section.id"
+            (click)="scrollToSection($event, section.id)"
+            [class.active]="activeSectionId() === section.id"
+            class="doc-nav-link">
+            {{ section.title }}
+          </a>
+        </li>
+        }
+      </ul>
+    </nav>
+  </aside>
+  }
 </div>
