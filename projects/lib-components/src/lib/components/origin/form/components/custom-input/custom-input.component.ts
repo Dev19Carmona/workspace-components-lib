@@ -17,7 +17,6 @@ import type { IControlConfig } from '../../interfaces'
 import { InputNumberModule } from 'primeng/inputnumber'
 import { TextareaModule } from 'primeng/textarea'
 import { DisabledContainerComponent } from '../../../disabled-container/disabled-container.component'
-import { TranslocoPipe } from '@jsverse/transloco'
 
 @Component({
   selector: 'app-custom-input',
@@ -36,7 +35,6 @@ import { TranslocoPipe } from '@jsverse/transloco'
     TextareaModule,
     DisabledContainerComponent,
     TooltipModule,
-    TranslocoPipe
   ],
   templateUrl: './custom-input.component.html',
   styleUrl: './custom-input.component.scss',

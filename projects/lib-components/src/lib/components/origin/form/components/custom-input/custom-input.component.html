@@ -13,8 +13,8 @@
   <app-disabled-container [disabled]="readonly">
 
     <p style="font-size: 12px; letter-spacing: 0.5px;" class="text-sm text-gray-600 dark:text-gray-300 truncate"
-      [pTooltip]="placeholder | transloco" tooltipPosition="top" [showDelay]="300">
-      {{ placeholder | transloco }}
+      [pTooltip]="placeholder" tooltipPosition="top" [showDelay]="300">
+      {{ placeholder }}
     </p>
     @switch (typeInput) {
     @case (inputTypesEnum.EMAIL) {
@@ -150,33 +150,31 @@
 <div class="custom-error mt-1 text-sm text-red-600 dark:text-red-400">
   @if (localControl.errors?.["required"]) {
   <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
-    'common.forms_validations.required_field' | transloco }}</span>
+    'El campo es requerido' }}</span>
   }
   @if (localControl.errors?.["min"]) {
-  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{ 'common.forms_validations.min_value'
-    | transloco: { min: localControl.errors?.["min"].min.toFixed(2) } }}</span>
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{ 'El valor mínimo es de ' + localControl.errors?.["min"].min.toFixed(2) }}</span>
   }
   @if (localControl.errors?.["max"]) {
-  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{ 'common.forms_validations.max_value'
-    | transloco: { max: localControl.errors?.["max"].max.toFixed(2) } }}</span>
+  <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{ 'El valor máximo es de ' + localControl.errors?.["max"].max.toFixed(2) }}</span>
   }
   @if (localControl.errors?.["minlength"]) {
   <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
-    'common.forms_validations.min_length' | transloco: { min: localControl.errors?.["minlength"].requiredLength }
+    'El largo mínimo es de ' + localControl.errors?.["minlength"].requiredLength
     }}</span>
   }
   @if (localControl.errors?.["maxlength"]) {
   <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
-    'common.forms_validations.max_length' | transloco: { max: localControl.errors?.["maxlength"].requiredLength }
+    'El largo máximo es de ' + localControl.errors?.["maxlength"].requiredLength
     }}</span>
   }
   @if (localControl.errors?.["email"]) {
   <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
-    'common.forms_validations.invalid_email' | transloco }}</span>
+    'El correo electrónico no es válido' }}</span>
   }
   @if (localControl.errors?.["pattern"]) {
   <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{
-    'common.forms_validations.invalid_format' | transloco }}</span>
+    'El formato no es válido' }}</span>
   }
 </div>
 }

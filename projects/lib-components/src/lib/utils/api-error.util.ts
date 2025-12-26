@@ -1,5 +1,16 @@
 import type { HttpErrorResponse } from '@angular/common/http'
-import type { IApiError } from '../../core/interfaces'
+
+export interface IApiError {
+  errorCode: string
+  message: string[] | string
+  timestamp: string
+  errors: IFieldError[]
+}
+export interface IFieldError {
+  field: string
+  message: string
+}
+
 
 /**
  * Utilidades para manejar errores de API según la interfaz IApiError

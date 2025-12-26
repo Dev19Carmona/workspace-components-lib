@@ -24,7 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Rutas hijas de prime-ng
   private readonly primeNgRoutes = [
-    { path: 'button', label: 'Button' }
+    { path: 'button', label: 'Button' },
+    { path: 'table', label: 'Table' }
   ];
 
   // Signal para la ruta actual

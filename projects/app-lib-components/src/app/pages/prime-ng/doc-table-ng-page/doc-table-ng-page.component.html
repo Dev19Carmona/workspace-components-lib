@@ -1,0 +1,364 @@
+<div class="doc-container">
+  <header class="doc-header">
+    <h1>Table NG Component</h1>
+    <p class="doc-description">
+      Componente de tabla avanzado basado en PrimeNG con funcionalidades como paginación, filtros globales y por columna,
+      selección múltiple, edición inline, lazy loading, exportación a Excel/PDF y mucho más.
+    </p>
+  </header>
+
+  <section class="doc-section">
+    <h2>Importación</h2>
+    <div class="code-block">
+      <pre><code>import {{ '{' }} TableNgComponent {{ '}' }} from 'lib-components';
+import type {{ '{' }} ITableNgConfig, ITableNgData {{ '}' }} from 'lib-components';</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Uso Básico</h2>
+    <p>El componente requiere un array de <code>ITableNgData</code> y una configuración <code>ITableNgConfig</code>.</p>
+    <div class="code-block">
+      <pre><code>&lt;app-table-ng
+  [data]="tableData"
+  [config]="tableConfig"
+/&gt;</code></pre>
+    </div>
+    <div class="example-container">
+      <app-table-ng
+        [data]="basicTableData()"
+        [config]="basicTableConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Filtro Global</h2>
+    <p>Habilita un campo de búsqueda global que filtra en múltiples columnas simultáneamente.</p>
+    <div class="code-block">
+      <pre><code>globalFilterConfig: {{ '{' }}
+  isEnabled: true,
+  globalFilterFields: ['name', 'email', 'status']
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <app-table-ng
+        [data]="globalFilterTableData()"
+        [config]="globalFilterTableConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Selección Múltiple</h2>
+    <p>Permite seleccionar múltiples filas con checkboxes. Incluye gestión de elementos seleccionados.</p>
+    <div class="code-block">
+      <pre><code>selectionTableConfig: {{ '{' }}
+  isEnabled: true,
+  showManagementConfig: true
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <app-table-ng
+        [data]="selectionTableData()"
+        [config]="selectionTableConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Título de Tabla</h2>
+    <p>Agrega un título personalizado a la tabla.</p>
+    <div class="code-block">
+      <pre><code>titleConfig: {{ '{' }}
+  isEnabled: true,
+  title: 'Lista de Usuarios'
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <app-table-ng
+        [data]="titleTableData()"
+        [config]="titleTableConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Exportación de Datos</h2>
+    <p>Exporta los datos de la tabla a Excel o PDF con un solo clic.</p>
+    <div class="code-block">
+      <pre><code>excelConfig: {{ '{' }}
+  isEnabled: true,
+  name: 'usuarios'
+{{ '}' }},
+pdfConfig: {{ '{' }}
+  isEnabled: true,
+  name: 'usuarios'
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <app-table-ng
+        [data]="exportTableData()"
+        [config]="exportTableConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Paginación</h2>
+    <p>Configura la paginación de la tabla con opciones personalizables de filas por página.</p>
+    <div class="code-block">
+      <pre><code>paginationConfig: {{ '{' }}
+  paginator: true,
+  rows: 5,
+  rowsPerPageOptions: [5, 10, 20]
+{{ '}' }}</code></pre>
+    </div>
+    <p class="note">La paginación se muestra automáticamente en la parte inferior de la tabla.</p>
+  </section>
+
+  <section class="doc-section">
+    <h2>Lazy Loading</h2>
+    <p>Para tablas con grandes volúmenes de datos, puedes usar lazy loading para cargar datos bajo demanda.</p>
+    <div class="code-block">
+      <pre><code>lazyLoadingConfig: {{ '{' }}
+  isEnabled: true,
+  totalRecords: 1000
+{{ '}' }}</code></pre>
+    </div>
+    <p class="note">El evento <code>lazyLoading</code> se emite cuando se necesita cargar más datos.</p>
+  </section>
+
+  <section class="doc-section">
+    <h2>Edición Inline</h2>
+    <p>Permite editar celdas o filas directamente en la tabla. Soporta edición por celda o por fila completa.</p>
+    <div class="code-block">
+      <pre><code>editConfig: {{ '{' }}
+  isEnabled: true,
+  type: 'cell' | 'row',
+  inlineControls: {{ '{' }}
+    // configuración de controles inline
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Filtros por Columna</h2>
+    <p>Configura filtros específicos para cada columna con diferentes tipos y modos de coincidencia.</p>
+    <div class="code-block">
+      <pre><code>filterConfigByKey: {{ '{' }}
+  'status': {{ '{' }}
+    isEnabled: true,
+    primeNgColumnFilterConfig: {{ '{' }}
+      type: 'text',
+      matchMode: 'contains'
+    {{ '}' }}
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Columnas Congeladas</h2>
+    <p>Congela columnas específicas para que permanezcan visibles al hacer scroll horizontal.</p>
+    <div class="code-block">
+      <pre><code>frozenColumnConfigByKey: {{ '{' }}
+  'name': true,
+  'actions': true
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Scroll Configurado</h2>
+    <p>Habilita scroll vertical y horizontal con altura personalizable.</p>
+    <div class="code-block">
+      <pre><code>scrollConfig: {{ '{' }}
+  isEnabled: true,
+  scrollHeight: '400px'
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Interfaz ITableNgConfig</h2>
+    <p>Referencia completa de todas las propiedades disponibles en la configuración de la tabla.</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>keys</code></td>
+            <td><code>string[]</code></td>
+            <td>Array de claves que definen las columnas a mostrar (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>keysNames</code></td>
+            <td><code>Record&lt;string, string&gt;?</code></td>
+            <td>Mapeo de claves a nombres de columnas para mostrar en el header</td>
+          </tr>
+          <tr>
+            <td><code>paginationConfig</code></td>
+            <td><code>IPaginationConfig</code></td>
+            <td>Configuración de paginación (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>globalFilterConfig</code></td>
+            <td><code>IGlobalFilterConfig?</code></td>
+            <td>Configuración del filtro global de búsqueda</td>
+          </tr>
+          <tr>
+            <td><code>selectionTableConfig</code></td>
+            <td><code>ISelectionTableConfig?</code></td>
+            <td>Configuración de selección múltiple de filas</td>
+          </tr>
+          <tr>
+            <td><code>filterConfigByKey</code></td>
+            <td><code>Record&lt;string, IFilterConfigByKey&gt;?</code></td>
+            <td>Configuración de filtros por columna específica</td>
+          </tr>
+          <tr>
+            <td><code>frozenColumnConfigByKey</code></td>
+            <td><code>Record&lt;string, boolean&gt;?</code></td>
+            <td>Configuración de columnas congeladas</td>
+          </tr>
+          <tr>
+            <td><code>scrollConfig</code></td>
+            <td><code>IScrollConfig?</code></td>
+            <td>Configuración de scroll vertical y horizontal</td>
+          </tr>
+          <tr>
+            <td><code>lazyLoadingConfig</code></td>
+            <td><code>ITableNgLazyLoading?</code></td>
+            <td>Configuración de carga perezosa de datos</td>
+          </tr>
+          <tr>
+            <td><code>columnConfig</code></td>
+            <td><code>IColumnConfig?</code></td>
+            <td>Configuración de tamaño de columnas</td>
+          </tr>
+          <tr>
+            <td><code>titleConfig</code></td>
+            <td><code>ITitleConfig?</code></td>
+            <td>Configuración del título de la tabla</td>
+          </tr>
+          <tr>
+            <td><code>selectedColumns</code></td>
+            <td><code>IColumnPrimeNg[]?</code></td>
+            <td>Columnas seleccionadas para mostrar</td>
+          </tr>
+          <tr>
+            <td><code>rowExpansionConfig</code></td>
+            <td><code>IRowExpansionConfig?</code></td>
+            <td>Configuración de expansión de filas</td>
+          </tr>
+          <tr>
+            <td><code>toolbarConfig</code></td>
+            <td><code>IToolbarConfig?</code></td>
+            <td>Configuración de la barra de herramientas</td>
+          </tr>
+          <tr>
+            <td><code>hideToolbar</code></td>
+            <td><code>boolean?</code></td>
+            <td>Oculta la barra de herramientas</td>
+          </tr>
+          <tr>
+            <td><code>excelConfig</code></td>
+            <td><code>IExcelConfig?</code></td>
+            <td>Configuración de exportación a Excel</td>
+          </tr>
+          <tr>
+            <td><code>pdfConfig</code></td>
+            <td><code>IPdfConfig?</code></td>
+            <td>Configuración de exportación a PDF</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Interfaz ITableNgData</h2>
+    <p>Estructura de datos para cada fila de la tabla.</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>rowData</code></td>
+            <td><code>T</code></td>
+            <td>Datos de la fila (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>rowDataButtons</code></td>
+            <td><code>Record&lt;string, IButtonConfig[]&gt;?</code></td>
+            <td>Botones por columna específica</td>
+          </tr>
+          <tr>
+            <td><code>rowDataComponents</code></td>
+            <td><code>Record&lt;string, TemplateRef&gt;?</code></td>
+            <td>Componentes personalizados por columna</td>
+          </tr>
+          <tr>
+            <td><code>typeCell</code></td>
+            <td><code>Record&lt;string, ETypeInput&gt;?</code></td>
+            <td>Tipo de celda para edición inline</td>
+          </tr>
+          <tr>
+            <td><code>currencyTypeCellConfig</code></td>
+            <td><code>Record&lt;string, ICurrencyConfig&gt;?</code></td>
+            <td>Configuración de celdas de tipo moneda</td>
+          </tr>
+          <tr>
+            <td><code>componentTypeCellConfig</code></td>
+            <td><code>Record&lt;string, TemplateRef&gt;?</code></td>
+            <td>Configuración de componentes personalizados en celdas</td>
+          </tr>
+          <tr>
+            <td><code>raw</code></td>
+            <td><code>R</code></td>
+            <td>Datos originales sin procesar (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>onClick</code></td>
+            <td><code>(data?: unknown) => void</code></td>
+            <td>Función que se ejecuta al hacer clic en la fila (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>sortConfig</code></td>
+            <td><code>ISortConfig?</code></td>
+            <td>Configuración de ordenamiento personalizado</td>
+          </tr>
+          <tr>
+            <td><code>id</code></td>
+            <td><code>string</code></td>
+            <td>Identificador único de la fila (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>isSelected</code></td>
+            <td><code>boolean?</code></td>
+            <td>Indica si la fila está seleccionada</td>
+          </tr>
+          <tr>
+            <td><code>isLoading</code></td>
+            <td><code>boolean?</code></td>
+            <td>Indica si la fila está en estado de carga</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

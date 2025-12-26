@@ -3,7 +3,7 @@
       @for (element of elements(); track element.id) {
         <div class="grid-item">
           @if (element.buttonConfig) {
-            <app-button-ng [(buttonConfig)]="element.buttonConfig" (onClick)="onButtonClick(element)"></app-button-ng>
+            <lib-button-ng [(buttonConfig)]="element.buttonConfig" (onClick)="onButtonClick(element)"></lib-button-ng>
           }
         </div>
       }

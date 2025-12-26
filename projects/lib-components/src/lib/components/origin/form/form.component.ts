@@ -5,11 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { debounceTime, filter, map, switchMap } from 'rxjs'
 import { FormChildComponent } from './components/form-child/form-child.component'
 import type { IControlConfig, IFormConfig } from './interfaces'
-import { TranslocoService } from '@jsverse/transloco'
-import type { IPrimeNgSelection } from '../../prime-ng/interfaces'
 import { ETypeInput } from './enums'
 import { HttpMessageComponent } from '../http-message/http-message.component'
 import type { IHttpMessage } from '../http-message/interfaces'
+import { IPrimeNgSelection } from '../../prime-ng/interfaces'
 @Component({
   selector: 'app-form',
   imports: [
@@ -22,7 +21,6 @@ import type { IHttpMessage } from '../http-message/interfaces'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormComponent {
-  private readonly transloco = inject(TranslocoService)
   formGroup = model.required<FormGroup>()
   controls = input.required<IControlConfig[]>()
   formConfig = input<IFormConfig>()
@@ -56,7 +54,6 @@ export class FormComponent {
     })
 
     effect(() => {
-      if (this.langChange()) {
         const controlsDataTypeSelect: IControlConfig[] = this.controls().filter((controlData: IControlConfig) => controlData.typeInput === ETypeInput.SELECT)
         controlsDataTypeSelect.forEach((controlData: IControlConfig) => {
           const control = this.formGroup().get(controlData.controlName)
@@ -69,9 +66,8 @@ export class FormComponent {
             if (optionSelected) {
               control?.setValue(optionSelected)
             }
-          }
-        })
-      }
+        }
+      })
     })
 
     effect(() => {
@@ -95,7 +91,6 @@ export class FormComponent {
       .subscribe(() => this.formChangesDebounced.emit(this.formGroup()))
   }
 
-  private langChange = toSignal(this.transloco.langChanges$, { initialValue: this.transloco.getActiveLang() })
 
 
   anyInteracted(formGroup: FormGroup): boolean {
