@@ -1,1 +1,91 @@
-<p>home-page works!</p>
+<div class="home-container">
+  <!-- Header Section -->
+  <header class="home-header">
+    <h1 class="home-title">Workspace Components Library</h1>
+    <p class="home-description">
+      Biblioteca de componentes Angular basada en PrimeNG y componentes personalizados.
+      Construye aplicaciones modernas con componentes reutilizables y bien documentados.
+    </p>
+    
+    <!-- Links Section -->
+    <div class="home-links">
+      <a 
+        [href]="npmUrl" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="link-button npm-link">
+        <i class="fab fa-npm"></i>
+        <span>NPM Package</span>
+      </a>
+      <a 
+        [href]="githubUrl" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="link-button github-link">
+        <i class="fab fa-github"></i>
+        <span>GitHub Repository</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Components Section -->
+  <section class="components-section">
+    <!-- PrimeNG Components -->
+    <div class="component-category">
+      <div class="category-header">
+        <h2 class="category-title">
+          <i class="pi pi-prime"></i>
+          PrimeNG Components
+        </h2>
+        <p class="category-description">
+          Componentes basados en PrimeNG con funcionalidades extendidas y personalizables.
+        </p>
+      </div>
+      <div class="components-grid">
+        @for (component of primeNgComponents; track component.name) {
+        <a 
+          [routerLink]="component.route"
+          class="component-card">
+          <div class="card-icon">
+            <i [class]="component.icon || 'fa-solid fa-cube'"></i>
+          </div>
+          <h3 class="card-title">{{ component.name }}</h3>
+          <p class="card-description">{{ component.description }}</p>
+          <div class="card-footer">
+            <span class="card-link">Ver documentación <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+        }
+      </div>
+    </div>
+
+    <!-- Origin Components -->
+    <div class="component-category">
+      <div class="category-header">
+        <h2 class="category-title">
+          <i class="fa-solid fa-code"></i>
+          Origin Components
+        </h2>
+        <p class="category-description">
+          Componentes personalizados desarrollados desde cero para necesidades específicas.
+        </p>
+      </div>
+      <div class="components-grid">
+        @for (component of originComponents; track component.name) {
+        <a 
+          [routerLink]="component.route"
+          class="component-card">
+          <div class="card-icon">
+            <i [class]="component.icon || 'fa-solid fa-cube'"></i>
+          </div>
+          <h3 class="card-title">{{ component.name }}</h3>
+          <p class="card-description">{{ component.description }}</p>
+          <div class="card-footer">
+            <span class="card-link">Ver documentación <i class="fa-solid fa-arrow-right"></i></span>
+          </div>
+        </a>
+        }
+      </div>
+    </div>
+  </section>
+</div>

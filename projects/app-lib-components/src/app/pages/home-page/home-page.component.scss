@@ -1,0 +1,238 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 3rem 0;
+}
+
+.home-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-text) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.home-description {
+  font-size: 1.125rem;
+  color: var(--text-color-secondary);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.home-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+
+  i {
+    font-size: 1.25rem;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.npm-link {
+  background-color: #cb3837;
+  color: white;
+
+  &:hover {
+    background-color: #a82e2d;
+    border-color: #cb3837;
+  }
+}
+
+.github-link {
+  background-color: var(--surface-card);
+  color: var(--text-color);
+  border-color: var(--surface-border);
+
+  &:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+}
+
+.components-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.component-category {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.category-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.category-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+
+  i {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+  }
+}
+
+.category-description {
+  font-size: 1rem;
+  color: var(--text-color-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.components-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.component-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--primary-color);
+
+    .card-link {
+      color: var(--primary-color);
+      transform: translateX(4px);
+    }
+
+    .card-icon {
+      background-color: var(--primary-color);
+      color: var(--primary-color-text);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.card-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-ground);
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+  }
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+}
+
+.card-description {
+  font-size: 0.9375rem;
+  color: var(--text-color-secondary);
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-secondary);
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+  }
+}
+
+// Dark mode support
+:host-context(.my-app-dark) {
+  .component-card {
+    background-color: var(--surface-800);
+    border-color: var(--surface-700);
+
+    &:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .card-icon {
+    background-color: var(--surface-700);
+  }
+
+  .github-link {
+    background-color: var(--surface-800);
+    border-color: var(--surface-700);
+
+    &:hover {
+      background-color: var(--surface-700);
+    }
+  }
+}
+

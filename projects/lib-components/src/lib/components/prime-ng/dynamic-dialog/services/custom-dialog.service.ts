@@ -1,5 +1,6 @@
 // services/dialog.service.ts
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { DynamicDialogRef, DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 export interface IDialogConfig {
   header?: string;
@@ -18,38 +19,38 @@ export interface IDialogConfig {
   providedIn: 'root'
 })
 export class CustomDialogService {
-  // private dialogRef: DynamicDialogRef | undefined
-  // public dialogService = inject(DialogService)
+  private dialogRef: DynamicDialogRef | undefined
+  public dialogService = inject(DialogService)
 
-  // constructor() { }
+  constructor() { }
 
-  // open(component: any, options: DynamicDialogConfig = {}): DynamicDialogRef {
-  //   const defaultConfig: DynamicDialogConfig = {
-  //     closable: true,
-  //     header: options.header || '',
-  //     width: options.width || '50%',
-  //     height: options.height || 'auto',
-  //     closeOnEscape: options.closeOnEscape ?? true,
-  //     baseZIndex: options.baseZIndex || 10000,
-  //     maximizable: options.maximizable ?? true,
-  //     data: options.data || {},
-  //     style: {
-  //       borderRadius: '8px',
-  //       ...options.style
-  //     },
-  //     modal: true
-  //   }
+  open(component: any, options: DynamicDialogConfig = {}): DynamicDialogRef {
+    const defaultConfig: DynamicDialogConfig = {
+      closable: true,
+      header: options.header || '',
+      width: options.width || '50%',
+      height: options.height || 'auto',
+      closeOnEscape: options.closeOnEscape ?? true,
+      baseZIndex: options.baseZIndex || 10000,
+      maximizable: options.maximizable ?? true,
+      data: options.data || {},
+      style: {
+        borderRadius: '8px',
+        ...options.style
+      },
+      modal: true
+    }
 
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  //   this.dialogRef = this.dialogService.open(component, defaultConfig)
-  //   return this.dialogRef
-  // }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    this.dialogRef = this.dialogService.open(component, defaultConfig)
+    return this.dialogRef
+  }
 
-  // close(result?: any): void {
-  //   if (this.dialogRef) {
-  //     this.dialogRef.close(result)
-  //   }
-  // }
+  close(result?: any): void {
+    if (this.dialogRef) {
+      this.dialogRef.close(result)
+    }
+  }
 
 
 }
