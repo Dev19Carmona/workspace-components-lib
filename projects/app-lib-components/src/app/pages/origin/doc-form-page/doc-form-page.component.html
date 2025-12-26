@@ -1,1 +1,370 @@
-<p>doc-form-page works!</p>
+<div class="doc-container">
+  <header class="doc-header">
+    <h1>Form & Inline Input Components</h1>
+    <p class="doc-description">
+      Componentes de formulario avanzados con soporte para múltiples tipos de inputs, validaciones,
+      eventos de cambio y configuración flexible. El componente <code>FormComponent</code> gestiona
+      formularios completos, mientras que <code>InlineInputComponent</code> puede usarse individualmente.
+    </p>
+  </header>
+
+  <section class="doc-section">
+    <h2>Importación</h2>
+    <div class="code-block">
+      <pre><code>import &#123; FormComponent, InlineInputComponent &#125; from 'lib-components';
+import type &#123; IControlConfig, IFormConfig &#125; from 'lib-components';
+import &#123; ETypeInput &#125; from 'lib-components';</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Form Component - Uso Básico</h2>
+    <p>El componente <code>FormComponent</code> requiere un <code>FormGroup</code> y un array de <code>IControlConfig</code>.</p>
+    <div class="code-block">
+      <pre><code>&lt;app-form
+  [formGroup]="formGroup"
+  [controls]="controls"
+  (formSubmit)="onFormSubmit($event)"
+  (formChanges)="onFormChanges($event)"
+/&gt;</code></pre>
+    </div>
+    <div class="example-container">
+      <app-form
+        [formGroup]="basicFormGroup()"
+        [controls]="basicFormControls"
+        (formSubmit)="onFormSubmit($event)"
+        (formChanges)="onFormChanges($event)"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tipos de Input Disponibles</h2>
+    <p>El componente soporta múltiples tipos de inputs a través del enum <code>ETypeInput</code>.</p>
+    <div class="example-container">
+      <app-form
+        [formGroup]="advancedFormGroup()"
+        [controls]="advancedFormControls"
+      />
+    </div>
+    <div class="code-block">
+      <pre><code>ETypeInput: &#123;
+  TEXT, PASSWORD, EMAIL, NUMBER, DATE, TIME,
+  DATETIME_LOCAL, SEARCH, TEL, URL, COLOR,
+  MONTH, WEEK, FILE, CHECKBOX, RADIO, RANGE,
+  HIDDEN, TEXTAREA, SELECT, MULTISELECT,
+  AUTOCOMPLETE, SWITCH, CALENDAR, DROPDOWN,
+  CHIPS, TOGGLE, OTP, CURRENCY, KNOB, BADGE,
+  DECIMAL, IMAGE, COMPONENT
+&#125;</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Validaciones</h2>
+    <p>Puedes agregar validadores de Angular Forms a cada control. Los errores se muestran automáticamente.</p>
+    <div class="example-container">
+      <app-form
+        [formGroup]="validationFormGroup()"
+        [controls]="validationFormControls"
+      />
+    </div>
+    <div class="code-block">
+      <pre><code>control: new FormControl('', [
+  Validators.required,
+  Validators.email,
+  Validators.minLength(5)
+])</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Select y MultiSelect</h2>
+    <p>Configuración de selectores con opciones personalizadas.</p>
+    <div class="example-container">
+      <app-form
+        [formGroup]="multiselectFormGroup()"
+        [controls]="multiselectFormControls"
+      />
+    </div>
+    <div class="code-block">
+      <pre><code>selectConfig: &#123;
+  options: [
+    &#123; code: '1', name: 'Opción 1' &#125;,
+    &#123; code: '2', name: 'Opción 2' &#125;
+  ]
+&#125;</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Currency Input</h2>
+    <p>Input especializado para valores monetarios con formato automático.</p>
+    <div class="example-container">
+      <app-form
+        [formGroup]="currencyFormGroup()"
+        [controls]="currencyFormControls"
+      />
+    </div>
+    <div class="code-block">
+      <pre><code>typeInput: ETypeInput.CURRENCY,
+currencyConfig: &#123;
+  currency: 'USD',
+  locale: 'en-US'
+&#125;</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Inline Input Component</h2>
+    <p>El componente <code>InlineInputComponent</code> puede usarse individualmente sin necesidad de un FormGroup.
+    Implementa <code>ControlValueAccessor</code> para integrarse con Angular Forms.</p>
+    <div class="code-block">
+      <pre><code>&lt;app-inline-input
+  [config]="&#123; typeInput: ETypeInput.TEXT, label: 'Nombre' &#125;"
+  [(value)]="textValue"
+  (outputValue)="onValueChange($event)"
+/&gt;</code></pre>
+    </div>
+    
+    <h3>Ejemplos de InlineInput Individual</h3>
+    <div class="example-container">
+      <div class="inline-examples">
+        <div class="inline-example-item">
+          <h4>Texto</h4>
+          <app-inline-input
+            [config]="inlineTextConfig"
+            [(value)]="inlineTextValue"
+            (outputValue)="onInlineValueChange($event)"
+          />
+        </div>
+        <div class="inline-example-item">
+          <h4>Número</h4>
+          <app-inline-input
+            [config]="inlineNumberConfig"
+            [(value)]="inlineNumberValue"
+            (outputValue)="onInlineValueChange($event)"
+          />
+        </div>
+        <div class="inline-example-item">
+          <h4>Select</h4>
+          <app-inline-input
+            [config]="inlineSelectConfig"
+            [(value)]="inlineSelectValue"
+            (outputValue)="onInlineValueChange($event)"
+          />
+        </div>
+        <div class="inline-example-item">
+          <h4>Fecha</h4>
+          <app-inline-input
+            [config]="inlineDateConfig"
+            [(value)]="inlineDateValue"
+            (outputValue)="onInlineValueChange($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Eventos del Form Component</h2>
+    <p>El componente emite varios eventos para manejar cambios y envíos del formulario.</p>
+    <div class="code-block">
+      <pre><code>(formSubmit)="onFormSubmit($event)"      // Al enviar el formulario
+(formChanges)="onFormChanges($event)"      // En cada cambio
+(formChangesDebounced)="onDebounced($event)" // Cambios con debounce (650ms)</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Eventos del InlineInput Component</h2>
+    <p>El componente InlineInput emite eventos para cambios de valor.</p>
+    <div class="code-block">
+      <pre><code>(outputValue)="onValueChange($event)"     // En cada cambio
+(outputBlur)="onBlur($event)"              // Al perder el foco
+(outputDebounced)="onDebounced($event)"    // Cambios con debounce (300ms)</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Configuración de Textarea</h2>
+    <p>Personaliza el área de texto con múltiples opciones.</p>
+    <div class="code-block">
+      <pre><code>textareaConfig: &#123;
+  rows: 4,
+  cols: 50,
+  autoResize: true,
+  resize: 'vertical',
+  variant: 'outlined'
+&#125;</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Configuración de Date</h2>
+    <p>Configura el selector de fechas con restricciones y modos de selección.</p>
+    <div class="code-block">
+      <pre><code>dateConfig: &#123;
+  minDate: new Date(),
+  maxDate: new Date('2025-12-31'),
+  selectionMode: 'single' | 'multiple' | 'range'
+&#125;</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Interfaz IControlConfig</h2>
+    <p>Referencia completa de todas las propiedades disponibles para configurar controles.</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>controlName</code></td>
+            <td><code>string</code></td>
+            <td>Nombre del control en el FormGroup (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>control</code></td>
+            <td><code>FormControl</code></td>
+            <td>Instancia del FormControl (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>typeInput</code></td>
+            <td><code>ETypeInput</code></td>
+            <td>Tipo de input a renderizar (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>label</code></td>
+            <td><code>string?</code></td>
+            <td>Etiqueta del campo</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td><code>boolean?</code></td>
+            <td>Hace el campo de solo lectura</td>
+          </tr>
+          <tr>
+            <td><code>hideLabel</code></td>
+            <td><code>boolean?</code></td>
+            <td>Oculta la etiqueta del campo</td>
+          </tr>
+          <tr>
+            <td><code>colSpan</code></td>
+            <td><code>number?</code></td>
+            <td>Número de columnas que ocupa el campo en el grid</td>
+          </tr>
+          <tr>
+            <td><code>selectConfig</code></td>
+            <td><code>ISelectConfig?</code></td>
+            <td>Configuración para inputs de tipo SELECT</td>
+          </tr>
+          <tr>
+            <td><code>multiSelectConfig</code></td>
+            <td><code>IMultiSelectConfig?</code></td>
+            <td>Configuración para inputs de tipo MULTISELECT</td>
+          </tr>
+          <tr>
+            <td><code>dateConfig</code></td>
+            <td><code>IDateConfig?</code></td>
+            <td>Configuración para inputs de tipo DATE/CALENDAR</td>
+          </tr>
+          <tr>
+            <td><code>textareaConfig</code></td>
+            <td><code>ITextareaConfig?</code></td>
+            <td>Configuración para inputs de tipo TEXTAREA</td>
+          </tr>
+          <tr>
+            <td><code>currencyConfig</code></td>
+            <td><code>ICurrencyConfig?</code></td>
+            <td>Configuración para inputs de tipo CURRENCY</td>
+          </tr>
+          <tr>
+            <td><code>toggleConfig</code></td>
+            <td><code>IToggleButtonConfig?</code></td>
+            <td>Configuración para inputs de tipo TOGGLE</td>
+          </tr>
+          <tr>
+            <td><code>otpConfig</code></td>
+            <td><code>object?</code></td>
+            <td>Configuración para inputs de tipo OTP</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Interfaz InlineControlConfig</h2>
+    <p>Configuración específica para el componente InlineInput cuando se usa individualmente.</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>typeInput</code></td>
+            <td><code>ETypeInput</code></td>
+            <td>Tipo de input a renderizar (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>label</code></td>
+            <td><code>string?</code></td>
+            <td>Etiqueta del campo</td>
+          </tr>
+          <tr>
+            <td><code>isDisabled</code></td>
+            <td><code>boolean?</code></td>
+            <td>Deshabilita el campo</td>
+          </tr>
+          <tr>
+            <td><code>required</code></td>
+            <td><code>boolean?</code></td>
+            <td>Indica si el campo es requerido</td>
+          </tr>
+          <tr>
+            <td><code>readonly</code></td>
+            <td><code>boolean?</code></td>
+            <td>Hace el campo de solo lectura</td>
+          </tr>
+          <tr>
+            <td><code>selectConfig</code></td>
+            <td><code>ISelectConfig?</code></td>
+            <td>Configuración para inputs de tipo SELECT</td>
+          </tr>
+          <tr>
+            <td><code>currencyConfig</code></td>
+            <td><code>ICurrencyConfig?</code></td>
+            <td>Configuración para inputs de tipo CURRENCY</td>
+          </tr>
+          <tr>
+            <td><code>numberConfig</code></td>
+            <td><code>INumberConfig?</code></td>
+            <td>Configuración para inputs de tipo NUMBER</td>
+          </tr>
+          <tr>
+            <td><code>knobConfig</code></td>
+            <td><code>IKnobConfig?</code></td>
+            <td>Configuración para inputs de tipo KNOB</td>
+          </tr>
+          <tr>
+            <td><code>textareaConfig</code></td>
+            <td><code>ITextareaConfig?</code></td>
+            <td>Configuración para inputs de tipo TEXTAREA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

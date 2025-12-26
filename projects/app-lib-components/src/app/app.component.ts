@@ -19,13 +19,19 @@ export class AppComponent implements OnInit, OnDestroy {
   // Rutas principales de la aplicación
   private readonly mainRoutes = [
     { path: 'home', label: 'Home' },
-    { path: 'prime-ng', label: 'Prime NG' }
+    { path: 'prime-ng', label: 'Prime NG' },
+    { path: 'origin', label: 'Origin' }
   ];
 
   // Rutas hijas de prime-ng
   private readonly primeNgRoutes = [
     { path: 'button', label: 'Button' },
     { path: 'table', label: 'Table' }
+  ];
+
+  // Rutas hijas de origin
+  private readonly originRoutes = [
+    { path: 'form', label: 'Form' }
   ];
 
   // Signal para la ruta actual
@@ -64,6 +70,31 @@ export class AppComponent implements OnInit, OnDestroy {
           label: route.label,
           severity: 'secondary' as const,
           onClick: () => this.router.navigate([`/prime-ng/${route.path}`]),
+          fullWidth: true,
+          fullHeight: true,
+        });
+      });
+
+      return menu;
+    }
+
+    // Si estamos dentro de origin
+    if (segments[0] === 'origin') {
+      // Siempre agregar Home
+      menu.push({
+        label: 'Home',
+        severity: 'secondary' as const,
+        onClick: () => this.router.navigate(['/home']),
+        fullWidth: true,
+        fullHeight: true,
+      });
+
+      // Agregar las rutas hijas de origin
+      this.originRoutes.forEach(route => {
+        menu.push({
+          label: route.label,
+          severity: 'secondary' as const,
+          onClick: () => this.router.navigate([`/origin/${route.path}`]),
           fullWidth: true,
           fullHeight: true,
         });
