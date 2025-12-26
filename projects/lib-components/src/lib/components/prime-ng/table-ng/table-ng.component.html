@@ -32,27 +32,27 @@
         (formSubmit)="submitGlobalSearch($event)"></app-form>
       }
       @if (advancedIdentifierFiltersConfig?.isEnabled) {
-      <app-button-ng class="animate__animated animate__fadeIn"
-        [buttonConfig]="advancedIdentifierFiltersButton()"></app-button-ng>
+      <lib-button-ng class="animate__animated animate__fadeIn"
+        [buttonConfig]="advancedIdentifierFiltersButton()"></lib-button-ng>
       }
       @if (filteredValue || advancedFiltersPerformed.length > 0) {
-      <app-button-ng class="animate__animated animate__fadeIn" [buttonConfig]="clearFiltersButton()"></app-button-ng>
+      <lib-button-ng class="animate__animated animate__fadeIn" [buttonConfig]="clearFiltersButton()"></lib-button-ng>
       }
     </div>
     <div class="flex gap-2" toolbarEnd>
       @if (toolbarButtons().length > 0) {
       @for (button of toolbarButtons(); track $index) {
-      <app-button-ng [buttonConfig]="button"></app-button-ng>
+      <lib-button-ng [buttonConfig]="button"></lib-button-ng>
       }
       }
       @if ((editType === 'row' || editType === 'cell') && editEnabled) {
-      <app-button-ng [buttonConfig]="addRowButton()"></app-button-ng>
+      <lib-button-ng [buttonConfig]="addRowButton()"></lib-button-ng>
       }
       @if (enableExcelButton()) {
-      <app-button-ng [buttonConfig]="excelButton" (onClick)="exportData(dt,'excel')"></app-button-ng>
+      <lib-button-ng [buttonConfig]="excelButton" (onClick)="exportData(dt,'excel')"></lib-button-ng>
       }
       @if (enablePdfButton()) {
-      <app-button-ng [buttonConfig]="pdfButton" (onClick)="exportData(dt,'pdf')"></app-button-ng>
+      <lib-button-ng [buttonConfig]="pdfButton" (onClick)="exportData(dt,'pdf')"></lib-button-ng>
       }
     </div>
   </app-toolbar-ng>
@@ -288,7 +288,7 @@
         @if (editType === 'cell' && editEnabled) {
         <td class="px-2 py-1 text-center">
           <div class="flex justify-center items-center gap-2">
-            <app-button-ng [buttonConfig]="getDeleteRowButton()" (onClick)="deleteRow(item)"></app-button-ng>
+            <lib-button-ng [buttonConfig]="getDeleteRowButton()" (onClick)="deleteRow(item)"></lib-button-ng>
           </div>
         </td>
         }
@@ -395,23 +395,23 @@
         <td>
           <div class="flex justify-center items-center gap-2">
             @if(!editing){
-            <app-button-ng pButton pRipple pInitEditableRow [buttonConfig]="getEditInitButton(item.id)"
-              (onClick)="onRowEditInit(item)"></app-button-ng>
+            <lib-button-ng pButton pRipple pInitEditableRow [buttonConfig]="getEditInitButton(item.id)"
+              (onClick)="onRowEditInit(item)"></lib-button-ng>
             @if(!editConfig()?.rowEditConfig?.isDisabledDeleteButton){
-            <app-button-ng [buttonConfig]="getDeleteRowButton()" (onClick)="deleteRow(item)"></app-button-ng>
+            <lib-button-ng [buttonConfig]="getDeleteRowButton()" (onClick)="deleteRow(item)"></lib-button-ng>
             }
             }
             @if(editing){
             @if (hasErrorValues(rowErrorConfig?.fieldErrors?.[item.id] ?? {})) {
-            <app-button-ng [buttonConfig]="editSaveButtonWithErrors()"
-              (onClick)="onEditSaveWithErrors()"></app-button-ng>
+            <lib-button-ng [buttonConfig]="editSaveButtonWithErrors()"
+              (onClick)="onEditSaveWithErrors()"></lib-button-ng>
             }
             @else {
-            <app-button-ng pButton pRipple pSaveEditableRow [buttonConfig]="editSaveButton()"
-              (onClick)="onRowEditSave(item)"></app-button-ng>
+            <lib-button-ng pButton pRipple pSaveEditableRow [buttonConfig]="editSaveButton()"
+              (onClick)="onRowEditSave(item)"></lib-button-ng>
             }
-            <app-button-ng pButton pRipple pCancelEditableRow [buttonConfig]="editCancelButton()"
-              (onClick)="onRowEditCancel(item, ri)"></app-button-ng>
+            <lib-button-ng pButton pRipple pCancelEditableRow [buttonConfig]="editCancelButton()"
+              (onClick)="onRowEditCancel(item, ri)"></lib-button-ng>
             }
           </div>
         </td>
@@ -433,8 +433,8 @@
         <td (click)="$event.stopPropagation()" [class.skeleton-cell]="item.isLoading"
           [style.height]="item.isLoading ? '3rem' : 'auto'">
           @if (!item.isLoading) {
-          <app-button-ng [buttonConfig]="rowExpansionButton(expanded)()" type="button" pRipple
-            [pRowToggler]="item"></app-button-ng>
+          <lib-button-ng [buttonConfig]="rowExpansionButton(expanded)()" type="button" pRipple
+            [pRowToggler]="item"></lib-button-ng>
           } @else {
           <div class="skeleton-content"></div>
           }
@@ -467,7 +467,7 @@
           <div class="flex gap-4 w-full justify-center items-center">
             @for (btn of item.rowDataButtons[key]; track $index) {
             @if (btn) {
-            <app-button-ng class="w-full" (click)="$event.stopPropagation()" [buttonConfig]="btn"></app-button-ng>
+            <lib-button-ng class="w-full" (click)="$event.stopPropagation()" [buttonConfig]="btn"></lib-button-ng>
             }
             }
           </div>
@@ -556,7 +556,7 @@
             }}</span>
         </div>
         <span class="text-sm text-gray-600">registros</span>
-        <app-button-ng [buttonConfig]="showSelectedItemsManagementButton()"></app-button-ng>
+        <lib-button-ng [buttonConfig]="showSelectedItemsManagementButton()"></lib-button-ng>
       </div>
       }
     </app-toolbar-ng>
