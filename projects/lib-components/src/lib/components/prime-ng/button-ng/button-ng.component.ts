@@ -6,7 +6,7 @@ import type { IButtonConfig } from './interfaces'
 import { AppButtonNgService } from './services/app-button-ng.service'
 
 @Component({
-  selector: 'lib-button-ng',
+  selector: 'app-button-ng',
   imports: [
     ButtonModule,
     TooltipModule,

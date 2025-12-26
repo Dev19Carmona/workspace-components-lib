@@ -20,7 +20,7 @@
     <div class="example-container">
       <div class="example-item">
         <h3>Botón Básico</h3>
-        <lib-button-ng [buttonConfig]="basicButtonConfig" />
+        <app-button-ng [buttonConfig]="basicButtonConfig" />
         <div class="code-snippet">
           <pre><code>{{ '{' }}
   label: 'Click Me',
@@ -36,13 +36,13 @@
     <p>El componente soporta diferentes severidades que cambian el color del botón.</p>
     <div class="example-container">
       <div class="example-item">
-        <lib-button-ng [buttonConfig]="successButtonConfig" />
+        <app-button-ng [buttonConfig]="successButtonConfig" />
       </div>
       <div class="example-item">
-        <lib-button-ng [buttonConfig]="dangerButtonConfig" />
+        <app-button-ng [buttonConfig]="dangerButtonConfig" />
       </div>
       <div class="example-item">
-        <lib-button-ng [buttonConfig]="infoButtonConfig" />
+        <app-button-ng [buttonConfig]="infoButtonConfig" />
       </div>
     </div>
   </section>
@@ -53,11 +53,11 @@
     <div class="example-container">
       <div class="example-item">
         <h3>Icono a la izquierda</h3>
-        <lib-button-ng [buttonConfig]="iconButtonConfig" />
+        <app-button-ng [buttonConfig]="iconButtonConfig" />
       </div>
       <div class="example-item">
         <h3>Icono a la derecha</h3>
-        <lib-button-ng [buttonConfig]="iconRightButtonConfig" />
+        <app-button-ng [buttonConfig]="iconRightButtonConfig" />
       </div>
     </div>
   </section>
@@ -68,11 +68,11 @@
     <div class="example-container">
       <div class="example-item">
         <h3>Loading Simple</h3>
-        <lib-button-ng [buttonConfig]="loadingButtonConfig" />
+        <app-button-ng [buttonConfig]="loadingButtonConfig" />
       </div>
       <div class="example-item">
         <h3>Loading con Mensajes Rotativos</h3>
-        <lib-button-ng [buttonConfig]="loadingMessagesConfig" />
+        <app-button-ng [buttonConfig]="loadingMessagesConfig" />
         <p class="note">Los mensajes rotan cada 6 segundos automáticamente.</p>
       </div>
     </div>
@@ -83,7 +83,7 @@
     <p>Agrega tooltips informativos al botón para proporcionar información adicional al usuario.</p>
     <div class="example-container">
       <div class="example-item">
-        <lib-button-ng [buttonConfig]="tooltipButtonConfig" />
+        <app-button-ng [buttonConfig]="tooltipButtonConfig" />
         <p class="note">Pasa el mouse sobre el botón para ver el tooltip.</p>
       </div>
     </div>
@@ -94,7 +94,7 @@
     <p>Define funciones que se ejecutan al hacer clic en el botón. Puedes pasar una función directamente en la configuración.</p>
     <div class="example-container">
       <div class="example-item">
-        <lib-button-ng [buttonConfig]="onClickButtonConfig" />
+        <app-button-ng [buttonConfig]="onClickButtonConfig" />
       </div>
     </div>
   </section>
@@ -105,7 +105,7 @@
     <div class="example-container">
       <div class="example-item">
         <h3>Disabled</h3>
-        <lib-button-ng [buttonConfig]="disabledButtonConfig" />
+        <app-button-ng [buttonConfig]="disabledButtonConfig" />
       </div>
     </div>
   </section>
@@ -116,22 +116,22 @@
     <div class="example-container">
       <div class="example-item">
         <h3>Outlined</h3>
-        <lib-button-ng [buttonConfig]="outlinedButtonConfig" />
+        <app-button-ng [buttonConfig]="outlinedButtonConfig" />
         <p class="note">Solo muestra el borde sin fondo</p>
       </div>
       <div class="example-item">
         <h3>Text</h3>
-        <lib-button-ng [buttonConfig]="textButtonConfig" />
+        <app-button-ng [buttonConfig]="textButtonConfig" />
         <p class="note">Estilo de texto sin fondo ni borde</p>
       </div>
       <div class="example-item">
         <h3>Rounded</h3>
-        <lib-button-ng [buttonConfig]="roundedButtonConfig" />
+        <app-button-ng [buttonConfig]="roundedButtonConfig" />
         <p class="note">Bordes completamente redondeados</p>
       </div>
       <div class="example-item">
         <h3>Raised</h3>
-        <lib-button-ng [buttonConfig]="raisedButtonConfig" />
+        <app-button-ng [buttonConfig]="raisedButtonConfig" />
         <p class="note">Efecto de elevación con sombra</p>
       </div>
     </div>
@@ -142,7 +142,7 @@
     <p>Agrega un badge al botón para mostrar notificaciones o contadores. Útil para indicar cantidad de elementos pendientes.</p>
     <div class="example-container">
       <div class="example-item">
-        <lib-button-ng [buttonConfig]="badgeButtonConfig" />
+        <app-button-ng [buttonConfig]="badgeButtonConfig" />
       </div>
     </div>
   </section>
@@ -153,11 +153,11 @@
     <div class="example-container">
       <div class="example-item">
         <h3>Small</h3>
-        <lib-button-ng [buttonConfig]="smallButtonConfig" />
+        <app-button-ng [buttonConfig]="smallButtonConfig" />
       </div>
       <div class="example-item">
         <h3>Large</h3>
-        <lib-button-ng [buttonConfig]="largeButtonConfig" />
+        <app-button-ng [buttonConfig]="largeButtonConfig" />
       </div>
     </div>
   </section>
@@ -167,7 +167,7 @@
     <p>Botón que ocupa todo el ancho disponible del contenedor. Ideal para formularios y acciones principales.</p>
     <div class="example-container">
       <div class="example-item full-width-example">
-        <lib-button-ng [buttonConfig]="fullWidthButtonConfig" />
+        <app-button-ng [buttonConfig]="fullWidthButtonConfig" />
       </div>
     </div>
   </section>
