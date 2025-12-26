@@ -1,59 +1,47 @@
-# WorkspaceComponentsLib
+# Workspace Components Library
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+Biblioteca de componentes Angular basada en PrimeNG y componentes personalizados.
 
-## Development server
+## 🚀 Despliegue en GitHub Pages
 
-To start a local development server, run:
+Este proyecto está configurado para desplegarse automáticamente en GitHub Pages usando GitHub Actions.
 
-```bash
-ng serve
-```
+### Configuración
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+1. **Habilita GitHub Pages en tu repositorio:**
+   - Ve a Settings → Pages
+   - En "Source", selecciona "GitHub Actions"
 
-## Code scaffolding
+2. **El workflow se ejecutará automáticamente:**
+   - Al hacer push a la rama `main` o `master`
+   - O manualmente desde la pestaña "Actions"
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+3. **URL de tu sitio:**
+   - `https://[tu-usuario].github.io/[nombre-del-repositorio]/`
 
-```bash
-ng generate component component-name
-```
+### Estructura del Proyecto
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `projects/lib-components`: Biblioteca de componentes
+- `projects/app-lib-components`: Aplicación de documentación
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Scripts Disponibles
 
 ```bash
-ng build
+# Desarrollo
+npm start
+
+# Construir librería
+npm run build:lib
+
+# Construir aplicación
+npm run build:app
+
+# Construir para GitHub Pages
+ng build app-lib-components --configuration github-pages --base-href /[nombre-repo]/
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Notas
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- El workflow crea automáticamente un archivo `404.html` para manejar las rutas de Angular (SPA)
+- El `baseHref` se configura automáticamente según el nombre del repositorio
+- Los builds se optimizan para producción

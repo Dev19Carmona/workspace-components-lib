@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve -o",
     "build": "ng build",
+    "build:lib": "ng build lib-components",
+    "build:app": "ng build app-lib-components --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
