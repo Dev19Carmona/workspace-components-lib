@@ -9,7 +9,10 @@ export const routes: Routes = [
     path: 'prime-ng',
     loadChildren: () => import('./pages/prime-ng/prime-ng.routes').then(m => m.PRIME_NG_ROUTES)
   },
-
+  {
+    path: 'origin',
+    loadChildren: () => import('./pages/origin/origin.routes').then(m => m.ORIGIN_ROUTES)
+  },
   {
     path: '',
     redirectTo: 'home',
