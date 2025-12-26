@@ -63,7 +63,16 @@ export interface IColumnConfig {
 }
 
 export interface ITableNgLabelsTitleConfig {
+    /** Pagination report template. Default: "Showing {first} to {last} of {totalRecords} entries" */
     customPageReport?: string;
+    /** Message for selected items count. Default: "You have selected" */
+    selectedItemsLabel?: string;
+    /** Label for records/items. Default: "records" */
+    recordsLabel?: string;
+    /** Loading message. Default: "Loading..." */
+    loadingMessage?: string;
+    /** No data available message. Default: "No information available" */
+    noDataMessage?: string;
 }
 
 export interface ITableNgConfig {
@@ -84,6 +93,7 @@ export interface ITableNgConfig {
     hideToolbar?: boolean;
     excelConfig?: IExcelConfig
     pdfConfig?: IPdfConfig
+    labelsConfig?: ITableNgLabelsTitleConfig
 }
 
 export interface IExcelConfig {

@@ -87,6 +87,33 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   @ViewChild('dt') dt!: Table
 
   private readonly fb = inject(NonNullableFormBuilder)
+
+  //#region Labels Configuration
+  /** Get pagination report template with default English value */
+  protected getCustomPageReport(): string {
+    return this.config()?.labelsConfig?.customPageReport ?? 'Showing {first} to {last} of {totalRecords} entries'
+  }
+
+  /** Get selected items label with default English value */
+  protected getSelectedItemsLabel(): string {
+    return this.config()?.labelsConfig?.selectedItemsLabel ?? 'You have selected'
+  }
+
+  /** Get records label with default English value */
+  protected getRecordsLabel(): string {
+    return this.config()?.labelsConfig?.recordsLabel ?? 'records'
+  }
+
+  /** Get loading message with default English value */
+  protected getLoadingMessage(): string {
+    return this.config()?.labelsConfig?.loadingMessage ?? 'Loading...'
+  }
+
+  /** Get no data message with default English value */
+  protected getNoDataMessage(): string {
+    return this.config()?.labelsConfig?.noDataMessage ?? 'No information available'
+  }
+  //#endregion
   constructor() {
     this.tableNgEditService.setEditConfig(this.editConfig())
     this.tableNgEditService.setKeysNames(this.config()?.keysNames ?? {})

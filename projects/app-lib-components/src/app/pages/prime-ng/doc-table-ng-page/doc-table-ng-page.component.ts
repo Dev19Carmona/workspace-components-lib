@@ -216,4 +216,52 @@ export class DocTableNgPageComponent {
       name: 'usuarios'
     }
   };
+
+  // Ejemplo con labels personalizados en español
+  labelsTableData = signal<ITableNgData<ExampleRowData>[]>([
+    {
+      id: '1',
+      rowData: { id: '1', name: 'Juan Pérez', email: 'juan@example.com', age: 30, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '2',
+      rowData: { id: '2', name: 'María García', email: 'maria@example.com', age: 25, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '3',
+      rowData: { id: '3', name: 'Carlos López', email: 'carlos@example.com', age: 35, status: 'Inactivo' },
+      raw: {},
+      onClick: () => {}
+    }
+  ]);
+
+  labelsTableConfig: ITableNgConfig = {
+    keys: ['name', 'email', 'age', 'status'],
+    keysNames: {
+      name: 'Nombre',
+      email: 'Email',
+      age: 'Edad',
+      status: 'Estado'
+    },
+    paginationConfig: {
+      paginator: true,
+      rows: 5,
+      rowsPerPageOptions: [5, 10, 20]
+    },
+    selectionTableConfig: {
+      isEnabled: true,
+      showManagementConfig: true
+    },
+    labelsConfig: {
+      customPageReport: 'Mostrando {first} a {last} de {totalRecords} registros',
+      selectedItemsLabel: 'Has seleccionado',
+      recordsLabel: 'registros',
+      loadingMessage: 'Cargando...',
+      noDataMessage: 'No hay información disponible'
+    }
+  };
 }

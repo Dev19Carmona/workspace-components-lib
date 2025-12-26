@@ -68,7 +68,7 @@
     [columns]="selectedColumns" [scrollable]="scrollConfig?.isEnabled ?? false"
     [scrollHeight]="scrollConfig?.isEnabled ? scrollHeight() : undefined" (onLazyLoad)="onLazyLoad($event)"
     (sortFunction)="customSort($event)" (onFilter)="onFilter($event)" [(selection)]="selectedItems"
-    [currentPageReportTemplate]="'custom-page-report'" selectionPageOnly="true" dataKey="id" class="w-full">
+    [currentPageReportTemplate]="getCustomPageReport()" selectionPageOnly="true" dataKey="id" class="w-full">
     <ng-template #header let-columns>
       <tr>
         @if (rowExpansionConfig?.isEnabled) {
@@ -203,19 +203,19 @@
       <tr>
         <td [attr.colspan]="totalColumns()">
           @if (isLoading()) {
-          <!-- Estado de carga -->
+          <!-- Loading state -->
           <div class="p-8 text-center">
             <div class="flex flex-col items-center justify-center gap-4">
               <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
-              <p class="text-gray-600 text-lg">{{ '' }}</p>
+              <p class="text-gray-600 text-lg">{{ getLoadingMessage() }}</p>
             </div>
           </div>
           } @else if (timeoutExpired()) {
-          <!-- Timeout expirado sin datos -->
+          <!-- No data available -->
           <div class="p-8 text-center text-gray-500">
             <div class="flex flex-col items-center justify-center gap-3">
               <i class="pi pi-info-circle text-4xl text-gray-400"></i>
-              <p class="text-lg">{{ '' }}</p>
+              <p class="text-lg">{{ getNoDataMessage() }}</p>
             </div>
           </div>
           }
@@ -549,13 +549,13 @@
       @if (showManagementSelectionConfig()) {
       <div toolbarStart
         class="p-datatable-footer-content flex items-center gap-3 px-4 rounded-lg animate__animated animate__fadeIn">
-        <span class="font-medium text-gray-700">Has seleccionado</span>
+        <span class="font-medium text-gray-700">{{ getSelectedItemsLabel() }}</span>
         <div class="p-datatable-footer-badge flex items-center justify-center min-w-[28px] h-7 px-2 rounded-md">
           <span class="font-semibold text-gray-900">{{
             totalItemsSelected().toLocaleString()
             }}</span>
         </div>
-        <span class="text-sm text-gray-600">registros</span>
+        <span class="text-sm text-gray-600">{{ getRecordsLabel() }}</span>
         <lib-button-ng [buttonConfig]="showSelectedItemsManagementButton()"></lib-button-ng>
       </div>
       }

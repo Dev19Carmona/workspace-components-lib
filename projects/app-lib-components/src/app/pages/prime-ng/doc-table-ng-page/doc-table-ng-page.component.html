@@ -182,6 +182,74 @@ pdfConfig: {{ '{' }}
   </section>
 
   <section class="doc-section">
+    <h2>Labels Personalizados (Multiidioma)</h2>
+    <p>
+      Puedes personalizar todos los mensajes y labels de la tabla usando <code>labelsConfig</code>. 
+      Si no se proporcionan, se usarán los valores por defecto en inglés.
+    </p>
+    <div class="code-block">
+      <pre><code>labelsConfig: {{ '{' }}
+  customPageReport: 'Mostrando &#123;first&#125; a &#123;last&#125; de &#123;totalRecords&#125; registros',
+  selectedItemsLabel: 'Has seleccionado',
+  recordsLabel: 'registros',
+  loadingMessage: 'Cargando...',
+  noDataMessage: 'No hay información disponible'
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="labelsTableData()"
+        [config]="labelsTableConfig"
+      />
+    </div>
+    <div class="interface-docs">
+      <h3>Propiedades de ITableNgLabelsTitleConfig</h3>
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Valor por defecto</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>customPageReport</code></td>
+            <td><code>string?</code></td>
+            <td><code>'Showing &#123;first&#125; to &#123;last&#125; of &#123;totalRecords&#125; entries'</code></td>
+            <td>Template para el reporte de paginación. Usa &#123;first&#125;, &#123;last&#125;, &#123;totalRecords&#125;</td>
+          </tr>
+          <tr>
+            <td><code>selectedItemsLabel</code></td>
+            <td><code>string?</code></td>
+            <td><code>'You have selected'</code></td>
+            <td>Label para el mensaje de items seleccionados</td>
+          </tr>
+          <tr>
+            <td><code>recordsLabel</code></td>
+            <td><code>string?</code></td>
+            <td><code>'records'</code></td>
+            <td>Label para la palabra "registros" o "items"</td>
+          </tr>
+          <tr>
+            <td><code>loadingMessage</code></td>
+            <td><code>string?</code></td>
+            <td><code>'Loading...'</code></td>
+            <td>Mensaje mostrado durante la carga de datos</td>
+          </tr>
+          <tr>
+            <td><code>noDataMessage</code></td>
+            <td><code>string?</code></td>
+            <td><code>'No information available'</code></td>
+            <td>Mensaje mostrado cuando no hay datos disponibles</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="doc-section">
     <h2>Interfaz ITableNgConfig</h2>
     <p>Referencia completa de todas las propiedades disponibles en la configuración de la tabla.</p>
     <div class="interface-docs">
