@@ -1,1 +1,14 @@
-<router-outlet></router-outlet>
+<div class="app-container">
+  <aside class="menu-sidebar">
+    <nav class="menu-nav">
+      <div class="menu-items">
+        @for (item of menuItems(); track $index) {
+          <lib-button-ng [buttonConfig]="item" />
+        }
+      </div>
+    </nav>
+  </aside>
+  <main class="content-area">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,1 +1,297 @@
-<p>doc-button-ng-page works!</p>
+<div class="doc-container">
+  <header class="doc-header">
+    <h1>Button NG Component</h1>
+    <p class="doc-description">
+      Componente de botón basado en PrimeNG con funcionalidades avanzadas como estados de carga,
+      mensajes rotativos, tooltips y múltiples variantes de estilo.
+    </p>
+  </header>
+
+  <section class="doc-section">
+    <h2>Importación</h2>
+    <div class="code-block">
+      <pre><code>import {{ '{' }} ButtonNgComponent {{ '}' }} from 'lib-components';</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Uso Básico</h2>
+    <p>El componente requiere una configuración de tipo <code>IButtonConfig</code> que se pasa mediante el input <code>buttonConfig</code>.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <h3>Botón Básico</h3>
+        <lib-button-ng [buttonConfig]="basicButtonConfig" />
+        <div class="code-snippet">
+          <pre><code>{{ '{' }}
+  label: 'Click Me',
+  severity: 'secondary'
+{{ '}' }}</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Severidades</h2>
+    <p>El componente soporta diferentes severidades que cambian el color del botón.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <lib-button-ng [buttonConfig]="successButtonConfig" />
+      </div>
+      <div class="example-item">
+        <lib-button-ng [buttonConfig]="dangerButtonConfig" />
+      </div>
+      <div class="example-item">
+        <lib-button-ng [buttonConfig]="infoButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Con Iconos</h2>
+    <p>Puedes agregar iconos de PrimeIcons al botón. El icono puede posicionarse a la izquierda, derecha, arriba o abajo del texto.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <h3>Icono a la izquierda</h3>
+        <lib-button-ng [buttonConfig]="iconButtonConfig" />
+      </div>
+      <div class="example-item">
+        <h3>Icono a la derecha</h3>
+        <lib-button-ng [buttonConfig]="iconRightButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Estados de Carga</h2>
+    <p>El botón puede mostrar un estado de carga con mensajes rotativos. Los mensajes rotan automáticamente cada 6 segundos.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <h3>Loading Simple</h3>
+        <lib-button-ng [buttonConfig]="loadingButtonConfig" />
+      </div>
+      <div class="example-item">
+        <h3>Loading con Mensajes Rotativos</h3>
+        <lib-button-ng [buttonConfig]="loadingMessagesConfig" />
+        <p class="note">Los mensajes rotan cada 6 segundos automáticamente.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tooltips</h2>
+    <p>Agrega tooltips informativos al botón para proporcionar información adicional al usuario.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <lib-button-ng [buttonConfig]="tooltipButtonConfig" />
+        <p class="note">Pasa el mouse sobre el botón para ver el tooltip.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Eventos onClick</h2>
+    <p>Define funciones que se ejecutan al hacer clic en el botón. Puedes pasar una función directamente en la configuración.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <lib-button-ng [buttonConfig]="onClickButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Estados</h2>
+    <p>Controla el estado del botón para deshabilitarlo cuando sea necesario.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <h3>Disabled</h3>
+        <lib-button-ng [buttonConfig]="disabledButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Variantes</h2>
+    <p>Diferentes estilos de botón disponibles para adaptarse a diversos diseños.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <h3>Outlined</h3>
+        <lib-button-ng [buttonConfig]="outlinedButtonConfig" />
+        <p class="note">Solo muestra el borde sin fondo</p>
+      </div>
+      <div class="example-item">
+        <h3>Text</h3>
+        <lib-button-ng [buttonConfig]="textButtonConfig" />
+        <p class="note">Estilo de texto sin fondo ni borde</p>
+      </div>
+      <div class="example-item">
+        <h3>Rounded</h3>
+        <lib-button-ng [buttonConfig]="roundedButtonConfig" />
+        <p class="note">Bordes completamente redondeados</p>
+      </div>
+      <div class="example-item">
+        <h3>Raised</h3>
+        <lib-button-ng [buttonConfig]="raisedButtonConfig" />
+        <p class="note">Efecto de elevación con sombra</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Badge</h2>
+    <p>Agrega un badge al botón para mostrar notificaciones o contadores. Útil para indicar cantidad de elementos pendientes.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <lib-button-ng [buttonConfig]="badgeButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tamaños</h2>
+    <p>Controla el tamaño del botón según las necesidades de tu diseño.</p>
+    <div class="example-container">
+      <div class="example-item">
+        <h3>Small</h3>
+        <lib-button-ng [buttonConfig]="smallButtonConfig" />
+      </div>
+      <div class="example-item">
+        <h3>Large</h3>
+        <lib-button-ng [buttonConfig]="largeButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Full Width</h2>
+    <p>Botón que ocupa todo el ancho disponible del contenedor. Ideal para formularios y acciones principales.</p>
+    <div class="example-container">
+      <div class="example-item full-width-example">
+        <lib-button-ng [buttonConfig]="fullWidthButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Interfaz IButtonConfig</h2>
+    <p>Referencia completa de todas las propiedades disponibles en la configuración del botón.</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>label</code></td>
+            <td><code>string?</code></td>
+            <td>Texto que se muestra en el botón</td>
+          </tr>
+          <tr>
+            <td><code>icon</code></td>
+            <td><code>string?</code></td>
+            <td>Icono de PrimeIcons a mostrar (ej: 'pi pi-save')</td>
+          </tr>
+          <tr>
+            <td><code>severity</code></td>
+            <td><code>'secondary' | 'success' | 'info' | 'warn' | 'help' | 'danger' | 'contrast'</code></td>
+            <td>Severidad/color del botón que define su apariencia</td>
+          </tr>
+          <tr>
+            <td><code>loading</code></td>
+            <td><code>boolean?</code></td>
+            <td>Muestra un indicador de carga y deshabilita el botón</td>
+          </tr>
+          <tr>
+            <td><code>loadingMessages</code></td>
+            <td><code>string[]?</code></td>
+            <td>Array de mensajes que rotan durante la carga (cada 6 segundos)</td>
+          </tr>
+          <tr>
+            <td><code>onClick</code></td>
+            <td><code>() => void?</code></td>
+            <td>Función que se ejecuta al hacer clic en el botón</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean?</code></td>
+            <td>Deshabilita el botón impidiendo interacciones</td>
+          </tr>
+          <tr>
+            <td><code>rounded</code></td>
+            <td><code>boolean?</code></td>
+            <td>Aplica bordes completamente redondeados</td>
+          </tr>
+          <tr>
+            <td><code>raised</code></td>
+            <td><code>boolean?</code></td>
+            <td>Aplica un efecto de elevación con sombra</td>
+          </tr>
+          <tr>
+            <td><code>outlined</code></td>
+            <td><code>boolean?</code></td>
+            <td>Estilo outlined que muestra solo el borde sin fondo</td>
+          </tr>
+          <tr>
+            <td><code>text</code></td>
+            <td><code>boolean?</code></td>
+            <td>Estilo de texto sin fondo ni borde visible</td>
+          </tr>
+          <tr>
+            <td><code>variant</code></td>
+            <td><code>'text' | 'outlined'?</code></td>
+            <td>Variante del botón (alternativa a las propiedades booleanas)</td>
+          </tr>
+          <tr>
+            <td><code>badge</code></td>
+            <td><code>string?</code></td>
+            <td>Texto del badge a mostrar en la esquina superior derecha</td>
+          </tr>
+          <tr>
+            <td><code>size</code></td>
+            <td><code>'small' | 'large'?</code></td>
+            <td>Tamaño del botón (por defecto es 'medium')</td>
+          </tr>
+          <tr>
+            <td><code>tooltipConfig</code></td>
+            <td><code>ITooltipConfig?</code></td>
+            <td>Configuración del tooltip con mensaje y posición</td>
+          </tr>
+          <tr>
+            <td><code>fullWidth</code></td>
+            <td><code>boolean?</code></td>
+            <td>El botón ocupa todo el ancho disponible del contenedor</td>
+          </tr>
+          <tr>
+            <td><code>fullHeight</code></td>
+            <td><code>boolean?</code></td>
+            <td>El botón ocupa toda la altura disponible del contenedor</td>
+          </tr>
+          <tr>
+            <td><code>iconPos</code></td>
+            <td><code>'left' | 'right' | 'top' | 'bottom'?</code></td>
+            <td>Posición del icono relativo al texto (por defecto 'left')</td>
+          </tr>
+          <tr>
+            <td><code>hasTemplate</code></td>
+            <td><code>boolean?</code></td>
+            <td>Permite usar contenido personalizado con ng-content</td>
+          </tr>
+          <tr>
+            <td><code>class</code></td>
+            <td><code>string?</code></td>
+            <td>Clases CSS adicionales para personalización</td>
+          </tr>
+          <tr>
+            <td><code>style</code></td>
+            <td><code>Record&lt;string, string&gt;?</code></td>
+            <td>Estilos inline adicionales para personalización avanzada</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

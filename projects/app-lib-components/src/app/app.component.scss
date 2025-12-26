@@ -1,0 +1,28 @@
+.app-container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  height: 100vh;
+}
+
+.menu-sidebar {
+  border-right: 1px solid var(--surface-border);
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.content-area {
+  padding: 2rem;
+  overflow-y: auto;
+}
+
