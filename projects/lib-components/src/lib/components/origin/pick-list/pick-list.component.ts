@@ -6,7 +6,7 @@ import { ButtonNgComponent } from '../../prime-ng/button-ng/button-ng.component'
 import type { IButtonConfig } from '../../prime-ng/button-ng/interfaces'
 
 @Component({
-  selector: 'app-pick-list',
+  selector: 'lib-pick-list',
   imports: [ButtonNgComponent, ContainerElementsComponent],
   templateUrl: './pick-list.component.html',
   styleUrl: './pick-list.component.scss'

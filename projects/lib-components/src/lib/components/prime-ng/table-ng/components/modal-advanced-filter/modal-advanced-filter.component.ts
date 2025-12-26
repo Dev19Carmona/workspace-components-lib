@@ -7,7 +7,7 @@ import { BaseDialogComponent } from '../../../dynamic-dialog/components/base-dia
 import { AdvancedFilterComponent } from '../advanced-filter/advanced-filter.component'
 
 @Component({
-  selector: 'app-modal-advanced-filter',
+  selector: 'lib-modal-advanced-filter',
   imports: [AdvancedFilterComponent, ButtonNgComponent],
   templateUrl: './modal-advanced-filter.component.html',
   styleUrl: './modal-advanced-filter.component.scss'

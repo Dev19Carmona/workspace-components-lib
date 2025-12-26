@@ -31,7 +31,7 @@ import { TableNgService } from './services/table-ng.service'
 
 
 @Component({
-  selector: 'app-table-ng',
+  selector: 'lib-table-ng',
   imports: [
     CommonModule,
     TableModule,

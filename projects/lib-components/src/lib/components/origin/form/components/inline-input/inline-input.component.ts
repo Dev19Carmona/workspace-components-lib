@@ -21,7 +21,7 @@ import { PrimeTemplate } from 'primeng/api'
 import { IPrimeNgSelection } from '../../../../prime-ng/interfaces'
 
 @Component({
-  selector: 'app-inline-input',
+  selector: 'lib-inline-input',
   standalone: true,
   imports: [
     FormsModule,

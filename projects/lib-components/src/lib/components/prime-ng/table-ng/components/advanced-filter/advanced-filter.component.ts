@@ -7,7 +7,7 @@ import { PickListComponent } from '../../../../origin/pick-list/pick-list.compon
 import { AdvancedFilterService } from './services/advanced-filter.service'
 
 @Component({
-  selector: 'app-advanced-filter',
+  selector: 'lib-advanced-filter',
   imports: [InlineInputComponent, PickListComponent],
   templateUrl: './advanced-filter.component.html',
   styleUrl: './advanced-filter.component.scss',

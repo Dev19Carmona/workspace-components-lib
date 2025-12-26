@@ -25,11 +25,11 @@
   </div>
   }
   @if (!hideToolbar || (filteredValue || advancedFiltersPerformed.length > 0)) {
-  <app-toolbar-ng class="p-toolbar-header sticky top-0 z-30 dark:bg-gray-800">
+  <lib-toolbar-ng class="p-toolbar-header sticky top-0 z-30 dark:bg-gray-800">
     <div class="flex gap-2" toolbarStart>
       @if (globalFilterConfig?.isEnabled && !lazyLoadingConfig?.isEnabled) {
-      <app-form [controls]="controlsGlobalFilter" [(formGroup)]="searchFormGroupGlobalFilter"
-        (formSubmit)="submitGlobalSearch($event)"></app-form>
+      <lib-form [controls]="controlsGlobalFilter" [(formGroup)]="searchFormGroupGlobalFilter"
+        (formSubmit)="submitGlobalSearch($event)"></lib-form>
       }
       @if (advancedIdentifierFiltersConfig?.isEnabled) {
       <lib-button-ng class="animate__animated animate__fadeIn"
@@ -55,7 +55,7 @@
       <lib-button-ng [buttonConfig]="pdfButton" (onClick)="exportData(dt,'pdf')"></lib-button-ng>
       }
     </div>
-  </app-toolbar-ng>
+      </lib-toolbar-ng>
   }
   <p-table #dt styleClass="p-datatable-sm" [value]="data()" [lazy]="lazyLoadingConfig?.isEnabled ?? false"
     [editMode]="editType" [totalRecords]="
@@ -128,10 +128,10 @@
               ) {
               <ng-template #filter let-value let-filter="filterCallback">
                 <div style="min-width: 20rem" class="">
-                  <app-inline-input
+                  <lib-inline-input
                     (outputValue)="inlineFormChanges($event, filter, filterConfigByKey?.[column.field]?.customColumnFilterConfig?.inlineControlConfig?.typeInput, column.field)"
                     (outputDebounced)="onFilter($event)" [(ngModel)]="advancedFiltersValues()[column.field]"
-                    [config]="filterConfigByKey?.[column.field]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></app-inline-input>
+                    [config]="filterConfigByKey?.[column.field]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></lib-inline-input>
                 </div>
               </ng-template>
               }
@@ -173,10 +173,10 @@
                       [customColumnFilterConfig]="filterConfigByKey![key]!.customColumnFilterConfig!"
                       (formChanges)="formChanges($event, filter, key)"
                       [initialValue]="advancedFiltersValues[key]"></app-custom-advanced-filter> -->
-                  <app-inline-input
+                  <lib-inline-input
                     (outputValue)="inlineFormChanges($event, filter, filterConfigByKey?.[key]?.customColumnFilterConfig?.inlineControlConfig?.typeInput, key)"
                     [(ngModel)]="advancedFiltersValues()[key]"
-                    [config]="filterConfigByKey?.[key]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></app-inline-input>
+                    [config]="filterConfigByKey?.[key]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></lib-inline-input>
                 </div>
               </ng-template>
               }
@@ -234,9 +234,9 @@
         <td [pEditableColumn]="column.field" pEditableColumnField="rowData.{{column.field}}">
           <p-cellEditor>
             <ng-template #input>
-              <app-inline-input [(ngModel)]="item.rowData[column.field]" (outputDebounced)="onEditData()"
+              <lib-inline-input [(ngModel)]="item.rowData[column.field]" (outputDebounced)="onEditData()"
                 [config]="inlineControls?.[column.field] ?? {typeInput: ETypeInput.TEXT}">
-              </app-inline-input>
+              </lib-inline-input>
             </ng-template>
             <ng-template #output>
               @if (inlineControls?.[column.field]?.typeInput === ETypeInput.NUMBER) {
@@ -274,9 +274,9 @@
         <td [pEditableColumn]="key" pEditableColumnField="rowData.{{key}}">
           <p-cellEditor>
             <ng-template #input>
-              <app-inline-input [(ngModel)]="item.rowData[key]" (outputDebounced)="onEditData()"
+              <lib-inline-input [(ngModel)]="item.rowData[key]" (outputDebounced)="onEditData()"
                 [config]="inlineControls?.[key] ?? {typeInput: ETypeInput.TEXT}">
-              </app-inline-input>
+              </lib-inline-input>
             </ng-template>
             <ng-template #output>
               {{ item.rowData[key] }}
@@ -304,10 +304,10 @@
           <div class="flex flex-col gap-2">
             <p-cellEditor>
               <ng-template #input>
-                <app-inline-input [(ngModel)]="item.rowData[column.field]"
+                <lib-inline-input [(ngModel)]="item.rowData[column.field]"
                   (outputValue)="inlineChange($event, column.field)" (outputDebounced)="onEditData()"
                   [config]="inlineControls?.[column.field] ?? {typeInput: ETypeInput.TEXT}">
-                </app-inline-input>
+                </lib-inline-input>
 
               </ng-template>
               <ng-template #output>
@@ -356,9 +356,9 @@
           <div class="flex flex-col gap-2">
             <p-cellEditor>
               <ng-template #input>
-                <app-inline-input [(ngModel)]="item.rowData[key]" (outputValue)="inlineChange($event, key)"
+                <lib-inline-input [(ngModel)]="item.rowData[key]" (outputValue)="inlineChange($event, key)"
                   (outputDebounced)="onEditData()" [config]="inlineControls?.[key] ?? {typeInput: ETypeInput.TEXT}">
-                </app-inline-input>
+                </lib-inline-input>
               </ng-template>
               <ng-template #output>
 
@@ -487,7 +487,7 @@
           item?.currencyTypeCellConfig?.[key]?.currency ?? 'USD' }}
           }
           @case (ETypeInput.BADGE) {
-          <app-badge-ng [config]="item.rowData[key]"></app-badge-ng>
+          <lib-badge-ng [config]="item.rowData[key]"></lib-badge-ng>
           }
           @case (ETypeInput.COMPONENT) {
           <ng-container
@@ -545,7 +545,7 @@
   </p-table>
   @if (showBottomToolbar()) {
   <div class="p-datatable-footer sticky bottom-2 z-9 animate__animated animate__fadeIn">
-    <app-toolbar-ng>
+    <lib-toolbar-ng>
       @if (showManagementSelectionConfig()) {
       <div toolbarStart
         class="p-datatable-footer-content flex items-center gap-3 px-4 rounded-lg animate__animated animate__fadeIn">
@@ -559,10 +559,10 @@
         <lib-button-ng [buttonConfig]="showSelectedItemsManagementButton()"></lib-button-ng>
       </div>
       }
-    </app-toolbar-ng>
+      </lib-toolbar-ng>
   </div>
   }
 </div>
 @if (httpMessage()) {
-<app-http-message [(httpMessage)]="httpMessage"></app-http-message>
+<lib-http-message [(httpMessage)]="httpMessage"></lib-http-message>
 }

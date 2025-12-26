@@ -19,7 +19,7 @@ import { TextareaModule } from 'primeng/textarea'
 import { DisabledContainerComponent } from '../../../disabled-container/disabled-container.component'
 
 @Component({
-  selector: 'app-custom-input',
+  selector: 'lib-custom-input',
   imports: [
     ReactiveFormsModule,
     IftaLabelModule,

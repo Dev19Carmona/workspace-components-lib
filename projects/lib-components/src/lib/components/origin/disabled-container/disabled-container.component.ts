@@ -1,7 +1,7 @@
 import { Component, model } from '@angular/core'
 
 @Component({
-  selector: 'app-disabled-container',
+  selector: 'lib-disabled-container',
   imports: [],
   templateUrl: './disabled-container.component.html',
   styleUrl: './disabled-container.component.scss'

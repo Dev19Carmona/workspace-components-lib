@@ -6,7 +6,7 @@ import { ButtonNgComponent } from '../../../../prime-ng/button-ng/button-ng.comp
 import type { IButtonSeverity, IButtonConfig } from '../../../../prime-ng/button-ng/interfaces'
 
 @Component({
-  selector: 'app-container-elements',
+  selector: 'lib-container-elements',
   imports: [ButtonNgComponent, CommonModule],
   templateUrl: './container-elements.component.html',
   styleUrl: './container-elements.component.scss'

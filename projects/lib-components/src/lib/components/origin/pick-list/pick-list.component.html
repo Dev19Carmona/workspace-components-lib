@@ -2,9 +2,9 @@
 @let sourceSeverityButton = config()?.sourceSeverityButton ?? 'secondary';
 @let targetSeverityButton = config()?.targetSeverityButton ?? 'contrast';
 <div class="flex gap-4 h-80 w-full bg-gray-100 dark:bg-gray-800 rounded-xl p-3">
-  <app-container-elements id="source-container" [cols]="cols" class="w-full h-full" [(elements)]="sourceElements"
+  <lib-container-elements id="source-container" [cols]="cols" class="w-full h-full" [(elements)]="sourceElements"
     #sourceContainer [severityButton]="sourceSeverityButton"
-    (outputElements)="handleOutputElements()"></app-container-elements>
+    (outputElements)="handleOutputElements()"></lib-container-elements>
 
   <div class="w-[10%] flex flex-col items-center justify-center gap-6 rounded-xl bg-gray-200 dark:bg-gray-800">
     @for (button of controlButtons(); track $index) {
@@ -12,8 +12,8 @@
     }
   </div>
 
-  <app-container-elements id="target-container" [cols]="cols" class="w-full h-full" [(elements)]="targetElements"
+  <lib-container-elements id="target-container" [cols]="cols" class="w-full h-full" [(elements)]="targetElements"
     #targetContainer [severityButton]="targetSeverityButton"
-    (outputElements)="handleOutputElements()"></app-container-elements>
+    (outputElements)="handleOutputElements()"></lib-container-elements>
 
 </div>

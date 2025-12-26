@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button'
 import { BaseDialogComponent } from './base-dialog.component'
 
 @Component({
-  selector: 'app-confirm-dialog',
+  selector: 'lib-confirm-dialog',
   standalone: true,
   imports: [ButtonModule],
   template: `

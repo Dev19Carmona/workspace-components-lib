@@ -2,7 +2,7 @@ import { Component, model } from '@angular/core'
 import { BadgeModule } from 'primeng/badge'
 import type { IBadgeConfig, IBadgeSeverity, IBadgeSize } from './interfaces'
 @Component({
-  selector: 'app-badge-ng',
+  selector: 'lib-badge-ng',
   imports: [BadgeModule],
   templateUrl: './badge-ng.component.html'
 })

@@ -19,13 +19,13 @@ import type {{ '{' }} ITableNgConfig, ITableNgData {{ '}' }} from 'lib-component
     <h2>Uso Básico</h2>
     <p>El componente requiere un array de <code>ITableNgData</code> y una configuración <code>ITableNgConfig</code>.</p>
     <div class="code-block">
-      <pre><code>&lt;app-table-ng
+      <pre><code>&lt;lib-table-ng
   [data]="tableData"
   [config]="tableConfig"
 /&gt;</code></pre>
     </div>
     <div class="example-container">
-      <app-table-ng
+      <lib-table-ng
         [data]="basicTableData()"
         [config]="basicTableConfig"
       />
@@ -42,7 +42,7 @@ import type {{ '{' }} ITableNgConfig, ITableNgData {{ '}' }} from 'lib-component
 {{ '}' }}</code></pre>
     </div>
     <div class="example-container">
-      <app-table-ng
+      <lib-table-ng
         [data]="globalFilterTableData()"
         [config]="globalFilterTableConfig"
       />
@@ -59,7 +59,7 @@ import type {{ '{' }} ITableNgConfig, ITableNgData {{ '}' }} from 'lib-component
 {{ '}' }}</code></pre>
     </div>
     <div class="example-container">
-      <app-table-ng
+      <lib-table-ng
         [data]="selectionTableData()"
         [config]="selectionTableConfig"
       />
@@ -76,7 +76,7 @@ import type {{ '{' }} ITableNgConfig, ITableNgData {{ '}' }} from 'lib-component
 {{ '}' }}</code></pre>
     </div>
     <div class="example-container">
-      <app-table-ng
+      <lib-table-ng
         [data]="titleTableData()"
         [config]="titleTableConfig"
       />
@@ -97,7 +97,7 @@ pdfConfig: {{ '{' }}
 {{ '}' }}</code></pre>
     </div>
     <div class="example-container">
-      <app-table-ng
+      <lib-table-ng
         [data]="exportTableData()"
         [config]="exportTableConfig"
       />

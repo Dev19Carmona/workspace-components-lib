@@ -10,7 +10,7 @@
 @let textareaConfig = controlData().textareaConfig;
 @let currencyConfig = controlData().currencyConfig;
 <div class="flex flex-col gap-1 ">
-  <app-disabled-container [disabled]="readonly">
+  <lib-disabled-container [disabled]="readonly">
 
     <p style="font-size: 12px; letter-spacing: 0.5px;" class="text-sm text-gray-600 dark:text-gray-300 truncate"
       [pTooltip]="placeholder" tooltipPosition="top" [showDelay]="300">
@@ -43,11 +43,11 @@
       [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'" [minFractionDigits]="2" [maxFractionDigits]="2" [readonly]="readonly" [disabled]="readonly" />
     }
     @case (inputTypesEnum.DATE) {
-    <app-disabled-container [disabled]="readonly">
+    <lib-disabled-container [disabled]="readonly">
       <p-datepicker [formControl]="localControl" [selectionMode]="dateConfig?.selectionMode || 'single'"
         [maxDate]="dateConfig?.maxDate || null" [minDate]="dateConfig?.minDate || null" class="custom-datepicker"
         appendTo="body" />
-    </app-disabled-container>
+    </lib-disabled-container>
     }
     @case (inputTypesEnum.TOGGLE) {
     <div class="flex justify-center items-center p-4">
@@ -142,7 +142,7 @@
       class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
     }
     }
-  </app-disabled-container>
+  </lib-disabled-container>
 
 </div>
 

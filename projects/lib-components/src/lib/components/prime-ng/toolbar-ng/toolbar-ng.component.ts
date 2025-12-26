@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { ToolbarModule } from 'primeng/toolbar'
 @Component({
-  selector: 'app-toolbar-ng',
+  selector: 'lib-toolbar-ng',
   imports: [
     ToolbarModule
   ],

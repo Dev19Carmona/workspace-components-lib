@@ -2,7 +2,7 @@ import { Component, model } from '@angular/core'
 import type { IHttpMessage } from './interfaces'
 
 @Component({
-  selector: 'app-http-message',
+  selector: 'lib-http-message',
   imports: [],
   templateUrl: './http-message.component.html',
   styleUrl: './http-message.component.scss'

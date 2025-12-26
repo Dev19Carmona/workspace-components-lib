@@ -1,7 +1,7 @@
 <div class="w-full p-2 rounded-lg" [style.backgroundColor]="formConfig()?.backgroundColor || 'transparent'">
-  <app-form-child [controlsData]="controls()" [formGroup]="formGroup()" (formSubmit)="submit($event)">
-  </app-form-child>
+  <lib-form-child [controlsData]="controls()" [formGroup]="formGroup()" (formSubmit)="submit($event)">
+  </lib-form-child>
   @if (httpMessage()) {
-  <app-http-message [(httpMessage)]="httpMessage"></app-http-message>
+  <lib-http-message [(httpMessage)]="httpMessage"></lib-http-message>
   }
 </div>

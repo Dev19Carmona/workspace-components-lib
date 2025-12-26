@@ -6,7 +6,7 @@ import type { IControlConfig } from '../../interfaces'
 import { CustomInputComponent } from '../custom-input/custom-input.component'
 
 @Component({
-  selector: 'app-form-child',
+  selector: 'lib-form-child',
   imports: [
     ReactiveFormsModule,
     CommonModule,

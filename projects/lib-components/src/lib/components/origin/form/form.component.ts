@@ -10,7 +10,7 @@ import { HttpMessageComponent } from '../http-message/http-message.component'
 import type { IHttpMessage } from '../http-message/interfaces'
 import { IPrimeNgSelection } from '../../prime-ng/interfaces'
 @Component({
-  selector: 'app-form',
+  selector: 'lib-form',
   imports: [
     ReactiveFormsModule,
     FormChildComponent,

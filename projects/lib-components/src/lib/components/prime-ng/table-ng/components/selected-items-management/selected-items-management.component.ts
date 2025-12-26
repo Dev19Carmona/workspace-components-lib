@@ -7,7 +7,7 @@ import type { ITableNgConfig, ITableNgData } from '../../interfaces'
 import { TableNgComponent } from '../../table-ng.component'
 
 @Component({
-  selector: 'app-selected-items-management',
+  selector: 'lib-selected-items-management',
   imports: [TableNgComponent, ButtonNgComponent],
   templateUrl: './selected-items-management.component.html',
   styleUrl: './selected-items-management.component.scss'

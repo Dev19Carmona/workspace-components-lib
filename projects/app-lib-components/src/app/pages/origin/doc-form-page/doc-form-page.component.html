@@ -21,7 +21,7 @@ import &#123; ETypeInput &#125; from 'lib-components';</code></pre>
     <h2>Form Component - Uso Básico</h2>
     <p>El componente <code>FormComponent</code> requiere un <code>FormGroup</code> y un array de <code>IControlConfig</code>.</p>
     <div class="code-block">
-      <pre><code>&lt;app-form
+      <pre><code>&lt;lib-form
   [formGroup]="formGroup"
   [controls]="controls"
   (formSubmit)="onFormSubmit($event)"
@@ -29,7 +29,7 @@ import &#123; ETypeInput &#125; from 'lib-components';</code></pre>
 /&gt;</code></pre>
     </div>
     <div class="example-container">
-      <app-form
+      <lib-form
         [formGroup]="basicFormGroup()"
         [controls]="basicFormControls"
         (formSubmit)="onFormSubmit($event)"
@@ -42,7 +42,7 @@ import &#123; ETypeInput &#125; from 'lib-components';</code></pre>
     <h2>Tipos de Input Disponibles</h2>
     <p>El componente soporta múltiples tipos de inputs a través del enum <code>ETypeInput</code>.</p>
     <div class="example-container">
-      <app-form
+      <lib-form
         [formGroup]="advancedFormGroup()"
         [controls]="advancedFormControls"
       />
@@ -64,7 +64,7 @@ import &#123; ETypeInput &#125; from 'lib-components';</code></pre>
     <h2>Validaciones</h2>
     <p>Puedes agregar validadores de Angular Forms a cada control. Los errores se muestran automáticamente.</p>
     <div class="example-container">
-      <app-form
+      <lib-form
         [formGroup]="validationFormGroup()"
         [controls]="validationFormControls"
       />
@@ -82,7 +82,7 @@ import &#123; ETypeInput &#125; from 'lib-components';</code></pre>
     <h2>Select y MultiSelect</h2>
     <p>Configuración de selectores con opciones personalizadas.</p>
     <div class="example-container">
-      <app-form
+      <lib-form
         [formGroup]="multiselectFormGroup()"
         [controls]="multiselectFormControls"
       />
@@ -101,7 +101,7 @@ import &#123; ETypeInput &#125; from 'lib-components';</code></pre>
     <h2>Currency Input</h2>
     <p>Input especializado para valores monetarios con formato automático.</p>
     <div class="example-container">
-      <app-form
+      <lib-form
         [formGroup]="currencyFormGroup()"
         [controls]="currencyFormControls"
       />
@@ -120,7 +120,7 @@ currencyConfig: &#123;
     <p>El componente <code>InlineInputComponent</code> puede usarse individualmente sin necesidad de un FormGroup.
     Implementa <code>ControlValueAccessor</code> para integrarse con Angular Forms.</p>
     <div class="code-block">
-      <pre><code>&lt;app-inline-input
+      <pre><code>&lt;lib-inline-input
   [config]="&#123; typeInput: ETypeInput.TEXT, label: 'Nombre' &#125;"
   [(value)]="textValue"
   (outputValue)="onValueChange($event)"
@@ -132,7 +132,7 @@ currencyConfig: &#123;
       <div class="inline-examples">
         <div class="inline-example-item">
           <h4>Texto</h4>
-          <app-inline-input
+          <lib-inline-input
             [config]="inlineTextConfig"
             [(value)]="inlineTextValue"
             (outputValue)="onInlineValueChange($event)"
@@ -140,7 +140,7 @@ currencyConfig: &#123;
         </div>
         <div class="inline-example-item">
           <h4>Número</h4>
-          <app-inline-input
+          <lib-inline-input
             [config]="inlineNumberConfig"
             [(value)]="inlineNumberValue"
             (outputValue)="onInlineValueChange($event)"
@@ -148,7 +148,7 @@ currencyConfig: &#123;
         </div>
         <div class="inline-example-item">
           <h4>Select</h4>
-          <app-inline-input
+          <lib-inline-input
             [config]="inlineSelectConfig"
             [(value)]="inlineSelectValue"
             (outputValue)="onInlineValueChange($event)"
@@ -156,7 +156,7 @@ currencyConfig: &#123;
         </div>
         <div class="inline-example-item">
           <h4>Fecha</h4>
-          <app-inline-input
+          <lib-inline-input
             [config]="inlineDateConfig"
             [(value)]="inlineDateValue"
             (outputValue)="onInlineValueChange($event)"

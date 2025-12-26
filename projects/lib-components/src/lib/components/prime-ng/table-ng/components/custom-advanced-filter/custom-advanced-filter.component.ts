@@ -8,7 +8,7 @@ import type { ICustomColumnFilterConfig } from '../../interfaces'
 import { CustomAdvancedFilterService } from './services/custom-advanced-filter.service'
 
 @Component({
-  selector: 'app-custom-advanced-filter',
+  selector: 'lib-custom-advanced-filter',
   imports: [FormComponent],
   templateUrl: './custom-advanced-filter.component.html',
   styleUrl: './custom-advanced-filter.component.scss',
