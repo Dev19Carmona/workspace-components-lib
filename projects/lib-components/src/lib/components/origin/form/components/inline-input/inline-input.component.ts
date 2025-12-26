@@ -5,7 +5,6 @@ import { DatePickerModule } from 'primeng/datepicker'
 import { InputTextModule } from 'primeng/inputtext'
 import { MultiSelectModule } from 'primeng/multiselect'
 import { SelectModule } from 'primeng/select'
-import type { IPrimeNgSelection } from '../../../../prime-ng/interfaces'
 import { ETypeInput } from '../../enums'
 import type { IKnobConfig, InlineControlConfig } from './interfaces/index'
 import { InputMaskModule } from 'primeng/inputmask'
@@ -19,6 +18,7 @@ import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { debounceTime, distinctUntilChanged } from 'rxjs'
 import type { PrimeTemplate as PrimeTemplateType } from 'primeng/api'
 import { PrimeTemplate } from 'primeng/api'
+import { IPrimeNgSelection } from '../../../../prime-ng/interfaces'
 
 @Component({
   selector: 'app-inline-input',
