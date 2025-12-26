@@ -1,3 +1,66 @@
+:root {
+  /* Colores de la aplicación */
+  --nebuken-gold: #FFBF00;
+  --nebuken-blue: #0D1742;
+  
+  --base-font-size: 0.93rem; /* Variable para control de tamaño de fuente */
+  font-family:
+    "Roboto",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+}
+
+* {
+  font-family: inherit;
+  font-size: var(--base-font-size);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  font-weight: 300;
+  font-style: normal;
+  font-variant: normal;
+  font-optical-sizing: auto;
+  font-kerning: auto;
+  font-feature-settings: "liga" 1, "clig" 1;
+  font-variation-settings: "opsz" 16;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-y: hidden;
+}
+
+.swal2-container.swal2-center.swal2-backdrop-show {
+  z-index: 99999 !important;
+}
+
+.swal2-popup.swal2-toast.swal2-icon-error.swal2-show {
+  z-index: 99999 !important;
+}
+
 .app-container {
   display: grid;
   grid-template-columns: 200px 1fr;

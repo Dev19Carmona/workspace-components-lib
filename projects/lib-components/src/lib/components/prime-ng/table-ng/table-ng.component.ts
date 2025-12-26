@@ -11,7 +11,6 @@ import { TableModule } from 'primeng/table'
 import * as XLSX from 'xlsx'
 import { KeyToDisplayNamePipe } from '../../../pipes'
 import { formatNumber, generateId, PrimeNgUtil, removeNullUndefined } from '../../../utils'
-import { AminatedContainerComponent } from '../../origin/aminated-container/aminated-container.component'
 import { InlineInputComponent } from '../../origin/form/components/inline-input/inline-input.component'
 import { ETypeInput } from '../../origin/form/enums'
 import { FormComponent } from '../../origin/form/form.component'
@@ -25,10 +24,10 @@ import type { IButtonConfig } from '../button-ng/interfaces'
 // import { CustomDialogService } from './services/custom-dialog.service'
 import { ToolbarNgComponent } from '../toolbar-ng/toolbar-ng.component'
 // import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
+import { IColumnPrimeNg, IPrimeNgSelection } from '../interfaces'
 import type { IEditTableNgConfig, IErrorConfig, IFooterConfig, IGlobalSearchForm, ILazyLoadResponse, IMetaPagination, IPipeConfig, ITableNgConfig, ITableNgData, ITableNgLazyLoading } from './interfaces'
 import { TableNgEditService } from './services/table-ng-edit.service'
 import { TableNgService } from './services/table-ng.service'
-import { IPrimeNgSelection, IColumnPrimeNg } from '../interfaces'
 
 
 @Component({
@@ -42,7 +41,6 @@ import { IPrimeNgSelection, IColumnPrimeNg } from '../interfaces'
     KeyToDisplayNamePipe,
     FormsModule,
     InlineInputComponent,
-    AminatedContainerComponent,
     BadgeNgComponent,
     HttpMessageComponent
   ],
