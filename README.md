@@ -11,13 +11,25 @@ Este proyecto está configurado para desplegarse automáticamente en GitHub Page
 1. **Habilita GitHub Pages en tu repositorio:**
    - Ve a Settings → Pages
    - En "Source", selecciona "GitHub Actions"
+   - ⚠️ **IMPORTANTE:** NO configures los workflows sugeridos (Jekyll o Static HTML)
+   - Simplemente deja "GitHub Actions" seleccionado y cierra la página
 
-2. **El workflow se ejecutará automáticamente:**
-   - Al hacer push a la rama `main` o `master`
-   - O manualmente desde la pestaña "Actions"
+2. **Haz push de tu código:**
+   ```bash
+   git add .
+   git commit -m "Add GitHub Pages deployment"
+   git push origin main
+   ```
 
-3. **URL de tu sitio:**
+3. **El workflow se ejecutará automáticamente:**
+   - Ve a la pestaña "Actions" en GitHub
+   - Verás el workflow "Deploy to GitHub Pages" ejecutándose
+   - Espera a que termine (puede tardar unos minutos)
+
+4. **URL de tu sitio:**
+   - Una vez completado el workflow, tu sitio estará disponible en:
    - `https://[tu-usuario].github.io/[nombre-del-repositorio]/`
+   - La URL aparecerá en la sección "Environments" después del primer despliegue exitoso
 
 ### Estructura del Proyecto
 
