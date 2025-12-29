@@ -137,6 +137,8 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         this.updateCurrentPath();
+        // Hacer scroll al inicio del contenido
+        this.scrollToTop();
         // Esperar a que el DOM se actualice antes de escanear las secciones
         setTimeout(() => this.scanDocumentationSections(), 100);
       });
@@ -254,6 +256,19 @@ export class AppComponent implements OnInit, OnDestroy {
     contentAreaElement.querySelectorAll('.doc-section').forEach(section => {
       this.intersectionObserver?.observe(section);
     });
+  }
+
+  /**
+   * Hace scroll al inicio del área de contenido
+   */
+  private scrollToTop(): void {
+    const contentAreaElement = this.contentArea?.nativeElement;
+    if (contentAreaElement) {
+      contentAreaElement.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
   }
 
   /**

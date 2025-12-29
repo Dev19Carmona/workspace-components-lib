@@ -320,7 +320,7 @@
                 } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.CURRENCY) {
                 <div class="text-right">
                   {{ item.rowData[column.field] | currency: item?.currencyTypeCellConfig?.[column.field]?.currency ??
-                  'USD' : item?.currencyTypeCellConfig?.[column.field]?.locale ?? 'es-CO' }}
+                'USD' }}
                 </div>
                 } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.DATE) {
                 <div class="text-left">
