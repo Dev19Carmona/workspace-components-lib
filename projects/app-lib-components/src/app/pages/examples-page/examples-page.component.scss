@@ -1,0 +1,115 @@
+.examples-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.examples-header {
+  margin-bottom: 3rem;
+  text-align: center;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  .examples-description {
+    font-size: 1.125rem;
+    color: var(--text-color-secondary);
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+.doc-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--surface-card);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--surface-border);
+  }
+
+  p {
+    font-size: 1rem;
+    color: var(--text-color-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+
+    code {
+      background-color: var(--surface-ground);
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      color: var(--primary-color);
+      font-family: 'Courier New', monospace;
+    }
+  }
+}
+
+.example-container {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--surface-ground);
+  border-radius: 0.5rem;
+  border: 1px solid var(--surface-border);
+}
+
+.code-block {
+  margin-top: 2rem;
+  background: var(--surface-ground);
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  border: 1px solid var(--surface-border);
+
+  pre {
+    margin: 0;
+    padding: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-color);
+
+    code {
+      font-family: 'Courier New', monospace;
+      white-space: pre;
+    }
+  }
+}
+
+// Dark mode support
+:host-context(.my-app-dark) {
+  .examples-header h1,
+  .doc-section h2 {
+    color: #f3f4f6;
+  }
+
+  .examples-description,
+  .doc-section p {
+    color: #d1d5db;
+  }
+
+  .example-container {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .code-block {
+    background: #1f2937;
+    border-color: #374151;
+
+    pre {
+      color: #e5e7eb;
+    }
+  }
+}
+

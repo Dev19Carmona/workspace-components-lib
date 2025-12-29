@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   // Rutas principales de la aplicación
   private readonly mainRoutes = [
     { path: 'home', label: 'Home' },
+    { path: 'examples', label: 'Examples' },
     { path: 'prime-ng', label: 'Prime NG' },
     { path: 'origin', label: 'Origin' }
   ];
@@ -50,33 +51,47 @@ export class AppComponent implements OnInit, OnDestroy {
     const segments = this.currentPathSignal();
     const menu: IButtonConfig[] = [];
 
-    // Si estamos en la raíz o en home, mostrar todas las rutas principales
-    if (segments.length === 0 || (segments.length === 1 && segments[0] === 'home')) {
-      return this.mainRoutes.map(route => ({
-        label: route.label,
-        severity: 'info' as const,
-        onClick: () => this.router.navigate([`/${route.path}`]),
-        fullWidth: true,
-        fullHeight: true,
-      }));
+    // Siempre agregar Home y Examples al inicio
+    menu.push({
+      label: 'Home',
+      severity: segments[0] === 'home' ? 'info' as const : 'secondary' as const,
+      onClick: () => this.router.navigate(['/home']),
+      fullWidth: true,
+      fullHeight: true,
+    });
+
+    menu.push({
+      label: 'Examples',
+      severity: segments[0] === 'examples' ? 'info' as const : 'secondary' as const,
+      onClick: () => this.router.navigate(['/examples']),
+      fullWidth: true,
+      fullHeight: true,
+    });
+
+    // Si estamos en la raíz o en home/examples, mostrar todas las rutas principales
+    if (segments.length === 0 || (segments.length === 1 && (segments[0] === 'home' || segments[0] === 'examples'))) {
+      // Agregar las demás rutas principales
+      this.mainRoutes
+        .filter(route => route.path !== 'home' && route.path !== 'examples')
+        .forEach(route => {
+          menu.push({
+            label: route.label,
+            severity: 'info' as const,
+            onClick: () => this.router.navigate([`/${route.path}`]),
+            fullWidth: true,
+            fullHeight: true,
+          });
+        });
+      return menu;
     }
 
     // Si estamos dentro de prime-ng
     if (segments[0] === 'prime-ng') {
-      // Siempre agregar Home
-      menu.push({
-        label: 'Home',
-        severity: 'secondary' as const,
-        onClick: () => this.router.navigate(['/home']),
-        fullWidth: true,
-        fullHeight: true,
-      });
-
       // Agregar las rutas hijas de prime-ng
       this.primeNgRoutes.forEach(route => {
         menu.push({
           label: route.label,
-          severity: 'secondary' as const,
+          severity: segments[1] === route.path ? 'info' as const : 'secondary' as const,
           onClick: () => this.router.navigate([`/prime-ng/${route.path}`]),
           fullWidth: true,
           fullHeight: true,
@@ -88,20 +103,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Si estamos dentro de origin
     if (segments[0] === 'origin') {
-      // Siempre agregar Home
-      menu.push({
-        label: 'Home',
-        severity: 'secondary' as const,
-        onClick: () => this.router.navigate(['/home']),
-        fullWidth: true,
-        fullHeight: true,
-      });
-
       // Agregar las rutas hijas de origin
       this.originRoutes.forEach(route => {
         menu.push({
           label: route.label,
-          severity: 'secondary' as const,
+          severity: segments[1] === route.path ? 'info' as const : 'secondary' as const,
           onClick: () => this.router.navigate([`/origin/${route.path}`]),
           fullWidth: true,
           fullHeight: true,
@@ -111,21 +117,27 @@ export class AppComponent implements OnInit, OnDestroy {
       return menu;
     }
 
-    // Para cualquier otra ruta, mostrar las rutas principales
-    return this.mainRoutes.map(route => ({
-      label: route.label,
-      severity: 'secondary' as const,
-      onClick: () => this.router.navigate([`/${route.path}`]),
-      fullWidth: true,
-      fullHeight: true,
-    }));
+    // Para cualquier otra ruta, agregar las demás rutas principales
+    this.mainRoutes
+      .filter(route => route.path !== 'home' && route.path !== 'examples')
+      .forEach(route => {
+        menu.push({
+          label: route.label,
+          severity: 'secondary' as const,
+          onClick: () => this.router.navigate([`/${route.path}`]),
+          fullWidth: true,
+          fullHeight: true,
+        });
+      });
+
+    return menu;
   });
 
   // Determinar si mostrar la navegación de documentación
   showDocNavigation = computed(() => {
     const segments = this.currentPathSignal();
-    // Mostrar navegación solo en páginas de documentación (no en home)
-    return segments.length > 1 && segments[0] !== 'home';
+    // Mostrar navegación solo en páginas de documentación (no en home ni examples)
+    return segments.length > 1 && segments[0] !== 'home' && segments[0] !== 'examples';
   });
 
   ngOnInit() {

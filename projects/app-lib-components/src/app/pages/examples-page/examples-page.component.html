@@ -1,0 +1,48 @@
+<div class="examples-container">
+  <header class="examples-header">
+    <h1>Examples - Prueba de Componentes</h1>
+    <p class="examples-description">
+      Esta página está diseñada para probar y experimentar con los diferentes componentes de la librería.
+      Aquí puedes ver ejemplos prácticos de uso y probar las funcionalidades en tiempo real.
+    </p>
+  </header>
+
+  <section class="doc-section">
+    <h2>Formulario de Login</h2>
+    <p>
+      Ejemplo de formulario de login con email y password. Este formulario utiliza el tipo de input
+      <code>EMAIL_PASSWORD</code> para el campo de email, lo que permite que el navegador muestre
+      sugerencias de contraseña guardadas y las complete automáticamente.
+    </p>
+    <div class="example-container">
+      <lib-form
+        [formGroup]="loginFormGroup()"
+        [controls]="loginFormControls"
+        (formSubmit)="onLoginSubmit($event)"
+        (formChanges)="onLoginChanges($event)"
+      />
+    </div>
+    <div class="code-block">
+      <pre><code>loginFormGroup = signal(new FormGroup(&#123;
+  email: new FormControl('', [Validators.required, Validators.email]),
+  password: new FormControl('', [Validators.required, Validators.minLength(6)])
+&#125;));
+
+loginFormControls: IControlConfig[] = [
+  &#123;
+    controlName: 'email',
+    control: new FormControl('', [Validators.required, Validators.email]),
+    typeInput: ETypeInput.EMAIL_PASSWORD,
+    label: 'Email'
+  &#125;,
+  &#123;
+    controlName: 'password',
+    control: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    typeInput: ETypeInput.PASSWORD,
+    label: 'Contraseña'
+  &#125;
+];</code></pre>
+    </div>
+  </section>
+</div>
+

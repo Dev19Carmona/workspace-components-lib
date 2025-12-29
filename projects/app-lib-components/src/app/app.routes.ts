@@ -6,6 +6,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home-page/home-page.component').then(m => m.HomePageComponent)
   },
   {
+    path: 'examples',
+    loadComponent: () => import('./pages/examples-page/examples-page.component').then(m => m.ExamplesPageComponent)
+  },
+  {
     path: 'prime-ng',
     loadChildren: () => import('./pages/prime-ng/prime-ng.routes').then(m => m.PRIME_NG_ROUTES)
   },
