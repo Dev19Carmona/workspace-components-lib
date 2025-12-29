@@ -2,6 +2,7 @@ export enum ETypeInput {
   TEXT = 'text',
   PASSWORD = 'password',
   EMAIL = 'email',
+  EMAIL_PASSWORD = 'email-password',
   NUMBER = 'number',
   DATE = 'date',
   TIME = 'time',

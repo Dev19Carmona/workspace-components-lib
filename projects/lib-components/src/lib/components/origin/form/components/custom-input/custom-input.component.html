@@ -17,17 +17,54 @@
       {{ placeholder }}
     </p>
     @switch (typeInput) {
+    @case (inputTypesEnum.EMAIL_PASSWORD) {
+      <input 
+      [formControl]="localControl" 
+      (blur)="onTouched()" 
+      pInputText 
+      [id]="generateUniqueId(name)" 
+      [name]="name"
+      [type]="typeInput"
+        [readOnly]="readonly" 
+        autocomplete="email" 
+        autocorrect="on" 
+        autocapitalize="on" 
+        spellcheck="true" 
+        [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                localControl.invalid &&
+                (localControl.dirty || localControl.touched),
+              'bg-gray-100 cursor-not-allowed': readonly,
+            }"
+        class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
+      <input 
+        type="password" 
+        autocomplete="current-password" 
+        tabindex="-1" 
+        style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
+        aria-hidden="true" />
+      }
     @case (inputTypesEnum.EMAIL) {
-    <input [formControl]="localControl" (blur)="onTouched()" pInputText [id]="generateUniqueId(name)" [name]="name"
-      [type]="'password'" [readOnly]="readonly" autocomplete="email" autocorrect="on" tabindex="-1" autocapitalize="on"
-      spellcheck="true" [ngClass]="{
-                'border-red-500 focus:ring-red-500':
-                  localControl.invalid &&
-                  (localControl.dirty || localControl.touched),
-                'bg-gray-100 cursor-not-allowed': readonly,
-              }"
-      class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
-    }
+      <input 
+      [formControl]="localControl" 
+      (blur)="onTouched()" 
+      pInputText 
+      [id]="generateUniqueId(name)" 
+      [name]="name"
+      [type]="typeInput"
+        [readOnly]="readonly" 
+        autocomplete="email" 
+        autocorrect="on" 
+        autocapitalize="on" 
+        spellcheck="true" 
+        [ngClass]="{
+              'border-red-500 focus:ring-red-500':
+                localControl.invalid &&
+                (localControl.dirty || localControl.touched),
+              'bg-gray-100 cursor-not-allowed': readonly,
+            }"
+        class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
+      }
     @case (inputTypesEnum.CURRENCY) {
     <p-inputnumber [formControl]="localControl" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="currency"
       [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'"
