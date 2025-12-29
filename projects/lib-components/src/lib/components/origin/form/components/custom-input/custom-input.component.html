@@ -18,57 +18,52 @@
     </p>
     @switch (typeInput) {
     @case (inputTypesEnum.EMAIL_PASSWORD) {
-      <input 
-      [formControl]="localControl" 
-      (blur)="onTouched()" 
-      pInputText 
-      [id]="generateUniqueId(name)" 
-      [name]="name"
-      [type]="typeInput"
-        [readOnly]="readonly" 
-        autocomplete="email" 
-        autocorrect="on" 
-        autocapitalize="on" 
-        spellcheck="true" 
-        [ngClass]="{
-              'border-red-500 focus:ring-red-500':
-                localControl.invalid &&
-                (localControl.dirty || localControl.touched),
-              'bg-gray-100 cursor-not-allowed': readonly,
-            }"
-        class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
-      <input 
-        type="password" 
-        autocomplete="current-password" 
-        tabindex="-1" 
-        style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
-        aria-hidden="true" />
-      }
+    <input [formControl]="localControl" (blur)="onTouched()" pInputText [id]="generateUniqueId(name)" [name]="name"
+      [type]="typeInput" [readOnly]="readonly" autocomplete="email" autocorrect="on" autocapitalize="on"
+      spellcheck="true" [ngClass]="{
+                  'border-red-500 focus:ring-red-500':
+                    localControl.invalid &&
+                    (localControl.dirty || localControl.touched),
+                  'bg-gray-100 cursor-not-allowed': readonly,
+                }"
+      class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
+    <input type="password" autocomplete="password" tabindex="-1"
+      style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
+      aria-hidden="true" />
+    }
+    @case (inputTypesEnum.PASSWORD) {
+    <div class="relative">
+      <input [readOnly]="readonly || false" [id]="generateUniqueId(name)" [type]="showPassword ? 'text' : 'password'"
+        autocomplete="password" autocorrect="on" autocapitalize="on" spellcheck="true"
+        class="custom-password w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all duration-200"
+        aria-describedby="password-help" [formControl]="localControl" />
+      <button type="button"
+        class="custom-password-toggle absolute inset-y-0 right-0 flex items-center justify-center w-12 h-full text-gray-400 transition-colors duration-200 ease-in-out hover:text-gray-600 focus:outline-none focus:text-gray-600 active:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300 dark:focus:text-gray-300"
+        (click)="togglePasswordVisibility()" [attr.aria-label]="
+                      showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                    ">
+        <i class="fas text-lg transition-all duration-200 ease-in-out" [ngClass]="{
+                        'fa-solid fa-eye': !showPassword,
+                        'fa-solid fa-eye-slash': showPassword,
+                      }"></i>
+      </button>
+    </div>
+    }
     @case (inputTypesEnum.EMAIL) {
-      <input 
-      [formControl]="localControl" 
-      (blur)="onTouched()" 
-      pInputText 
-      [id]="generateUniqueId(name)" 
-      [name]="name"
-      [type]="typeInput"
-        [readOnly]="readonly" 
-        autocomplete="email" 
-        autocorrect="on" 
-        autocapitalize="on" 
-        spellcheck="true" 
-        [ngClass]="{
-              'border-red-500 focus:ring-red-500':
-                localControl.invalid &&
-                (localControl.dirty || localControl.touched),
-              'bg-gray-100 cursor-not-allowed': readonly,
-            }"
-        class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
-      }
+    <input [formControl]="localControl" (blur)="onTouched()" pInputText [id]="generateUniqueId(name)" [name]="name"
+      [type]="typeInput" [readOnly]="readonly" autocomplete="email" autocorrect="on" autocapitalize="on" spellcheck="true"
+      [ngClass]="{
+                  'border-red-500 focus:ring-red-500':
+                    localControl.invalid &&
+                    (localControl.dirty || localControl.touched),
+                  'bg-gray-100 cursor-not-allowed': readonly,
+                }"
+      class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
+    }
     @case (inputTypesEnum.CURRENCY) {
     <p-inputnumber [formControl]="localControl" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="currency"
-      [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'"
-      [minFractionDigits]="2" [maxFractionDigits]="2" [readonly]="readonly" [disabled]="readonly" />
+      [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'" [minFractionDigits]="2"
+      [maxFractionDigits]="2" [readonly]="readonly" [disabled]="readonly" />
     }
     @case (inputTypesEnum.DATE) {
     <lib-disabled-container [disabled]="readonly">
@@ -96,24 +91,7 @@
       (readonly ? 'bg-gray-100 cursor-not-allowed' : '')
     " />
     }
-    @case (inputTypesEnum.PASSWORD) {
-    <div class="relative">
-      <input [readOnly]="readonly || false" [id]="generateUniqueId(name)" [type]="showPassword ? 'text' : 'password'"
-        autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false"
-        class="custom-password w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-all duration-200"
-        aria-describedby="password-help" [formControl]="localControl" />
-      <button type="button"
-        class="custom-password-toggle absolute inset-y-0 right-0 flex items-center justify-center w-12 h-full text-gray-400 transition-colors duration-200 ease-in-out hover:text-gray-600 focus:outline-none focus:text-gray-600 active:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300 dark:focus:text-gray-300"
-        (click)="togglePasswordVisibility()" [attr.aria-label]="
-              showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
-            ">
-        <i class="fas text-lg transition-all duration-200 ease-in-out" [ngClass]="{
-                'fa-solid fa-eye': !showPassword,
-                'fa-solid fa-eye-slash': showPassword,
-              }"></i>
-      </button>
-    </div>
-    }
+    
     @case (inputTypesEnum.CHECKBOX) {
     <div class="flex justify-center items-center p-4">
       <input [id]="generateUniqueId(name)" [readOnly]="readonly" [type]="typeInput" [checked]="localControl.value"
