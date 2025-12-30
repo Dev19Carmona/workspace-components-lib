@@ -481,9 +481,12 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     const filters: Record<string, FilterMetadata | FilterMetadata[] | undefined> = event.filters ?? {}
     const filtersWithValue = this.getFiltersWithValue(filters)
 
-    const metaPagination: IMetaPagination = {
-      limit: event.rows ?? undefined,
-      skip: event.first ?? undefined
+    const metaPagination: IMetaPagination = { }
+    if (event.first) {
+      metaPagination.skip = event.first
+    }
+    if (event.rows) {
+      metaPagination.limit = event.rows
     }
     if (event.sortOrder) {
       metaPagination.sortOrder = event.sortOrder === 1 ? 'ASC' : 'DESC'
