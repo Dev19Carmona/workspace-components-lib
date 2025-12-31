@@ -1,6 +1,6 @@
 {
   "name": "ln-20-lib-components",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "peerDependencies": {
     "@angular/common": "^19.0.0",
     "@angular/core": "^19.0.0",
