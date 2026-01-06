@@ -86,6 +86,12 @@
   }
 </div>
 }
+@case (ETypeInput.SWITCH) {
+<div class="flex justify-center items-center p-2">
+  <p-toggleswitch [ngModel]="valueInput" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()"
+    class="w-full" [disabled]="isDisabled" />
+</div>
+}
 @default {
 <input pInputText class="w-full h-full p-2 border border-gray-300 rounded-md" [type]="type"
   [readOnly]="config().readonly ?? false" [ngModel]="valueInput" (ngModelChange)="onChangeValue($event)"

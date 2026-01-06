@@ -13,6 +13,7 @@ import { InputOtpModule } from 'primeng/inputotp'
 import { KnobModule } from 'primeng/knob'
 import { TextareaModule } from 'primeng/textarea'
 import { ChipModule } from 'primeng/chip'
+import { ToggleSwitchModule } from 'primeng/toggleswitch'
 import { CommonModule } from '@angular/common'
 import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { debounceTime, distinctUntilChanged } from 'rxjs'
@@ -35,6 +36,7 @@ import { IPrimeNgSelection } from '../../../../prime-ng/interfaces'
     KnobModule,
     TextareaModule,
     ChipModule,
+    ToggleSwitchModule,
     CommonModule
   ],
   templateUrl: './inline-input.component.html',

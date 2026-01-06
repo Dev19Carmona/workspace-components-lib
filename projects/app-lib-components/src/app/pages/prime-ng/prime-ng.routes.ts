@@ -10,6 +10,10 @@ export const PRIME_NG_ROUTES: Route[] = [
     loadComponent: () => import('./doc-table-ng-page/doc-table-ng-page.component').then(m => m.DocTableNgPageComponent)
   },
   {
+    path: 'editable-table',
+    loadComponent: () => import('./doc-editable-table-ng-page/doc-editable-table-ng-page.component').then(m => m.DocEditableTableNgPageComponent)
+  },
+  {
     path: '',
     redirectTo: 'button',
     pathMatch: 'full'

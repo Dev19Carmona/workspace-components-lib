@@ -1,0 +1,439 @@
+<div class="doc-container">
+  <header class="doc-header">
+    <h1 id="introduccion">Tabla Editable</h1>
+    <p class="doc-description">
+      Componente de tabla editable que permite modificar datos directamente en la tabla. Soporta dos modos de edición:
+      <strong>por celda</strong> (edición individual de cada celda) y <strong>por fila</strong> (edición completa de la fila).
+      Incluye soporte para múltiples tipos de controles inline, validaciones, agregar y eliminar filas.
+    </p>
+  </header>
+
+  <section class="doc-section">
+    <h2 id="importacion">Importación</h2>
+    <div class="code-block">
+      <pre><code>import {{ '{' }} TableNgComponent {{ '}' }} from 'lib-components';
+import type {{ '{' }} ITableNgConfig, ITableNgData, IEditTableNgConfig {{ '}' }} from 'lib-components';
+import {{ '{' }} ETypeInput {{ '}' }} from 'lib-components';</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="configuracion-basica">Configuración Básica</h2>
+    <p>
+      Para habilitar la edición en una tabla, necesitas proporcionar la configuración <code>editConfig</code> con
+      <code>isEnabled: true</code> y especificar el tipo de edición (<code>'cell'</code> o <code>'row'</code>).
+    </p>
+    <div class="code-block">
+      <pre><code>editConfig: {{ '{' }}
+  isEnabled: true,
+  type: 'cell' | 'row',
+  inlineControls: {{ '{' }}
+    // Configuración de controles por campo
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="edicion-por-celda">Edición por Celda</h2>
+    <p>
+      En el modo <code>'cell'</code>, cada celda se puede editar individualmente haciendo clic en ella.
+      Los cambios se guardan automáticamente al salir de la celda o después de un debounce.
+    </p>
+    <div class="code-block">
+      <pre><code>editConfig: {{ '{' }}
+  isEnabled: true,
+  type: 'cell',
+  inlineControls: {{ '{' }}
+    name: {{ '{' }} typeInput: ETypeInput.TEXT {{ '}' }},
+    email: {{ '{' }} typeInput: ETypeInput.EMAIL {{ '}' }},
+    age: {{ '{' }} typeInput: ETypeInput.NUMBER {{ '}' }},
+    salary: {{ '{' }} 
+      typeInput: ETypeInput.CURRENCY,
+      currencyConfig: {{ '{' }} currency: 'USD', locale: 'en-US' {{ '}' }}
+    {{ '}' }},
+    status: {{ '{' }}
+      typeInput: ETypeInput.SELECT,
+      selectConfig: {{ '{' }}
+        options: [
+          {{ '{' }} code: 'Activo', name: 'Activo' {{ '}' }},
+          {{ '{' }} code: 'Inactivo', name: 'Inactivo' {{ '}' }}
+        ]
+      {{ '}' }}
+    {{ '}' }},
+    active: {{ '{' }} typeInput: ETypeInput.SWITCH {{ '}' }},
+    date: {{ '{' }} typeInput: ETypeInput.DATE {{ '}' }}
+  {{ '}' }},
+  cellEditConfig: {{ '{' }}
+    defaultTableNgData: {{ '{' }}
+      // Fila por defecto para agregar nuevas filas
+    {{ '}' }},
+    isDisabledAddButton: false,
+    isDisabledDeleteButton: false
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="cellEditTableData()"
+        [config]="cellEditTableConfig"
+        [editConfig]="cellEditConfig"
+        (outputEditData)="onEditData($event)"
+        (outputDeleteRow)="onDeleteRow($event)"
+      />
+    </div>
+    <p class="note">
+      <strong>Nota:</strong> En modo celda, puedes hacer clic directamente en cualquier celda para editarla.
+      El botón de eliminar aparece en cada fila.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="edicion-por-fila">Edición por Fila</h2>
+    <p>
+      En el modo <code>'row'</code>, toda la fila se edita al mismo tiempo. Debes hacer clic en el botón de editar
+      para entrar en modo de edición, y luego usar los botones de guardar o cancelar.
+    </p>
+    <div class="code-block">
+      <pre><code>editConfig: {{ '{' }}
+  isEnabled: true,
+  type: 'row',
+  inlineControls: {{ '{' }}
+    // Misma configuración que en modo cell
+  {{ '}' }},
+  rowEditConfig: {{ '{' }}
+    defaultTableNgData: {{ '{' }}
+      // Fila por defecto para agregar nuevas filas
+    {{ '}' }},
+    isDisabledAddButton: false,
+    isDisabledDeleteButton: false,
+    rowErrorConfig: {{ '{' }}
+      isEnabled: true,
+      fieldErrors: {{ '{' }}
+        // Errores de validación por fila
+      {{ '}' }}
+    {{ '}' }}
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="rowEditTableData()"
+        [config]="rowEditTableConfig"
+        [editConfig]="rowEditConfig"
+        (outputRowDataChange)="onRowDataChange($event)"
+        (outputAddRow)="onAddRow($event)"
+        (outputDeleteRow)="onDeleteRow($event)"
+      />
+    </div>
+    <p class="note">
+      <strong>Nota:</strong> En modo fila, solo puedes editar una fila a la vez. El botón de agregar se deshabilita
+      mientras hay una fila en edición.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="tipos-de-controles">Tipos de Controles Inline</h2>
+    <p>
+      El componente soporta múltiples tipos de controles inline a través de <code>ETypeInput</code>:
+    </p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Configuración Adicional</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TEXT</code></td>
+            <td>Campo de texto simple</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><code>EMAIL</code></td>
+            <td>Campo de email con validación</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><code>NUMBER</code></td>
+            <td>Campo numérico</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><code>CURRENCY</code></td>
+            <td>Campo de moneda</td>
+            <td><code>currencyConfig</code> (currency, locale, minFractionDigits, maxFractionDigits)</td>
+          </tr>
+          <tr>
+            <td><code>DECIMAL</code></td>
+            <td>Número decimal</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><code>DATE</code></td>
+            <td>Selector de fecha</td>
+            <td><code>dateConfig</code> (minDate, maxDate, selectionMode)</td>
+          </tr>
+          <tr>
+            <td><code>DATETIME_LOCAL</code></td>
+            <td>Selector de fecha y hora</td>
+            <td><code>dateConfig</code></td>
+          </tr>
+          <tr>
+            <td><code>SELECT</code></td>
+            <td>Selector desplegable</td>
+            <td><code>selectConfig</code> (options, optionLabel)</td>
+          </tr>
+          <tr>
+            <td><code>MULTISELECT</code></td>
+            <td>Selector múltiple</td>
+            <td><code>multiSelectConfig</code> (options, optionLabel)</td>
+          </tr>
+          <tr>
+            <td><code>SWITCH</code></td>
+            <td>Interruptor on/off</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><code>TEXTAREA</code></td>
+            <td>Área de texto multilínea</td>
+            <td><code>textareaConfig</code> (rows, cols, variant)</td>
+          </tr>
+          <tr>
+            <td><code>OTP</code></td>
+            <td>Campo OTP (One-Time Password)</td>
+            <td><code>otpConfig</code> (length, mask, integerOnly)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="advancedEditTableData()"
+        [config]="advancedEditTableConfig"
+        [editConfig]="advancedEditConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="eventos">Eventos</h2>
+    <p>El componente emite varios eventos para manejar los cambios en los datos:</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Evento</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>outputEditData</code></td>
+            <td><code>ITableNgData&lt;T&gt;[]</code></td>
+            <td>Se emite cuando se modifica cualquier dato en la tabla (con debounce de 300ms)</td>
+          </tr>
+          <tr>
+            <td><code>outputRowDataChange</code></td>
+            <td><code>ITableNgData&lt;T&gt;</code></td>
+            <td>Se emite cuando se guarda una fila en modo 'row'</td>
+          </tr>
+          <tr>
+            <td><code>outputAddRow</code></td>
+            <td><code>ITableNgData&lt;T&gt;[]</code></td>
+            <td>Se emite cuando se solicita agregar una nueva fila</td>
+          </tr>
+          <tr>
+            <td><code>outputDeleteRow</code></td>
+            <td><code>ITableNgData&lt;T&gt;</code></td>
+            <td>Se emite cuando se elimina una fila</td>
+          </tr>
+          <tr>
+            <td><code>outputRowInlineChange</code></td>
+            <td><code>T</code></td>
+            <td>Se emite cuando cambia un valor inline en modo 'row' (antes de guardar)</td>
+          </tr>
+          <tr>
+            <td><code>outputIsEditing</code></td>
+            <td><code>boolean</code></td>
+            <td>Indica si hay alguna fila en modo de edición</td>
+          </tr>
+          <tr>
+            <td><code>outputHandleEditInitButton</code></td>
+            <td><code>ITableNgData&lt;T&gt;</code></td>
+            <td>Se emite cuando se inicia la edición de una fila</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="code-block">
+      <pre><code>&lt;lib-table-ng
+  [data]="tableData"
+  [config]="tableConfig"
+  [editConfig]="editConfig"
+  (outputEditData)="onEditData($event)"
+  (outputRowDataChange)="onRowDataChange($event)"
+  (outputAddRow)="onAddRow($event)"
+  (outputDeleteRow)="onDeleteRow($event)"
+/&gt;</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="agregar-eliminar-filas">Agregar y Eliminar Filas</h2>
+    <p>
+      El componente incluye botones para agregar y eliminar filas. Para agregar filas, necesitas proporcionar
+      <code>defaultTableNgData</code> en la configuración de edición.
+    </p>
+    <div class="code-block">
+      <pre><code>cellEditConfig: {{ '{' }}
+  defaultTableNgData: {{ '{' }}
+    id: '',
+    rowData: {{ '{' }}
+      id: '',
+      name: '',
+      email: '',
+      age: 0,
+      salary: 0,
+      status: 'Activo',
+      active: false,
+      date: null
+    {{ '}' }},
+    raw: {{ '{' }}{{ '}' }},
+    onClick: () => {{ '{' }}{{ '}' }}
+  {{ '}' }},
+  isDisabledAddButton: false,
+  isDisabledDeleteButton: false
+{{ '}' }}</code></pre>
+    </div>
+    <p class="note">
+      <strong>Nota:</strong> En modo 'cell', las nuevas filas se agregan automáticamente si hay <code>defaultTableNgData</code>.
+      En modo 'row', se emite el evento <code>outputAddRow</code> para que manejes la lógica de agregado.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="validaciones-errores">Validaciones y Errores</h2>
+    <p>
+      En modo 'row', puedes configurar validaciones y mostrar errores por campo usando <code>rowErrorConfig</code>:
+    </p>
+    <div class="code-block">
+      <pre><code>rowEditConfig: {{ '{' }}
+  rowErrorConfig: {{ '{' }}
+    isEnabled: true,
+    fieldErrors: {{ '{' }}
+      'row-id-1': {{ '{' }}
+        'name': {{ '{' }}
+          fieldName: 'name',
+          message: 'El nombre es requerido'
+        {{ '}' }},
+        'email': {{ '{' }}
+          fieldName: 'email',
+          message: 'El email no es válido'
+        {{ '}' }}
+      {{ '}' }}
+    {{ '}' }}
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+    <p class="note">
+      <strong>Nota:</strong> Cuando hay errores, el botón de guardar se deshabilita y muestra un tooltip con los errores.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="interfaz-iedittablengconfig">Interfaz IEditTableNgConfig</h2>
+    <p>Referencia completa de todas las propiedades disponibles en la configuración de edición:</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>isEnabled</code></td>
+            <td><code>boolean</code></td>
+            <td>Habilita o deshabilita la funcionalidad de edición (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'cell' | 'row'</code></td>
+            <td>Tipo de edición: por celda o por fila (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>inlineControls</code></td>
+            <td><code>IInlineControls?</code></td>
+            <td>Configuración de controles inline por campo. Es un objeto donde la clave es el nombre del campo y el valor es <code>InlineControlConfig</code></td>
+          </tr>
+          <tr>
+            <td><code>rowEditConfig</code></td>
+            <td><code>IRowEditConfig&lt;T&gt;?</code></td>
+            <td>Configuración específica para modo 'row'</td>
+          </tr>
+          <tr>
+            <td><code>cellEditConfig</code></td>
+            <td><code>IConfigEditCellAndRow&lt;T&gt;?</code></td>
+            <td>Configuración específica para modo 'cell'</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="interfaz-inlinecontrols">Interfaz IInlineControls</h2>
+    <p>
+      <code>IInlineControls</code> es un objeto donde cada clave corresponde al nombre de un campo en <code>rowData</code>
+      y el valor es una configuración <code>InlineControlConfig</code>:
+    </p>
+    <div class="code-block">
+      <pre><code>type IInlineControls = Record&lt;string, InlineControlConfig&gt;
+
+// Ejemplo:
+inlineControls: {{ '{' }}
+  'name': {{ '{' }} typeInput: ETypeInput.TEXT {{ '}' }},
+  'email': {{ '{' }} typeInput: ETypeInput.EMAIL {{ '}' }},
+  'age': {{ '{' }} typeInput: ETypeInput.NUMBER {{ '}' }},
+  'salary': {{ '{' }}
+    typeInput: ETypeInput.CURRENCY,
+    currencyConfig: {{ '{' }} currency: 'USD', locale: 'en-US' {{ '}' }}
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 id="mejores-practicas">Mejores Prácticas</h2>
+    <ul class="best-practices-list">
+      <li>
+        <strong>Modo Cell vs Row:</strong> Usa modo 'cell' para ediciones rápidas y frecuentes. Usa modo 'row' cuando
+        necesites validar múltiples campos antes de guardar.
+      </li>
+      <li>
+        <strong>Configuración de Controles:</strong> Siempre proporciona <code>inlineControls</code> para los campos que
+        quieres editar. Los campos sin configuración usarán el tipo <code>TEXT</code> por defecto.
+      </li>
+      <li>
+        <strong>Manejo de Eventos:</strong> Escucha <code>outputEditData</code> para guardar cambios automáticamente
+        o <code>outputRowDataChange</code> para guardar solo cuando se confirma la edición de una fila.
+      </li>
+      <li>
+        <strong>Agregar Filas:</strong> Proporciona siempre <code>defaultTableNgData</code> con valores por defecto
+        apropiados para facilitar la creación de nuevas filas.
+      </li>
+      <li>
+        <strong>Validaciones:</strong> En modo 'row', usa <code>rowErrorConfig</code> para mostrar errores de
+        validación antes de permitir guardar.
+      </li>
+    </ul>
+  </section>
+</div>
+
