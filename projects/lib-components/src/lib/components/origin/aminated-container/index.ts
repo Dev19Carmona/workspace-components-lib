@@ -1,0 +1,1 @@
+export * from './aminated-container.component';
