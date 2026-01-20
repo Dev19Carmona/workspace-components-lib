@@ -6,16 +6,16 @@ import { debounceTime, filter, map, switchMap } from 'rxjs'
 import { FormChildComponent } from './components/form-child/form-child.component'
 import type { IControlConfig, IFormConfig } from './interfaces'
 import { ETypeInput } from './enums'
-import { HttpMessageComponent } from '../http-message/http-message.component'
 import type { IHttpMessage } from '../http-message/interfaces'
 import { IPrimeNgSelection } from '../../prime-ng/interfaces'
+import { HttpMessageComponent } from "../http-message";
 @Component({
   selector: 'lib-form',
   imports: [
     ReactiveFormsModule,
     FormChildComponent,
     HttpMessageComponent
-  ],
+],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

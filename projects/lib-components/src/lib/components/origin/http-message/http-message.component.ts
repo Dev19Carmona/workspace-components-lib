@@ -1,11 +1,12 @@
-import { Component, model } from '@angular/core'
+import { ChangeDetectionStrategy, Component, model } from '@angular/core'
 import type { IHttpMessage } from './interfaces'
 
 @Component({
-  selector: 'app-http-message',
+  selector: 'lib-http-message',
   imports: [],
   templateUrl: './http-message.component.html',
-  styleUrl: './http-message.component.scss'
+  styleUrl: './http-message.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HttpMessageComponent {
   httpMessage = model<IHttpMessage | undefined>()
