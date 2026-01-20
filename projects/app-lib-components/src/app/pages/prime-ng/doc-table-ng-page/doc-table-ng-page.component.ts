@@ -217,6 +217,84 @@ export class DocTableNgPageComponent {
     }
   };
 
+  // Ejemplo con refresh
+  refreshTableData = signal<ITableNgData<ExampleRowData>[]>([
+    {
+      id: '1',
+      rowData: { id: '1', name: 'Juan Pérez', email: 'juan@example.com', age: 30, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '2',
+      rowData: { id: '2', name: 'María García', email: 'maria@example.com', age: 25, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '3',
+      rowData: { id: '3', name: 'Carlos López', email: 'carlos@example.com', age: 35, status: 'Inactivo' },
+      raw: {},
+      onClick: () => {}
+    }
+  ]);
+
+  async loadRefreshData(): Promise<ITableNgData<ExampleRowData>[]> {
+    // Simulación de llamada async para actualizar datos
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([
+          {
+            id: '1',
+            rowData: { id: '1', name: 'Juan Pérez Actualizado', email: 'juan@example.com', age: 31, status: 'Activo' },
+            raw: {},
+            onClick: () => {}
+          },
+          {
+            id: '2',
+            rowData: { id: '2', name: 'María García', email: 'maria@example.com', age: 26, status: 'Activo' },
+            raw: {},
+            onClick: () => {}
+          },
+          {
+            id: '3',
+            rowData: { id: '3', name: 'Carlos López', email: 'carlos@example.com', age: 36, status: 'Activo' },
+            raw: {},
+            onClick: () => {}
+          },
+          {
+            id: '4',
+            rowData: { id: '4', name: 'Ana Martínez', email: 'ana@example.com', age: 28, status: 'Activo' },
+            raw: {},
+            onClick: () => {}
+          }
+        ]);
+      }, 500);
+    });
+  }
+
+  refreshTableConfig: ITableNgConfig = {
+    keys: ['name', 'email', 'age', 'status'],
+    keysNames: {
+      name: 'Nombre',
+      email: 'Email',
+      age: 'Edad',
+      status: 'Estado'
+    },
+    paginationConfig: {
+      paginator: true,
+      rows: 5,
+      rowsPerPageOptions: [5, 10, 20]
+    },
+    refreshConfig: {
+      isEnabled: true,
+      callback: async () => {
+        const newData = await this.loadRefreshData();
+        this.refreshTableData.set(newData);
+      }
+    }
+  };
+
   // Ejemplo con labels personalizados en español
   labelsTableData = signal<ITableNgData<ExampleRowData>[]>([
     {

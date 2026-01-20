@@ -94,6 +94,13 @@ export interface ITableNgConfig {
     excelConfig?: IExcelConfig
     pdfConfig?: IPdfConfig
     labelsConfig?: ITableNgLabelsTitleConfig
+    refreshConfig?: IRefreshConfig
+}
+
+export interface IRefreshConfig {
+    isEnabled: boolean;
+    callback: () => void;
+    isLoading: boolean;
 }
 
 export interface IExcelConfig {

@@ -119,6 +119,14 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     this.tableNgEditService.setEditConfig(this.editConfig())
     this.tableNgEditService.setKeysNames(this.config()?.keysNames ?? {})
 
+    // Effect para sincronizar el config con el servicio cuando cambie
+    effect(() => {
+      const configValue = this.config()
+      if (configValue) {
+        this.tableNgService.setConfig(configValue)
+      }
+    })
+
     effect(() => {
       this.outputChangeData.emit([...this.data()])
     })
@@ -1066,4 +1074,12 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   enablePdfButton: Signal<boolean> = computed(() => {
     return this.config()?.pdfConfig?.isEnabled ?? false
   })
+
+  get enableRefreshButton(): boolean {
+    return this.tableNgService.enableRefreshButton()
+  }
+
+  get refreshButton(): IButtonConfig {
+    return this.tableNgService.refreshButton()
+  }
 }

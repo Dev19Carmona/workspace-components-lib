@@ -8,7 +8,7 @@ import type { Table } from 'primeng/table'
 import { ETypeInput } from '../../../origin/form/enums'
 import type { IControlConfig } from '../../../origin/form/interfaces'
 import type { IButtonConfig } from '../../button-ng/interfaces'
-import type { IGlobalSearchForm, ISelectionTableConfig, ITableNgConfig, ITableNgData } from '../interfaces'
+import type { IGlobalSearchForm, IRefreshConfig, ISelectionTableConfig, ITableNgConfig, ITableNgData } from '../interfaces'
 import { TableNgGeneralService } from './table-ng-general.service'
 import { CustomDialogService } from '../../dynamic-dialog/services/custom-dialog.service'
 
@@ -333,5 +333,46 @@ export class TableNgService {
         tooltipPosition: 'top'
       }
     }
+  })
+
+  refreshButton: Signal<IButtonConfig> = computed(() => {
+    return {
+      label: '',
+      icon: 'fa-solid fa-refresh',
+      variant: 'text',
+      severity: 'info',
+      raised: true,
+      size: 'large',
+      onClick: () => {
+        this.refreshTable()
+      },
+      tooltipConfig: {
+        pTooltip: 'Refrescar',
+        tooltipPosition: 'top'
+      },
+      loading: this.isLoadingRefreshButton(),
+      disabled: this.isLoadingRefreshButton(),
+    }
+  })
+
+  refreshTable() {
+    if (this.refreshConfig()) {
+      this.refreshConfig()?.callback()
+    }
+  }
+
+  private _config: WritableSignal<ITableNgConfig | undefined> = signal<ITableNgConfig | undefined>(undefined)
+  private config: Signal<ITableNgConfig | undefined> = this._config.asReadonly()
+  setConfig(value: ITableNgConfig): void {
+    this._config.set(value)
+  }
+  refreshConfig: Signal<IRefreshConfig | undefined> = computed(() => {
+    return this.config()?.refreshConfig
+  })
+  enableRefreshButton: Signal<boolean> = computed(() => {
+    return this.refreshConfig()?.isEnabled ?? false
+  })
+  isLoadingRefreshButton: Signal<boolean> = computed(() => {
+    return this.refreshConfig()?.isLoading ?? false
   })
 }

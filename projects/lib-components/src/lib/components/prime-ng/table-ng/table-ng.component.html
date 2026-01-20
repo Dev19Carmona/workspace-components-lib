@@ -54,6 +54,9 @@
       @if (enablePdfButton()) {
       <lib-button-ng [buttonConfig]="pdfButton" (onClick)="exportData(dt,'pdf')"></lib-button-ng>
       }
+      @if (enableRefreshButton) {
+      <lib-button-ng [buttonConfig]="refreshButton"></lib-button-ng>
+      }
     </div>
       </lib-toolbar-ng>
   }

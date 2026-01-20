@@ -105,6 +105,30 @@ pdfConfig: {{ '{' }}
   </section>
 
   <section class="doc-section">
+    <h2>Botón de Refresh</h2>
+    <p>Agrega un botón de actualización que permite recargar los datos de la tabla mediante un callback async.</p>
+    <div class="code-block">
+      <pre><code>refreshConfig: {{ '{' }}
+  isEnabled: true,
+  callback: async () => {{ '{' }}
+    const newData = await this.loadTableData()
+    this.tableData.set(newData)
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+    <p class="note">
+      El callback se ejecuta cuando se hace clic en el botón de refresh. Debe ser una función async que actualice 
+      el signal <code>data</code> del componente padre. La tabla se actualizará automáticamente cuando cambien los datos.
+    </p>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="refreshTableData()"
+        [config]="refreshTableConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
     <h2>Paginación</h2>
     <p>Configura la paginación de la tabla con opciones personalizables de filas por página.</p>
     <div class="code-block">
