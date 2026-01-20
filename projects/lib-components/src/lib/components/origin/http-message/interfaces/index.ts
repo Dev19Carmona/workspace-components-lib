@@ -10,5 +10,11 @@ export interface IHttpSuccessMessage {
   type: 'success'
 }
 
-export type IHttpMessage = IHttpErrorMessage | IHttpSuccessMessage
+export interface IHttpWarningMessage {
+  code: string
+  message: string
+  type: 'warning'
+}
+
+export type IHttpMessage = IHttpErrorMessage | IHttpSuccessMessage | IHttpWarningMessage
 

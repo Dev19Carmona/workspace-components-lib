@@ -2,7 +2,7 @@ import { Component, model } from '@angular/core'
 import type { IHttpMessage } from './interfaces'
 
 @Component({
-  selector: 'lib-http-message',
+  selector: 'app-http-message',
   imports: [],
   templateUrl: './http-message.component.html',
   styleUrl: './http-message.component.scss'
@@ -22,5 +22,10 @@ export class HttpMessageComponent {
   get isSuccess(): boolean {
     const message = this.httpMessage()
     return message?.type === 'success'
+  }
+
+  get isWarning(): boolean {
+    const message = this.httpMessage()
+    return message?.type === 'warning'
   }
 }
