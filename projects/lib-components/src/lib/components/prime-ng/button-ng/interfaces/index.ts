@@ -1,7 +1,4 @@
-export interface ITooltipConfig {
-  pTooltip: string;
-  tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
-}
+import { ITooltipConfig } from "../../interfaces";
 
 export interface IButtonSeverity {
   severity: 'secondary' | 'success' | 'info' | 'warn' | 'help' | 'danger' | 'contrast';

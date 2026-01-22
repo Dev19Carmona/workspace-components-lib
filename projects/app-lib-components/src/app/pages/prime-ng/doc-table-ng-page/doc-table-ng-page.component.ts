@@ -288,6 +288,7 @@ export class DocTableNgPageComponent {
     },
     refreshConfig: {
       isEnabled: true,
+      isLoading: false,
       callback: async () => {
         const newData = await this.loadRefreshData();
         this.refreshTableData.set(newData);

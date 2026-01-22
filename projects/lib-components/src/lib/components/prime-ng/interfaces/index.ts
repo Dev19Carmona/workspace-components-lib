@@ -5,7 +5,7 @@ export interface IPrimeNgSelection<T = string> {
 
 export interface ITooltipConfig {
   pTooltip: string;
-  tooltipPosition?: 'right' | 'top' | 'bottom' | 'left'
+  tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
 }
 
 export interface IColumnPrimeNg {
