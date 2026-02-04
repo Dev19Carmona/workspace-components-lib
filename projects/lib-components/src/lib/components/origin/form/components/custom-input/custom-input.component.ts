@@ -79,7 +79,6 @@ export class CustomInputComponent implements ControlValueAccessor {
   }
 
   onBlur(): void {
-    this.onTouched()
     this.controlData().onBlur?.()
   }
 

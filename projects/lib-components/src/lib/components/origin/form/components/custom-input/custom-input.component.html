@@ -75,7 +75,7 @@
       class="custom-input h-12 w-full px-3 py-2 border border-gray-300 dark:border-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
     }
     @case (inputTypesEnum.CURRENCY) {
-    <p-inputnumber [formControl]="localControl" (onFocus)="onFocus()" (blur)="onBlur()" [id]="generateUniqueId(name)" mode="currency"
+    <p-inputnumber [formControl]="localControl" (onFocus)="onFocus()" (onBlur)="onBlur()" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="currency"
       [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'" [minFractionDigits]="currencyConfig?.minFractionDigits ?? 2"
       [maxFractionDigits]="currencyConfig?.maxFractionDigits ?? 2" [readonly]="readonly" [disabled]="readonly" />
     }
@@ -141,7 +141,7 @@
     </div>
     }
     @case (inputTypesEnum.DECIMAL) {
-    <p-inputnumber [formControl]="localControl" (blur)="onBlur()" [id]="generateUniqueId(name)" mode="decimal"
+    <p-inputnumber [formControl]="localControl" (onBlur)="onBlur()" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="decimal"
       (onFocus)="onFocus()"
       [locale]="'es-CO'" [minFractionDigits]="decimalConfig?.minFractionDigits ?? 2" [maxFractionDigits]="decimalConfig?.maxFractionDigits ?? 2" [useGrouping]="decimalConfig?.useGrouping ?? true" [readonly]="readonly" [disabled]="readonly" />
     }
