@@ -75,8 +75,8 @@
     }
     @case (inputTypesEnum.CURRENCY) {
     <p-inputnumber [formControl]="localControl" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="currency"
-      [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'" [minFractionDigits]="2"
-      [maxFractionDigits]="2" [readonly]="readonly" [disabled]="readonly" />
+      [currency]="currencyConfig?.currency ?? 'USD'" [locale]="currencyConfig?.locale ?? 'es-CO'" [minFractionDigits]="currencyConfig?.minFractionDigits ?? 2"
+      [maxFractionDigits]="currencyConfig?.maxFractionDigits ?? 2" [readonly]="readonly" [disabled]="readonly" />
     }
     @case (inputTypesEnum.DATE) {
     <lib-disabled-container [disabled]="readonly">
