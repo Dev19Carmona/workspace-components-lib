@@ -65,4 +65,6 @@ export interface IDefaultControlConfig {
   hideLabel?: boolean
   currencyConfig?: ICurrencyConfig
   decimalConfig?: IDecimalConfig
+  onBlur?: () => void
+  onFocus?: () => void
 }

@@ -50,7 +50,6 @@ export class CustomInputComponent implements ControlValueAccessor {
   controlUpperName: Signal<string> = computed(() => this.controlData().controlName.toLocaleUpperCase())
   showPassword: boolean = false
   output = output<IControlConfig>()
-  onTouched = () => { }
   onChange = (_value: any) => { }
 
   constructor() { }
@@ -78,6 +77,17 @@ export class CustomInputComponent implements ControlValueAccessor {
   registerOnChange(fn: (value: any) => void): void {
     this.onChange = fn
   }
+
+  onBlur(): void {
+    this.onTouched()
+    this.controlData().onBlur?.()
+  }
+
+  onFocus(): void {
+    this.controlData().onFocus?.()
+  }
+
+  onTouched: () => void = () => { }
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn
