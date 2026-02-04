@@ -67,4 +67,5 @@ export interface IDefaultControlConfig {
   decimalConfig?: IDecimalConfig
   onBlur?: () => void
   onFocus?: () => void
+  autoFocus?: boolean
 }
