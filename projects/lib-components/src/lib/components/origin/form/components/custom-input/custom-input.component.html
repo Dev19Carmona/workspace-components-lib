@@ -9,6 +9,7 @@
 @let toggleConfig = controlData().toggleConfig;
 @let textareaConfig = controlData().textareaConfig;
 @let currencyConfig = controlData().currencyConfig;
+@let decimalConfig = controlData().decimalConfig;
 <div class="flex flex-col gap-1 ">
   <lib-disabled-container [disabled]="readonly">
 
@@ -141,7 +142,7 @@
     }
     @case (inputTypesEnum.DECIMAL) {
     <p-inputnumber [formControl]="localControl" (blur)="onTouched()" [id]="generateUniqueId(name)" mode="decimal"
-      [locale]="'es-CO'" [minFractionDigits]="2" [maxFractionDigits]="2" [readonly]="readonly" [disabled]="readonly" />
+      [locale]="'es-CO'" [minFractionDigits]="decimalConfig?.minFractionDigits ?? 2" [maxFractionDigits]="decimalConfig?.maxFractionDigits ?? 2" [useGrouping]="decimalConfig?.useGrouping ?? true" [readonly]="readonly" [disabled]="readonly" />
     }
     @case (inputTypesEnum.TEXTAREA) {
     <textarea pTextarea [formControl]="localControl" [rows]="textareaConfig?.rows ?? 3"

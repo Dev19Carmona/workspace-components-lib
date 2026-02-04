@@ -2,7 +2,7 @@
 import type { FormControl } from '@angular/forms'
 import type { IPrimeNgSelection } from '../../../prime-ng/interfaces'
 import type { ETypeInput } from '../enums'
-import type { ICurrencyConfig } from '../components/inline-input/interfaces'
+import type { ICurrencyConfig, IDecimalConfig } from '../components/inline-input/interfaces'
 
 export interface IControlConfig extends IDefaultControlConfig {
   controlName: string
@@ -64,4 +64,5 @@ export interface IDefaultControlConfig {
   colSpan?: number
   hideLabel?: boolean
   currencyConfig?: ICurrencyConfig
+  decimalConfig?: IDecimalConfig
 }

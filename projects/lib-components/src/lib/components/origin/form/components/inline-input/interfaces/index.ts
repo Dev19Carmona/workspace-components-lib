@@ -10,6 +10,10 @@ export interface ICurrencyConfig extends INumberLikeConfig {
   currency?: string
 }
 
+export interface IDecimalConfig extends INumberLikeConfig {
+  useGrouping?: boolean
+}
+
 export interface IKnobConfig {
   min?: number
   max?: number
