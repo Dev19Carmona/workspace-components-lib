@@ -154,6 +154,67 @@ pdfConfig: {{ '{' }}
   </section>
 
   <section class="doc-section">
+    <h2>Lazy Loading con Descarga de Excel</h2>
+    <p>
+      Cuando usas lazy loading, puedes configurar la descarga de Excel para que cargue todos los datos 
+      que coincidan con los filtros aplicados desde el servidor, en lugar de solo los datos visibles en la tabla.
+    </p>
+    <div class="code-block">
+      <pre><code>lazyLoadingConfig: {{ '{' }}
+  isEnabled: true,
+  totalRecords: 100,
+  excelLazyLoadingConfig: {{ '{' }}
+    callback: (filters: Record&lt;string, any&gt;) => {{ '{' }}
+      // Retorna un Observable con todos los datos filtrados
+      return this.loadExcelData(filters);
+    {{ '}' }}
+  {{ '}' }}
+{{ '}' }},
+excelConfig: {{ '{' }}
+  isEnabled: true,
+  name: 'usuarios-lazy'
+{{ '}' }}</code></pre>
+    </div>
+    <p class="note">
+      El callback <code>excelLazyLoadingConfig</code> recibe los filtros aplicados en la tabla y debe retornar 
+      un Observable con todos los datos que coincidan con esos filtros. La tabla automáticamente descargará 
+      el Excel con esos datos.
+    </p>
+    <div class="code-block">
+      <pre><code>// Manejo del evento lazyLoading para cargar datos paginados
+onLazyLoad(event: ILazyLoadResponse): void {{ '{' }}
+  const skip = event.metaPagination.skip ?? 0;
+  const limit = event.metaPagination.limit ?? 10;
+  
+  // Extraer filtros del evento
+  const filters: Record&lt;string, any&gt; = {{ '{}' }};
+  Object.entries(event.filters).forEach(([key, value]) => {{ '{' }}
+    if (value && typeof value === 'object' && 'value' in value) {{ '{' }}
+      const filterKey = key.replace('rowData.', '');
+      filters[filterKey] = (value as any).value;
+    {{ '}' }}
+  {{ '}' }});
+
+  this.loadLazyData(filters, skip, limit).subscribe((data) => {{ '{' }}
+    this.tableData.set(data);
+  {{ '}' }});
+{{ '}' }}</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="lazyLoadingTableData()"
+        [config]="lazyLoadingTableConfig"
+        (lazyLoading)="onLazyLoad($event)"
+      />
+    </div>
+    <p class="note">
+      <strong>Nota:</strong> Este ejemplo simula 100 registros. Al cambiar de página, aplicar filtros o 
+      hacer clic en el botón de Excel, se cargarán los datos correspondientes. El Excel descargará todos 
+      los registros que coincidan con los filtros aplicados, no solo los visibles en la página actual.
+    </p>
+  </section>
+
+  <section class="doc-section">
     <h2>Edición Inline</h2>
     <p>Permite editar celdas o filas directamente en la tabla. Soporta edición por celda o por fila completa.</p>
     <div class="code-block">

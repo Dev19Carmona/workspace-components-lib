@@ -1,7 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { TableNgComponent } from 'lib-components';
-import type { ITableNgConfig, ITableNgData } from 'lib-components';
+import type { ITableNgConfig, ITableNgData, ILazyLoadResponse } from 'lib-components';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 
 interface ExampleRowData {
   id: string;
@@ -11,13 +14,23 @@ interface ExampleRowData {
   status: string;
 }
 
+// Interfaz para la respuesta del servidor simulada
+interface ApiResponse<T> {
+  data: T[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
 @Component({
   selector: 'app-doc-table-ng-page',
   imports: [TableNgComponent, CommonModule],
   templateUrl: './doc-table-ng-page.component.html',
   styleUrl: './doc-table-ng-page.component.scss'
 })
-export class DocTableNgPageComponent {
+export class DocTableNgPageComponent implements OnInit {
+  private http = inject(HttpClient);
+  
   // Ejemplo básico
   basicTableData = signal<ITableNgData<ExampleRowData>[]>([
     {
@@ -343,4 +356,145 @@ export class DocTableNgPageComponent {
       noDataMessage: 'No hay información disponible'
     }
   };
+
+  // Ejemplo con Lazy Loading y descarga de Excel
+  lazyLoadingTableData = signal<ITableNgData<ExampleRowData>[]>([]);
+  
+  // Total de registros simulados en el servidor
+  totalLazyRecords = 100;
+
+  // Simula la carga de datos desde el servidor usando HTTP
+  private loadLazyData(filters: Record<string, any> = {}, skip: number = 0, limit: number = 10): Observable<ITableNgData<ExampleRowData>[]> {
+    // Construir parámetros de la petición HTTP
+    let params = new HttpParams()
+      .set('skip', skip.toString())
+      .set('limit', limit.toString());
+    
+    // Agregar filtros como parámetros de query
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        params = params.set(`filter[${key}]`, value.toString());
+      }
+    });
+
+    // Simular envío de filtros - mostrar en consola
+    console.log('🔍 Enviando petición HTTP con filtros:', {
+      url: '/api/users',
+      filters: filters,
+      pagination: { skip, limit },
+      queryParams: params.toString()
+    });
+
+    // Simular petición HTTP GET con datos mock
+    // En producción, esto sería una URL real como: 'https://api.example.com/users'
+    return this.http.get<ApiResponse<ITableNgData<ExampleRowData>>>('/api/users', { params })
+      .pipe(
+        delay(500), // Simula latencia de red
+        map((response: ApiResponse<ITableNgData<ExampleRowData>>) => {
+          // Actualizar el total de registros basado en la respuesta del servidor
+          this.totalLazyRecords = response.total;
+          console.log('✅ Respuesta recibida del servidor:', {
+            totalRecords: response.total,
+            dataCount: response.data.length,
+            skip: response.skip,
+            limit: response.limit
+          });
+          return response.data;
+        })
+      );
+  }
+
+  // Maneja el evento de lazy loading
+  onLazyLoad(event: ILazyLoadResponse): void {
+    const skip = event.metaPagination.skip ?? 0;
+    const limit = event.metaPagination.limit ?? 10;
+    
+    // Extraer filtros del evento
+    const filters: Record<string, any> = {};
+    Object.entries(event.filters).forEach(([key, value]) => {
+      if (value && typeof value === 'object' && 'value' in value) {
+        const filterKey = key.replace('rowData.', '');
+        filters[filterKey] = (value as any).value;
+      }
+    });
+
+    this.loadLazyData(filters, skip, limit).subscribe((data) => {
+      this.lazyLoadingTableData.set(data);
+    });
+  }
+
+  // Simula la carga de todos los datos para Excel usando HTTP (con filtros aplicados)
+  loadExcelData(filters: Record<string, any>): Observable<ITableNgData<ExampleRowData>[]> {
+    // Construir parámetros de la petición HTTP para Excel (sin paginación)
+    let params = new HttpParams()
+      .set('skip', '0')
+      .set('limit', '10000'); // Limite alto para obtener todos los datos
+    
+    // Agregar filtros como parámetros de query
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        params = params.set(`filter[${key}]`, value.toString());
+      }
+    });
+
+    // Simular envío de filtros para Excel - mostrar en consola
+    console.log('📥 Enviando petición HTTP para exportar Excel con filtros:', {
+      url: '/api/users/export',
+      filters: filters,
+      queryParams: params.toString()
+    });
+
+    // Simular petición HTTP GET para Excel
+    // En producción, esto sería una URL real como: 'https://api.example.com/users/export'
+    return this.http.get<ApiResponse<ITableNgData<ExampleRowData>>>('/api/users/export', { params })
+      .pipe(
+        delay(800), // Simula latencia de red (más tiempo para más datos)
+        map((response: ApiResponse<ITableNgData<ExampleRowData>>) => {
+          console.log('✅ Respuesta de exportación recibida:', {
+            totalRecords: response.total,
+            dataCount: response.data.length
+          });
+          return response.data;
+        })
+      );
+  }
+
+  lazyLoadingTableConfig: ITableNgConfig = {
+    keys: ['name', 'email', 'age', 'status'],
+    keysNames: {
+      name: 'Nombre',
+      email: 'Email',
+      age: 'Edad',
+      status: 'Estado'
+    },
+    paginationConfig: {
+      paginator: true,
+      rows: 10,
+      rowsPerPageOptions: [10, 20, 50]
+    },
+    globalFilterConfig: {
+      isEnabled: true,
+      globalFilterFields: ['name', 'email', 'status']
+    },
+    lazyLoadingConfig: {
+      isEnabled: true,
+      totalRecords: this.totalLazyRecords,
+      excelLazyLoadingConfig: {
+        callback: (filters: Record<string, any>) => {
+          return this.loadExcelData(filters);
+        }
+      }
+    },
+    excelConfig: {
+      isEnabled: true,
+      name: 'usuarios-lazy'
+    }
+  };
+
+  ngOnInit(): void {
+    // Cargar datos iniciales
+    this.loadLazyData({}, 0, 10).subscribe((data) => {
+      this.lazyLoadingTableData.set(data);
+    });
+  }
 }
