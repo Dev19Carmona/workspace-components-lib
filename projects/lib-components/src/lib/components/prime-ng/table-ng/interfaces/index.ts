@@ -73,6 +73,12 @@ export interface ITableNgLabelsTitleConfig {
     loadingMessage?: string;
     /** No data available message. Default: "No information available" */
     noDataMessage?: string;
+    /** Tooltip for export PDF button. Default: "Exportar a PDF" */
+    exportPdfTooltip?: string;
+    /** Tooltip for export Excel button. Default: "Exportar a Excel" */
+    exportExcelTooltip?: string;
+    /** Tooltip for refresh button. Default: "Refrescar" */
+    refreshTooltip?: string;
 }
 
 export interface ITableNgConfig {
@@ -265,4 +271,10 @@ export interface IRowErrorConfig {
 export interface IErrorConfig {
     fieldName: string
     message: string
+}
+
+export interface ILabelsConfig {
+    exportPdfTooltip: string;
+    exportExcelTooltip: string;
+    refreshTooltip: string;
 }

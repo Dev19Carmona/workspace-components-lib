@@ -314,7 +314,7 @@ export class TableNgService {
       raised: true,
       size: 'large',
       tooltipConfig: {
-        pTooltip: 'Exportar a Excel',
+        pTooltip: this.config()?.labelsConfig?.exportExcelTooltip ?? 'Exportar a Excel',
         tooltipPosition: 'top'
       }
     }
@@ -329,7 +329,7 @@ export class TableNgService {
       raised: true,
       size: 'large',
       tooltipConfig: {
-        pTooltip: 'Exportar a PDF',
+        pTooltip: this.config()?.labelsConfig?.exportPdfTooltip ?? 'Exportar a PDF',
         tooltipPosition: 'top'
       }
     }
@@ -347,7 +347,7 @@ export class TableNgService {
         this.refreshTable()
       },
       tooltipConfig: {
-        pTooltip: 'Refrescar',
+        pTooltip: this.config()?.labelsConfig?.refreshTooltip ?? 'Refrescar',
         tooltipPosition: 'top'
       },
       loading: this.isLoadingRefreshButton(),
