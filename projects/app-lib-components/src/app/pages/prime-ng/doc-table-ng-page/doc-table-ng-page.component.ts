@@ -8,6 +8,7 @@ import { delay, map } from 'rxjs/operators';
 
 interface ExampleRowData {
   id: string;
+  identifier?: string;
   name: string;
   email: string;
   age: number;
@@ -106,6 +107,60 @@ export class DocTableNgPageComponent implements OnInit {
     globalFilterConfig: {
       isEnabled: true,
       globalFilterFields: ['name', 'email', 'status']
+    }
+  };
+
+  // Ejemplo con filtros avanzados por identifier
+  advancedFiltersTableData = signal<ITableNgData<ExampleRowData>[]>([
+    {
+      id: '1',
+      rowData: { id: '1', identifier: 'USR-001', name: 'Juan Pérez', email: 'juan@example.com', age: 30, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '2',
+      rowData: { id: '2', identifier: 'USR-002', name: 'María García', email: 'maria@example.com', age: 25, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '3',
+      rowData: { id: '3', identifier: 'USR-003', name: 'Carlos López', email: 'carlos@example.com', age: 35, status: 'Inactivo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '4',
+      rowData: { id: '4', identifier: 'ADM-001', name: 'Ana Martínez', email: 'ana@example.com', age: 28, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    }
+  ]);
+
+  advancedFiltersTableConfig: ITableNgConfig = {
+    keys: ['identifier', 'name', 'email', 'status'],
+    keysNames: {
+      identifier: 'Identifier',
+      name: 'Nombre',
+      email: 'Email',
+      status: 'Estado'
+    },
+    paginationConfig: {
+      paginator: true,
+      rows: 5,
+      rowsPerPageOptions: [5, 10, 20]
+    },
+    globalFilterConfig: {
+      isEnabled: true,
+      globalFilterFields: ['identifier', 'name', 'email', 'status'],
+      advancedIdentifierFiltersConfig: {
+        isEnabled: true
+      }
+    },
+    selectionTableConfig: {
+      isEnabled: true,
+      showManagementConfig: true
     }
   };
 

@@ -50,6 +50,35 @@ import type {{ '{' }} ITableNgConfig, ITableNgData {{ '}' }} from 'lib-component
   </section>
 
   <section class="doc-section">
+    <h2>Advanced Filters (Identifier)</h2>
+    <p>
+      El componente soporta filtros avanzados por identificadores desde toolbar usando
+      <code>globalFilterConfig.advancedIdentifierFiltersConfig</code>.
+      Al habilitarlo, aparece un botón de filtros avanzados que abre un modal para seleccionar identifiers.
+    </p>
+    <div class="code-block">
+      <pre><code>globalFilterConfig: {{ '{' }}
+  isEnabled: true,
+  globalFilterFields: ['identifier', 'name', 'email', 'status'],
+  advancedIdentifierFiltersConfig: {{ '{' }}
+    isEnabled: true
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+    <p class="note">
+      Importante: para que funcione correctamente, tus filas deben incluir el campo
+      <code>rowData.identifier</code>. El filtro interno se aplica sobre <code>rowData.identifier</code>
+      con el modo <code>arrayStringFilter</code>.
+    </p>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="advancedFiltersTableData()"
+        [config]="advancedFiltersTableConfig"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
     <h2>Selección Múltiple</h2>
     <p>Permite seleccionar múltiples filas con checkboxes. Incluye gestión de elementos seleccionados.</p>
     <div class="code-block">
@@ -365,7 +394,7 @@ onLazyLoad(event: ILazyLoadResponse): void {{ '{' }}
           <tr>
             <td><code>globalFilterConfig</code></td>
             <td><code>IGlobalFilterConfig?</code></td>
-            <td>Configuración del filtro global de búsqueda</td>
+            <td>Configuración del filtro global de búsqueda y advanced filters por identifier</td>
           </tr>
           <tr>
             <td><code>selectionTableConfig</code></td>
