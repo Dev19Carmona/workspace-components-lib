@@ -29,6 +29,7 @@ import { TableNgEditService } from './services/table-ng-edit.service'
 import { TableNgService } from './services/table-ng.service'
 import { CustomDialogService } from '../dynamic-dialog/services/custom-dialog.service'
 import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
+import { ISpeedDialNgConfig, SpeedDialNgComponent } from '../speed-dial-ng'
 
 
 @Component({
@@ -43,8 +44,9 @@ import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter
     FormsModule,
     InlineInputComponent,
     BadgeNgComponent,
-    HttpMessageComponent
-  ],
+    HttpMessageComponent,
+    SpeedDialNgComponent
+],
   templateUrl: './table-ng.component.html',
   styleUrl: './table-ng.component.scss',
   providers: [TableNgService, TableNgEditService],
@@ -65,6 +67,7 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   readonly editConfig = model<IEditTableNgConfig<T>>()
   readonly footerConfig = model<IFooterConfig>()
   public toolbarButtons = model<IButtonConfig[]>([])
+  public toolbarSpeedDialButtons = model<ISpeedDialNgConfig[]>([])
   public sourceElements = model<IPickListElement[]>([])
   public targetElements = model<IPickListElement[]>([])
   public httpMessage = model<IHttpMessage>()

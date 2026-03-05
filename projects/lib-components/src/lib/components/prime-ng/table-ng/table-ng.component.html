@@ -40,6 +40,11 @@
       }
     </div>
     <div class="flex gap-2" toolbarEnd>
+      @if (toolbarSpeedDialButtons().length > 0) {
+      @for (speedDial of toolbarSpeedDialButtons(); track $index) {
+      <lib-speed-dial-ng [configInput]="speedDial"></lib-speed-dial-ng>
+      }
+      }
       @if (toolbarButtons().length > 0) {
       @for (button of toolbarButtons(); track $index) {
       <lib-button-ng [buttonConfig]="button"></lib-button-ng>
