@@ -8,7 +8,7 @@ import type { Table } from 'primeng/table'
 import { ETypeInput } from '../../../origin/form/enums'
 import type { IControlConfig } from '../../../origin/form/interfaces'
 import type { IButtonConfig } from '../../button-ng/interfaces'
-import type { IGlobalSearchForm, IRefreshConfig, ISelectionTableConfig, ITableNgConfig, ITableNgData } from '../interfaces'
+import type { IGlobalFilterConfig, IGlobalSearchForm, IRefreshConfig, ISelectionTableConfig, ITableNgConfig, ITableNgData } from '../interfaces'
 import { TableNgGeneralService } from './table-ng-general.service'
 import { CustomDialogService } from '../../dynamic-dialog/services/custom-dialog.service'
 
@@ -274,12 +274,19 @@ export class TableNgService {
     let configSelectedItems = config
     if (config) {
       configSelectedItems = structuredClone(config)
+      delete configSelectedItems.lazyLoadingConfig
+
       const selectionTableConfig: ISelectionTableConfig = {
         ...(configSelectedItems.selectionTableConfig ?? {}),
         showManagementConfig: false
       }
-      delete configSelectedItems.lazyLoadingConfig
-
+      const globalFilterConfig: IGlobalFilterConfig = {
+        ...(configSelectedItems.globalFilterConfig ?? {}),
+        advancedIdentifierFiltersConfig: {
+          isEnabled: false
+        }
+      }
+      configSelectedItems.globalFilterConfig = globalFilterConfig
       configSelectedItems.selectionTableConfig = selectionTableConfig
 
     }
