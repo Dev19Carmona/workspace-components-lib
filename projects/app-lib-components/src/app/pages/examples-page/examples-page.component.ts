@@ -35,11 +35,9 @@ export class ExamplesPageComponent {
 
   onLoginSubmit(formGroup: FormGroup): void {
     if (formGroup.valid) {
-      console.log('Login form submitted:', formGroup.value);
       // Aquí puedes agregar la lógica de autenticación
       alert(`Login exitoso!\nEmail: ${formGroup.value.email}\nPassword: ${formGroup.value.password ? '***' : ''}`);
     } else {
-      console.log('Form is invalid');
       formGroup.markAllAsTouched();
     }
   }

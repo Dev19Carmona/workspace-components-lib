@@ -40,16 +40,6 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
         filters[filterKey] = params.get(key);
       }
     });
-
-    // Simular recepción de filtros en el servidor (interceptor)
-    console.log('🌐 [Interceptor] Petición HTTP interceptada:', {
-      method: req.method,
-      url: req.url,
-      filters: Object.keys(filters).length > 0 ? filters : 'Sin filtros',
-      pagination: { skip, limit },
-      fullUrl: `${req.url}?${params.toString()}`
-    });
-
     // Generar datos mock
     const allData: ITableNgData<ExampleRowData>[] = [];
     
