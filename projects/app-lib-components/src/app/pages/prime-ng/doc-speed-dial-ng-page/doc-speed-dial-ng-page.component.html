@@ -1,1 +1,171 @@
-<p>doc-speed-dial-ng-page works!</p>
+<div class="doc-container">
+  <header class="doc-header">
+    <h1>Speed Dial NG Component</h1>
+    <p class="doc-description">
+      Componente de acciones flotantes basado en PrimeNG. Permite mostrar acciones rápidas
+      con direcciones configurables, tooltips y personalización del botón principal.
+    </p>
+  </header>
+
+  <section class="doc-section">
+    <h2>Importación</h2>
+    <div class="code-block">
+      <pre><code>import {{ '{' }} SpeedDialNgComponent {{ '}' }} from 'lib-components';</code></pre>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Uso Básico</h2>
+    <p>
+      El componente requiere el input <code>configInput</code> con la configuración del speed dial.
+      El botón principal muestra/oculta las acciones secundarias.
+    </p>
+    <div class="code-block">
+      <pre><code>&lt;lib-speed-dial-ng [configInput]="basicSpeedDialConfig" /&gt;</code></pre>
+    </div>
+
+    <div class="example-container">
+      <div class="speed-dial-demo">
+        <lib-speed-dial-ng [configInput]="basicSpeedDialConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Dirección de despliegue</h2>
+    <p>
+      Puedes configurar la dirección de expansión con <code>direction</code>:
+      <code>'up'</code>, <code>'down'</code>, <code>'left'</code> o <code>'right'</code>.
+    </p>
+    <div class="examples-grid">
+      <div class="example-container">
+        <h3>Direction: up</h3>
+        <div class="speed-dial-demo">
+          <lib-speed-dial-ng [configInput]="directionUpConfig" />
+        </div>
+      </div>
+      <div class="example-container">
+        <h3>Direction: left</h3>
+        <div class="speed-dial-demo">
+          <lib-speed-dial-ng [configInput]="directionLeftConfig" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Botón principal personalizado</h2>
+    <p>
+      Con <code>buttonProps</code> puedes cambiar icono, severidad, forma y demás props
+      del botón principal.
+    </p>
+    <div class="example-container">
+      <div class="speed-dial-demo">
+        <lib-speed-dial-ng [configInput]="customButtonConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tooltips</h2>
+    <p>
+      Puedes definir tooltips globales con <code>tooltipOptions</code> y también
+      tooltips por ítem usando <code>items[].tooltipOptions</code>.
+    </p>
+    <div class="example-container">
+      <div class="speed-dial-demo">
+        <lib-speed-dial-ng [configInput]="tooltipBottomConfig" />
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Interfaz ISpeedDialNgConfig</h2>
+    <p>Referencia de propiedades disponibles para configurar el componente.</p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>items</code></td>
+            <td><code>ISpeedDialNgItem[]</code></td>
+            <td>Listado de acciones a mostrar en el speed dial (requerido)</td>
+          </tr>
+          <tr>
+            <td><code>buttonProps</code></td>
+            <td><code>ButtonProps?</code></td>
+            <td>Props del botón principal (icono, severidad, estilo, etc.)</td>
+          </tr>
+          <tr>
+            <td><code>tooltipOptions</code></td>
+            <td><code>TooltipOptions?</code></td>
+            <td>Configuración global de tooltips para las acciones</td>
+          </tr>
+          <tr>
+            <td><code>style</code></td>
+            <td><code>Record&lt;string, string&gt;?</code></td>
+            <td>Estilos inline para posicionar el speed dial en su contenedor</td>
+          </tr>
+          <tr>
+            <td><code>direction</code></td>
+            <td><code>'up' | 'down' | 'left' | 'right'?</code></td>
+            <td>Dirección de expansión de las acciones (por defecto: <code>down</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Interfaz ISpeedDialNgItem</h2>
+    <p>
+      Cada elemento extiende <code>MenuItem</code> de PrimeNG, por lo que soporta
+      propiedades como <code>label</code>, <code>icon</code>, <code>command</code>,
+      <code>disabled</code>, entre otras.
+    </p>
+    <div class="interface-docs">
+      <table class="props-table">
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>label</code></td>
+            <td><code>string?</code></td>
+            <td>Texto de la acción</td>
+          </tr>
+          <tr>
+            <td><code>icon</code></td>
+            <td><code>string?</code></td>
+            <td>Icono PrimeIcons de la acción</td>
+          </tr>
+          <tr>
+            <td><code>command</code></td>
+            <td><code>(event) =&gt; void?</code></td>
+            <td>Función que se ejecuta al seleccionar la acción</td>
+          </tr>
+          <tr>
+            <td><code>tooltipOptions</code></td>
+            <td><code>TooltipOptions?</code></td>
+            <td>Tooltip específico del ítem</td>
+          </tr>
+          <tr>
+            <td><code>isSpeedDial</code></td>
+            <td><code>boolean?</code></td>
+            <td>Flag extendida del wrapper para identificar ítems de speed dial</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

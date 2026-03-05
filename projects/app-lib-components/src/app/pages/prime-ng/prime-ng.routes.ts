@@ -14,6 +14,10 @@ export const PRIME_NG_ROUTES: Route[] = [
     loadComponent: () => import('./doc-editable-table-ng-page/doc-editable-table-ng-page.component').then(m => m.DocEditableTableNgPageComponent)
   },
   {
+    path: 'speed-dial',
+    loadComponent: () => import('./doc-speed-dial-ng-page/doc-speed-dial-ng-page.component').then(m => m.DocSpeedDialNgPageComponent)
+  },
+  {
     path: '',
     redirectTo: 'button',
     pathMatch: 'full'
