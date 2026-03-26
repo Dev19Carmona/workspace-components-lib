@@ -1,4 +1,4 @@
-import type { IButtonConfig } from 'ln-20-lib-components'
+import type { IButtonConfig } from '../../../prime-ng/button-ng/interfaces'
 
 export interface ISpeedDialConfig {
   buttons: IButtonConfig[]
