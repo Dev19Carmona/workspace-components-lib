@@ -1,6 +1,6 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { TableNgComponent } from 'lib-components';
-import type { ITableNgConfig, ITableNgData, ILazyLoadResponse } from 'lib-components';
+import type { ITableNgConfig, ITableNgData, ILazyLoadResponse, ISpeedDialConfig } from 'lib-components';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -163,6 +163,51 @@ export class DocTableNgPageComponent implements OnInit {
       showManagementConfig: true
     }
   };
+
+  // Ejemplo con Speed Dial en el toolbar
+  toolbarSpeedDialButtonsExample: ISpeedDialConfig[] = [
+    {
+      direction: 'bottom',
+      mainButton: {
+        icon: 'pi pi-plus',
+        severity: 'help',
+        rounded: true,
+        tooltipConfig: {
+          pTooltip: 'Acciones rápidas',
+          tooltipPosition: 'top'
+        }
+      },
+      buttons: [
+        {
+          icon: 'pi pi-file-excel',
+          severity: 'success',
+          tooltipConfig: {
+            pTooltip: 'Exportar Excel',
+            tooltipPosition: 'left'
+          },
+          onClick: () => console.log('Exportar Excel desde speed dial')
+        },
+        {
+          icon: 'pi pi-refresh',
+          severity: 'info',
+          tooltipConfig: {
+            pTooltip: 'Refrescar tabla',
+            tooltipPosition: 'left'
+          },
+          onClick: () => console.log('Refrescar tabla desde speed dial')
+        },
+        {
+          icon: 'pi pi-filter',
+          severity: 'warn',
+          tooltipConfig: {
+            pTooltip: 'Abrir filtros',
+            tooltipPosition: 'left'
+          },
+          onClick: () => console.log('Abrir filtros desde speed dial')
+        }
+      ]
+    }
+  ];
 
   // Ejemplo con selección
   selectionTableData = signal<ITableNgData<ExampleRowData>[]>([

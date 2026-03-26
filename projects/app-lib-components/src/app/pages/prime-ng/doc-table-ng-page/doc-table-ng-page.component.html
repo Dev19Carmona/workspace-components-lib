@@ -79,6 +79,42 @@ import type {{ '{' }} ITableNgConfig, ITableNgData {{ '}' }} from 'lib-component
   </section>
 
   <section class="doc-section">
+    <h2>Toolbar Speed Dial</h2>
+    <p>
+      También puedes inyectar acciones rápidas en el toolbar de la tabla usando
+      <code>toolbarSpeedDialButtons</code>, que internamente consume <code>ISpeedDialConfig[]</code>
+      (ver implementación en <code>TableNgComponent</code>, líneas 71-72).
+    </p>
+    <div class="code-block">
+      <pre><code>toolbarSpeedDialButtonsExample: ISpeedDialConfig[] = [
+  {{ '{' }}
+    direction: 'bottom',
+    mainButton: {{ '{' }} icon: 'pi pi-plus', severity: 'help', rounded: true {{ '}' }},
+    buttons: [
+      {{ '{' }} icon: 'pi pi-file-excel', onClick: () => {{ '{' }} ... {{ '}' }} {{ '}' }},
+      {{ '{' }} icon: 'pi pi-refresh', onClick: () => {{ '{' }} ... {{ '}' }} {{ '}' }},
+      {{ '{' }} icon: 'pi pi-filter', onClick: () => {{ '{' }} ... {{ '}' }} {{ '}' }}
+    ]
+  {{ '}' }}
+]</code></pre>
+    </div>
+    <div class="code-block">
+      <pre><code>&lt;lib-table-ng
+  [data]="basicTableData()"
+  [config]="basicTableConfig"
+  [toolbarSpeedDialButtons]="toolbarSpeedDialButtonsExample"
+/&gt;</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="basicTableData()"
+        [config]="basicTableConfig"
+        [toolbarSpeedDialButtons]="toolbarSpeedDialButtonsExample"
+      />
+    </div>
+  </section>
+
+  <section class="doc-section">
     <h2>Selección Múltiple</h2>
     <p>Permite seleccionar múltiples filas con checkboxes. Incluye gestión de elementos seleccionados.</p>
     <div class="code-block">
