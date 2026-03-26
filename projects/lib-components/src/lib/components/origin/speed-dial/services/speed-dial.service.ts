@@ -1,7 +1,7 @@
 import type { Signal} from '@angular/core'
 import { computed, Injectable, signal } from '@angular/core'
 import type { ISpeedDialConfig, TSpeedDialDirection } from '../interfaces'
-import type { IButtonConfig } from 'ln-20-lib-components'
+import type { IButtonConfig } from '../../../prime-ng/button-ng/interfaces'
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +52,8 @@ export class SpeedDialService {
     const rawMainButton = this.speedDialConfig().mainButton
     return {
       ...rawMainButton,
+      icon: this.isMenuOpen() ? 'fa-solid fa-xmark' : rawMainButton.icon,
+      severity: this.isMenuOpen() ? 'danger' : rawMainButton.severity,
       onClick: (data?: unknown) => {
         rawMainButton.onClick?.(data)
       }
@@ -116,3 +118,4 @@ export class SpeedDialService {
     }
   }
 }
+

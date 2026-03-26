@@ -42,7 +42,7 @@
     <div class="flex gap-2" toolbarEnd>
       @if (toolbarSpeedDialButtons().length > 0) {
       @for (speedDial of toolbarSpeedDialButtons(); track $index) {
-      <lib-speed-dial-ng [configInput]="speedDial"></lib-speed-dial-ng>
+      <lib-speed-dial [speedDialConfig]="speedDial"></lib-speed-dial>
       }
       }
       @if (toolbarButtons().length > 0) {

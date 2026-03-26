@@ -10,7 +10,7 @@
 @if (isMenuOpen) {
   <div class="speed-dial-overlay" (click)="closeMenu()">
     <div
-      class="speed-dial-panel"
+      class="speed-dial-panel bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg"
       [style.top]="panelTop"
       [style.left]="panelLeft"
       (click)="stopPropagation($event)"

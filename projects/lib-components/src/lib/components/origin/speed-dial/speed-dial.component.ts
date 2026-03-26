@@ -2,12 +2,11 @@ import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core'
 import { Component, effect, inject, input, ViewChild } from '@angular/core'
 import { SpeedDialService } from './services/speed-dial.service'
 import type { ISpeedDialConfig, TSpeedDialDirection } from './interfaces'
-import type { IButtonConfig} from 'ln-20-lib-components'
-import { ButtonNgComponent } from 'ln-20-lib-components'
 import { CommonModule } from '@angular/common'
-
+import type { IButtonConfig } from '../../prime-ng/button-ng/interfaces'
+import { ButtonNgComponent } from "../../prime-ng/button-ng/button-ng.component";
 @Component({
-  selector: 'app-speed-dial',
+  selector: 'lib-speed-dial',
   imports: [ButtonNgComponent, CommonModule],
   templateUrl: './speed-dial.component.html',
   styleUrl: './speed-dial.component.scss',

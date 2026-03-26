@@ -23,13 +23,14 @@ import { ButtonNgComponent } from '../button-ng/button-ng.component'
 import type { IButtonConfig } from '../button-ng/interfaces'
 import { ToolbarNgComponent } from '../toolbar-ng/toolbar-ng.component'
 // import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
+import { CustomDialogService } from '../dynamic-dialog/services/custom-dialog.service'
 import { IColumnPrimeNg, IPrimeNgSelection } from '../interfaces'
+import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
 import type { IEditTableNgConfig, IErrorConfig, IFooterConfig, IGlobalSearchForm, ILazyLoadResponse, IMetaPagination, IPipeConfig, ITableNgConfig, ITableNgData, ITableNgLazyLoading } from './interfaces'
 import { TableNgEditService } from './services/table-ng-edit.service'
 import { TableNgService } from './services/table-ng.service'
-import { CustomDialogService } from '../dynamic-dialog/services/custom-dialog.service'
-import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
-import { ISpeedDialNgConfig, SpeedDialNgComponent } from '../speed-dial-ng'
+import { ISpeedDialConfig } from '../../origin/speed-dial/interfaces'
+import { SpeedDialComponent } from "../../origin";
 
 
 @Component({
@@ -45,7 +46,7 @@ import { ISpeedDialNgConfig, SpeedDialNgComponent } from '../speed-dial-ng'
     InlineInputComponent,
     BadgeNgComponent,
     HttpMessageComponent,
-    SpeedDialNgComponent
+    SpeedDialComponent
 ],
   templateUrl: './table-ng.component.html',
   styleUrl: './table-ng.component.scss',
@@ -67,7 +68,8 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   readonly editConfig = model<IEditTableNgConfig<T>>()
   readonly footerConfig = model<IFooterConfig>()
   public toolbarButtons = model<IButtonConfig[]>([])
-  public toolbarSpeedDialButtons = model<ISpeedDialNgConfig[]>([])
+  public toolbarSpeedDialButtons = model<ISpeedDialConfig[]>([])
+
   public sourceElements = model<IPickListElement[]>([])
   public targetElements = model<IPickListElement[]>([])
   public httpMessage = model<IHttpMessage>()
