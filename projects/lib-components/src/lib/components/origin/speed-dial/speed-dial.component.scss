@@ -1,0 +1,57 @@
+.speed-dial-main-button {
+  display: inline-flex;
+}
+
+.speed-dial-main-button--open {
+  position: relative;
+  z-index: 2147483647;
+}
+
+.speed-dial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483645;
+}
+
+.speed-dial-panel {
+  position: fixed;
+  z-index: 2147483646;
+  display: flex;
+  gap: 0.5rem;
+  overflow: auto;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+}
+
+.speed-dial-panel--top {
+  flex-direction: column;
+  max-width: 22rem;
+  max-height: 30rem;
+  transform: translateY(-100%);
+}
+
+.speed-dial-panel--bottom {
+  flex-direction: column;
+  max-width: 22rem;
+  max-height: 30rem;
+}
+
+.speed-dial-panel--left {
+  flex-direction: row;
+  max-width: 40rem;
+  max-height: 8rem;
+  transform: translateX(-100%);
+}
+
+.speed-dial-panel--right {
+  flex-direction: row;
+  max-width: 40rem;
+  max-height: 8rem;
+}
+
+:host-context(.dark) .speed-dial-panel {
+  background: #111827;
+}
+

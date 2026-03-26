@@ -1,0 +1,29 @@
+<div
+  #mainButtonContainer
+  class="speed-dial-main-button"
+  [class.speed-dial-main-button--open]="isMenuOpen"
+  (click)="onMainButtonClick($event)"
+>
+  <lib-button-ng [buttonConfig]="mainButton"></lib-button-ng>
+</div>
+
+@if (isMenuOpen) {
+  <div class="speed-dial-overlay" (click)="closeMenu()">
+    <div
+      class="speed-dial-panel"
+      [style.top]="panelTop"
+      [style.left]="panelLeft"
+      (click)="stopPropagation($event)"
+      [ngClass]="{
+        'speed-dial-panel--top': direction === 'top',
+        'speed-dial-panel--bottom': direction === 'bottom',
+        'speed-dial-panel--left': direction === 'left',
+        'speed-dial-panel--right': direction === 'right'
+      }"
+    >
+      @for (button of overlayButtons; track $index) {
+        <lib-button-ng [buttonConfig]="button"></lib-button-ng>
+      }
+    </div>
+  </div>
+}
