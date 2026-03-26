@@ -97,25 +97,57 @@ export class SpeedDialService {
     if (!anchor) return
 
     const rect = anchor.getBoundingClientRect()
+    const fixedContainingBlock = this.getFixedContainingBlock(anchor)
+    const containingBlockRect = fixedContainingBlock?.getBoundingClientRect()
+    const offsetTop = containingBlockRect?.top ?? 0
+    const offsetLeft = containingBlockRect?.left ?? 0
 
     switch (this.direction()) {
     case 'top':
-      this._panelTop.set(`${rect.top - this.panelOffset}px`)
-      this._panelLeft.set(`${rect.left}px`)
+      this._panelTop.set(`${rect.top - offsetTop - this.panelOffset}px`)
+      this._panelLeft.set(`${rect.left - offsetLeft}px`)
       break
     case 'bottom':
-      this._panelTop.set(`${rect.bottom + this.panelOffset}px`)
-      this._panelLeft.set(`${rect.left}px`)
+      this._panelTop.set(`${rect.bottom - offsetTop + this.panelOffset}px`)
+      this._panelLeft.set(`${rect.left - offsetLeft}px`)
       break
     case 'left':
-      this._panelTop.set(`${rect.top}px`)
-      this._panelLeft.set(`${rect.left - this.panelOffset}px`)
+      this._panelTop.set(`${rect.top - offsetTop}px`)
+      this._panelLeft.set(`${rect.left - offsetLeft - this.panelOffset}px`)
       break
     case 'right':
-      this._panelTop.set(`${rect.top}px`)
-      this._panelLeft.set(`${rect.right + this.panelOffset}px`)
+      this._panelTop.set(`${rect.top - offsetTop}px`)
+      this._panelLeft.set(`${rect.right - offsetLeft + this.panelOffset}px`)
       break
     }
+  }
+
+  /**
+   * Detecta el ancestro que actúa como containing block para elementos fixed.
+   * Si existe (por transform/filter/contain/etc), el panel debe posicionarse
+   * relativo a ese contenedor y no al viewport.
+   */
+  private getFixedContainingBlock(element: HTMLElement): HTMLElement | null {
+    let current = element.parentElement
+    while (current) {
+      const styles = window.getComputedStyle(current)
+      const hasTransformContext =
+        styles.transform !== 'none' ||
+        styles.perspective !== 'none' ||
+        styles.filter !== 'none' ||
+        (styles.backdropFilter && styles.backdropFilter !== 'none') ||
+        styles.contain.includes('paint') ||
+        styles.contain.includes('layout') ||
+        styles.willChange.includes('transform') ||
+        styles.willChange.includes('filter') ||
+        styles.willChange.includes('perspective')
+
+      if (hasTransformContext) {
+        return current
+      }
+      current = current.parentElement
+    }
+    return null
   }
 }
 
