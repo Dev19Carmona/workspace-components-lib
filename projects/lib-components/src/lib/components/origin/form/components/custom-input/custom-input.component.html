@@ -168,7 +168,7 @@
 
 </div>
 
-@if (localControl.invalid) {
+@if (localControl.invalid && !hasControlValue()) {
 <div class="custom-error mt-1 text-sm text-red-600 dark:text-red-400">
   @if (localControl.errors?.["required"]) {
   <span style="font-size: 0.675rem; font-style: italic; letter-spacing: 0.02em;">{{

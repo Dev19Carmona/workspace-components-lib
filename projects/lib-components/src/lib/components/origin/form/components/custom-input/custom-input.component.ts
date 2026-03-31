@@ -54,6 +54,10 @@ export class CustomInputComponent implements ControlValueAccessor {
 
   constructor() { }
 
+  private control: Signal<FormControl> = computed(() => this.controlData().control)
+  private controlValue: Signal<any> = computed(() => this.control().value)
+  protected hasControlValue: Signal<boolean> = computed(() => this.controlValue() !== null && this.controlValue() !== undefined)
+
   writeValue(value: any): void {
     if (value !== this.controlData().control.value) {
       this.controlData().control.setValue(value, { emitEvent: false })
@@ -92,13 +96,7 @@ export class CustomInputComponent implements ControlValueAccessor {
     this.onTouched = fn
   }
 
-  // setDisabledState(isDisabled: boolean): void {
-  //   if (isDisabled) {
-  //     this.controlData().control.disable()
-  //   } else {
-  //     this.controlData().control.enable()
-  //   }
-  // }
+
 
   generateUniqueId(baseString: string): string {
     const timestamp = new Date().getTime()
