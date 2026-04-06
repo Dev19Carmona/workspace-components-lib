@@ -1,6 +1,12 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
-import { TableNgComponent } from 'lib-components';
-import type { ITableNgConfig, ITableNgData, ILazyLoadResponse, ISpeedDialConfig } from 'lib-components';
+import { ETypeInput, TableNgComponent } from 'lib-components';
+import type {
+  IEditTableNgConfig,
+  ITableNgConfig,
+  ITableNgData,
+  ILazyLoadResponse,
+  ISpeedDialConfig
+} from 'lib-components';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -406,6 +412,128 @@ export class DocTableNgPageComponent implements OnInit {
         const newData = await this.loadRefreshData();
         this.refreshTableData.set(newData);
       }
+    }
+  };
+
+  // Ejemplo de tabla editable por celda
+  editableCellTableData = signal<ITableNgData<ExampleRowData>[]>([
+    {
+      id: '1',
+      rowData: { id: '1', name: 'Laura Gómez', email: 'laura@example.com', age: 29, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '2',
+      rowData: { id: '2', name: 'Andrés Ruiz', email: 'andres@example.com', age: 33, status: 'Inactivo' },
+      raw: {},
+      onClick: () => {}
+    }
+  ]);
+
+  editableCellTableConfig: ITableNgConfig = {
+    keys: ['name', 'email', 'age', 'status'],
+    keysNames: {
+      name: 'Nombre',
+      email: 'Email',
+      age: 'Edad',
+      status: 'Estado'
+    },
+    paginationConfig: {
+      paginator: true,
+      rows: 5,
+      rowsPerPageOptions: [5, 10, 20]
+    }
+  };
+
+  editableCellEditConfig: IEditTableNgConfig<ExampleRowData> = {
+    isEnabled: true,
+    type: 'cell',
+    inlineControls: {
+      name: { typeInput: ETypeInput.TEXT },
+      email: { typeInput: ETypeInput.EMAIL },
+      age: { typeInput: ETypeInput.NUMBER },
+      status: {
+        typeInput: ETypeInput.SELECT,
+        selectConfig: {
+          options: [
+            { code: 'Activo', name: 'Activo' },
+            { code: 'Inactivo', name: 'Inactivo' },
+            { code: 'Pendiente', name: 'Pendiente' }
+          ]
+        }
+      }
+    },
+    cellEditConfig: {
+      defaultTableNgData: {
+        id: '',
+        rowData: { id: '', name: '', email: '', age: 0, status: 'Activo' },
+        raw: {},
+        onClick: () => {}
+      },
+      isDisabledAddButton: false,
+      isDisabledDeleteButton: false
+    }
+  };
+
+  // Ejemplo de tabla editable por fila
+  editableRowTableData = signal<ITableNgData<ExampleRowData>[]>([
+    {
+      id: '1',
+      rowData: { id: '1', name: 'Camila Torres', email: 'camila@example.com', age: 31, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '2',
+      rowData: { id: '2', name: 'Diego Morales', email: 'diego@example.com', age: 27, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    }
+  ]);
+
+  editableRowTableConfig: ITableNgConfig = {
+    keys: ['name', 'email', 'age', 'status'],
+    keysNames: {
+      name: 'Nombre',
+      email: 'Email',
+      age: 'Edad',
+      status: 'Estado'
+    },
+    paginationConfig: {
+      paginator: true,
+      rows: 5,
+      rowsPerPageOptions: [5, 10, 20]
+    }
+  };
+
+  editableRowEditConfig: IEditTableNgConfig<ExampleRowData> = {
+    isEnabled: true,
+    type: 'row',
+    inlineControls: {
+      name: { typeInput: ETypeInput.TEXT },
+      email: { typeInput: ETypeInput.EMAIL },
+      age: { typeInput: ETypeInput.NUMBER },
+      status: {
+        typeInput: ETypeInput.SELECT,
+        selectConfig: {
+          options: [
+            { code: 'Activo', name: 'Activo' },
+            { code: 'Inactivo', name: 'Inactivo' },
+            { code: 'Pendiente', name: 'Pendiente' }
+          ]
+        }
+      }
+    },
+    rowEditConfig: {
+      defaultTableNgData: {
+        id: '',
+        rowData: { id: '', name: '', email: '', age: 0, status: 'Activo' },
+        raw: {},
+        onClick: () => {}
+      },
+      isDisabledAddButton: false,
+      isDisabledDeleteButton: false
     }
   };
 

@@ -1,6 +1,6 @@
 import type { Signal, WritableSignal } from '@angular/core'
 import { computed, inject, Injectable, signal } from '@angular/core'
-import type { IEditTableNgConfig, IGlobalSearchForm } from '../interfaces'
+import type { IEditTableNgConfig, IGlobalSearchForm, ITableNgData } from '../interfaces'
 import { FormGroup, NonNullableFormBuilder } from '@angular/forms'
 import { ETypeInput } from '../../../origin/form/enums'
 import type { IControlConfig } from '../../../origin/form/interfaces'
@@ -36,6 +36,11 @@ export class TableNgEditService {
     return controls
   })
   searchFormGroup: WritableSignal<FormGroup<IGlobalSearchForm>> = signal(new FormGroup({}))
-
+  
+  private _cellTableNgData: WritableSignal<ITableNgData<any> | undefined> = signal<ITableNgData<any> | undefined>(undefined)
+  public cellTableNgData: Signal<ITableNgData<any> | undefined> = this._cellTableNgData.asReadonly()
+  setCellTableNgData(cellTableNgData: ITableNgData<any> | undefined): void {
+    this._cellTableNgData.set(cellTableNgData)
+  }
 
 }

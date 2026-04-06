@@ -60,6 +60,8 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
 
   readonly data = model.required<ITableNgData<T>[]>()
 
+  readonly totalRows = computed(() => this.data().length)
+
   // Loading state management
   private loadingTimeout: any = null
   protected isLoading = signal<boolean>(false)
@@ -165,6 +167,11 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   }
   ngOnInit(): void {
     this.tableNgService.setInitialValue([...this.data()])
+
+    const cellTableNgData = this.editConfig()?.cellEditConfig?.defaultTableNgData
+    if(cellTableNgData) {
+      this.tableNgEditService.setCellTableNgData(cellTableNgData)
+    }
   }
 
   ngOnDestroy(): void {
@@ -596,14 +603,18 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
 
   public addRow(): void {
     const editConfig = this.editConfig()
+    const newRow = this.tableNgEditService.cellTableNgData()
     // Si es modo cell y hay defaultTableNgData configurado, agregar la fila directamente
-    if (editConfig?.type === 'cell' && editConfig?.cellEditConfig?.defaultTableNgData) {
-      const newRow = this.editConfig()?.cellEditConfig?.defaultTableNgData
-      if (newRow) {
-        this.data.update(currentData => [...currentData, newRow])
-        this.outputChangeData.emit(this.data())
-        return
-      }
+    if (editConfig?.type === 'cell' && newRow) {
+      const id: string = `${(this.totalRows() + 1).toString()}-${generateId()}`
+      const rowDataId = `${id}-${generateId()}`
+      const rowData = { ...newRow.rowData, id: rowDataId }
+      newRow.id = id
+      newRow.rowData = rowData
+      console.log({ newRow, id })
+      this.data.update(currentData => [...currentData, newRow])
+      this.outputChangeData.emit(this.data())
+      return
     }
 
     // Comportamiento original para modo row o cuando no hay defaultTableNgData

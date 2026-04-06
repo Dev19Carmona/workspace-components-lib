@@ -281,7 +281,10 @@ onLazyLoad(event: ILazyLoadResponse): void {{ '{' }}
 
   <section class="doc-section">
     <h2>Edición Inline</h2>
-    <p>Permite editar celdas o filas directamente en la tabla. Soporta edición por celda o por fila completa.</p>
+    <p>
+      Permite editar celdas o filas directamente en la tabla. A continuación se muestran ejemplos funcionales de edición
+      por celda y por fila.
+    </p>
     <div class="code-block">
       <pre><code>editConfig: {{ '{' }}
   isEnabled: true,
@@ -290,6 +293,44 @@ onLazyLoad(event: ILazyLoadResponse): void {{ '{' }}
     // configuración de controles inline
   {{ '}' }}
 {{ '}' }}</code></pre>
+    </div>
+
+    <h3>Tabla editable por celda</h3>
+    <p>
+      En modo <code>cell</code>, puedes hacer clic en cualquier celda para editarla directamente.
+    </p>
+    <div class="code-block">
+      <pre><code>&lt;lib-table-ng
+  [data]="editableCellTableData()"
+  [config]="editableCellTableConfig"
+  [editConfig]="editableCellEditConfig"
+/&gt;</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="editableCellTableData()"
+        [config]="editableCellTableConfig"
+        [editConfig]="editableCellEditConfig"
+      />
+    </div>
+
+    <h3>Tabla editable por fila</h3>
+    <p>
+      En modo <code>row</code>, se habilita la edición completa de una fila con acciones de guardar/cancelar.
+    </p>
+    <div class="code-block">
+      <pre><code>&lt;lib-table-ng
+  [data]="editableRowTableData()"
+  [config]="editableRowTableConfig"
+  [editConfig]="editableRowEditConfig"
+/&gt;</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="editableRowTableData()"
+        [config]="editableRowTableConfig"
+        [editConfig]="editableRowEditConfig"
+      />
     </div>
   </section>
 
