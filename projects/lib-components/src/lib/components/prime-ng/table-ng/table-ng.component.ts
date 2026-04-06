@@ -603,15 +603,18 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
 
   public addRow(): void {
     const editConfig = this.editConfig()
-    const newRow = this.tableNgEditService.cellTableNgData()
+    const templateRow = this.tableNgEditService.cellTableNgData()
     // Si es modo cell y hay defaultTableNgData configurado, agregar la fila directamente
-    if (editConfig?.type === 'cell' && newRow) {
+    if (editConfig?.type === 'cell' && templateRow) {
       const id: string = `${(this.totalRows() + 1).toString()}-${generateId()}`
       const rowDataId = `${id}-${generateId()}`
-      const rowData = { ...newRow.rowData, id: rowDataId }
-      newRow.id = id
-      newRow.rowData = rowData
-      console.log({ newRow, id })
+      // templateRow es siempre la misma referencia (defaultTableNgData): hay que clonar para que
+      // cada fila nueva sea independiente y no comparta el mismo objeto con las demás.
+      const newRow: ITableNgData<T> = {
+        ...templateRow,
+        id,
+        rowData: { ...structuredClone(templateRow.rowData), id: rowDataId }
+      }
       this.data.update(currentData => [...currentData, newRow])
       this.outputChangeData.emit(this.data())
       return
