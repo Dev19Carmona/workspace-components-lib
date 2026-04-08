@@ -65,7 +65,7 @@
     </div>
       </lib-toolbar-ng>
   }
-  <p-table #dt styleClass="p-datatable-sm" [value]="data()" [lazy]="lazyLoadingConfig?.isEnabled ?? false"
+  <p-table #dt styleClass="p-datatable-sm" tableStyleClass="table table-xs" [value]="data()" [lazy]="lazyLoadingConfig?.isEnabled ?? false"
     [editMode]="editType" [totalRecords]="
         lazyLoadingConfig?.isEnabled
           ? (lazyLoadingConfig?.totalRecords ?? 0)
@@ -586,7 +586,7 @@
     </ng-template>
   </p-table>
   @if (showBottomToolbar()) {
-  <div class="p-datatable-footer sticky bottom-2 z-9 animate__animated animate__fadeIn">
+  <div class="mt-6 p-datatable-footer sticky bottom-2 z-9 animate__animated animate__fadeIn">
     <lib-toolbar-ng>
       @if (showManagementSelectionConfig()) {
       <div toolbarStart
