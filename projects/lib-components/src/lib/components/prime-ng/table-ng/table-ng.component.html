@@ -102,6 +102,17 @@
                         }">
           <div class="flex gap-2 justify-center items-center py-0 px-0">
             {{ column.field | keyToDisplayName: keysNames }}
+            @if (inputConfig?.[column.field]?.isEnabled) {
+              @if (inputConfig?.[column.field]?.type === ETypeInput.SWITCH || inputConfig?.[column.field]?.type === ETypeInput.CHECKBOX) {
+                <div class="inline-flex" (click)="$event.stopPropagation()">
+                  <lib-inline-input
+                    [ngModel]="booleanColumnHeaderReflectValue(column.field)"
+                    (ngModelChange)="applyBulkBooleanToColumn($event, column.field)"
+                    [config]="inlineConfigCheckHeader(inputConfig![column.field]!.type)">
+                  </lib-inline-input>
+                </div>
+              }
+            }
             @if(!editEnabled){
             <p-sortIcon [field]="column.field" />
             }
@@ -159,16 +170,16 @@
             
           <div class="flex gap-2 justify-center items-center py-0 px-0">
             {{ key | keyToDisplayName: keysNames }}
-            @if(inputConfig?.[key]?.isEnabled) {
-              @switch (inputConfig?.[key]?.type) {
-                @case (ETypeInput.SWITCH || ETypeInput.CHECKBOX) {
+            @if (inputConfig?.[key]?.isEnabled) {
+              @if (inputConfig?.[key]?.type === ETypeInput.SWITCH || inputConfig?.[key]?.type === ETypeInput.CHECKBOX) {
+                <div class="inline-flex" (click)="$event.stopPropagation()">
                   <lib-inline-input
-                    (outputValue)="outputValueInput($event, key)"
-                    [config]="inlineConfigCheckHeader(inputConfig?.[key]?.type ?? ETypeInput.CHECKBOX)">
+                    [ngModel]="booleanColumnHeaderReflectValue(key)"
+                    (ngModelChange)="applyBulkBooleanToColumn($event, key)"
+                    [config]="inlineConfigCheckHeader(inputConfig![key]!.type)">
                   </lib-inline-input>
-                }
+                </div>
               }
-
             }
             @if(!editEnabled){
             <p-sortIcon [field]="key" />
@@ -549,7 +560,7 @@
             *ngTemplateOutlet="item.rowDataComponents?.[key]; context: { $implicit: item.raw }"></ng-container>
           }
           @case (ETypeInput.INPUT) {
-          <lib-inline-input [(ngModel)]="item.rowData[key]" (outputValue)="outputValueInput($event, key)"
+          <lib-inline-input [(ngModel)]="item.rowData[key]"
             [config]="item.rowDataInput?.[key] ?? {typeInput: ETypeInput.TEXT}">
           </lib-inline-input>
           }

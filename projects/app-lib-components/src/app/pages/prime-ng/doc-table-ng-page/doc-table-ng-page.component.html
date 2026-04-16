@@ -333,12 +333,12 @@ onLazyLoad(event: ILazyLoadResponse): void {{ '{' }}
       />
     </div>
 
-    <h3>Prueba rápida: `ETypeInput.INPUT` (dispara `outputValueInput`)</h3>
+    <h3>Prueba rápida: `ETypeInput.INPUT` y toggle masivo en header</h3>
     <p>
-      Este ejemplo está pensado solo para pruebas. Fuerza que la columna <code>name</code> se renderice como un
-      <code>lib-inline-input</code> dentro de la tabla usando <code>typeCell</code> y <code>rowDataInput</code>.
-      Al escribir, se dispara el <code>console.log</code> del método interno <code>outputValueInput(value, key)</code>
-      de <code>TableNgComponent</code>.
+      La columna <code>name</code> usa <code>lib-inline-input</code> con <code>typeCell</code> + <code>rowDataInput</code>.
+      La columna <code>isActive</code> usa <code>INPUT</code> con <code>SWITCH</code> en cada fila; en el header, con
+      <code>inputConfig.isActive</code>, aparece un switch maestro que llama a <code>applyBulkBooleanToColumn</code>
+      (todas las filas quedan en <code>true</code> o <code>false</code>).
     </p>
     <div class="code-block">
       <pre><code>// Configuración por fila (ITableNgData)
@@ -349,19 +349,25 @@ onLazyLoad(event: ILazyLoadResponse): void {{ '{' }}
 {{ '}' }}</code></pre>
     </div>
     <div class="code-block">
-      <pre><code>// Implementación interna (TableNgComponent template)
+      <pre><code>// Celda INPUT (solo ngModel por fila)
 &#64;case (ETypeInput.INPUT) &#123;
   &lt;lib-inline-input
     [(ngModel)]="item.rowData[key]"
-    (outputValue)="outputValueInput($event, key)"
     [config]="item.rowDataInput?.[key] ?? &#123;typeInput: ETypeInput.TEXT&#125;"
   &gt;&lt;/lib-inline-input&gt;
-&#125;</code></pre>
+&#125;
+
+// Header maestro (SWITCH / CHECKBOX) con inputConfig
+&lt;lib-inline-input
+  [ngModel]="booleanColumnHeaderReflectValue(key)"
+  (ngModelChange)="applyBulkBooleanToColumn($event, key)"
+  [config]="inlineConfigCheckHeader(...)"
+/&gt;</code></pre>
     </div>
     <div class="code-block">
-      <pre><code>// Implementación interna (TableNgComponent class)
-outputValueInput(value: any, key: string) &#123;
-  console.log('value', &#123; value, key &#125;)
+      <pre><code>// TableNgComponent (resumen)
+applyBulkBooleanToColumn(value: boolean, columnKey: string) &#123;
+  this.data.update((rows) =&gt; rows.map((row) =&gt; (&#123; ...row, rowData: &#123; ...row.rowData, [columnKey]: value &#125; as T &#125;)))
 &#125;</code></pre>
     </div>
     <div class="example-container">
@@ -371,8 +377,8 @@ outputValueInput(value: any, key: string) &#123;
       />
     </div>
     <p class="note">
-      Abre la consola del navegador y edita la celda <strong>Nombre (INPUT)</strong>: deberías ver el log con
-      <code>value</code> y <code>key</code>.
+      Prueba el switch de la columna <strong>Activo</strong> en el header y en una fila: el del header debe poner
+      todas las filas al mismo valor booleano.
     </p>
   </section>
 

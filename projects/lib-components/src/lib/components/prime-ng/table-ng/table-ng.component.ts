@@ -262,8 +262,30 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     return ETypeInput
   }
 
-  outputValueInput(value: boolean, key: string) {
-    console.log({value, key, item: this.data()})
+  /**
+   * Refleja en el header si todas las filas tienen `true` en esa columna (solo lectura visual).
+   * Si hay mezcla o todo es false, devuelve false.
+   */
+  protected booleanColumnHeaderReflectValue(columnKey: string): boolean {
+    const rows = this.data()
+    if (rows.length === 0) return false
+    return rows.every((row) => !!row.rowData?.[columnKey as keyof T])
+  }
+
+  /**
+   * Asigna el mismo booleano a `rowData[columnKey]` en todas las filas (toggle masivo desde el header).
+   * Las celdas `INPUT` siguen usando solo `[(ngModel)]`; este método solo debe dispararse desde el header.
+   */
+  applyBulkBooleanToColumn(value: boolean, columnKey: string): void {
+    this.data.update((rows) =>
+      rows.map((row) => ({
+        ...row,
+        rowData: {
+          ...row.rowData,
+          [columnKey]: value
+        } as T
+      }))
+    )
   }
 
   handleAdvancedFiltersPerformed(filters: TableFilterEvent['filters']) {

@@ -538,7 +538,7 @@ export class DocTableNgPageComponent implements OnInit {
     }
   };
 
-  // Ejemplo (pruebas): INPUT por celda para disparar outputValueInput() interno
+  // Ejemplo (pruebas): INPUT por celda + inputConfig (header maestro applyBulkBooleanToColumn)
   inputCellTableData = signal<ITableNgData<ExampleRowData>[]>([
     {
       id: '1',
@@ -546,6 +546,30 @@ export class DocTableNgPageComponent implements OnInit {
       // typeCell define cómo se renderiza la celda dentro de la tabla
       typeCell: { name: ETypeInput.INPUT, isActive: ETypeInput.INPUT },
       // rowDataInput configura el lib-inline-input de esa celda
+      rowDataInput: { name: { typeInput: ETypeInput.TEXT }, isActive: { typeInput: ETypeInput.SWITCH } },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '2',
+      rowData: { id: '2', name: 'Prueba input', email: 'input@example.com', age: 22, status: 'Activo', isActive: false },
+      typeCell: { name: ETypeInput.INPUT, isActive: ETypeInput.INPUT },
+      rowDataInput: { name: { typeInput: ETypeInput.TEXT }, isActive: { typeInput: ETypeInput.SWITCH } },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '3',
+      rowData: { id: '3', name: 'Prueba input', email: 'input@example.com', age: 22, status: 'Activo', isActive: true },
+      typeCell: { name: ETypeInput.INPUT, isActive: ETypeInput.INPUT },
+      rowDataInput: { name: { typeInput: ETypeInput.TEXT }, isActive: { typeInput: ETypeInput.SWITCH } },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '4',
+      rowData: { id: '4', name: 'Prueba input', email: 'input@example.com', age: 22, status: 'Activo', isActive: false },
+      typeCell: { name: ETypeInput.INPUT, isActive: ETypeInput.INPUT },
       rowDataInput: { name: { typeInput: ETypeInput.TEXT }, isActive: { typeInput: ETypeInput.SWITCH } },
       raw: {},
       onClick: () => {}
