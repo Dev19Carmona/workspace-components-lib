@@ -106,8 +106,34 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     typeInput: ETypeInput.SWITCH
   }
 
+  /**
+   * Celda editable como `INPUT` cuyo control es CHECKBOX o SWITCH (según `rowDataInput`).
+   */
+  private isInputCheckboxOrSwitchCell(item: ITableNgData<T>, columnKey: string): boolean {
+    if (item.typeCell?.[columnKey] !== ETypeInput.INPUT) return false
+    const t = item.rowDataInput?.[columnKey]?.typeInput
+    return t === ETypeInput.CHECKBOX || t === ETypeInput.SWITCH
+  }
+
+  /**
+   * Toolbar: pone `value` en todas las celdas que cumplan INPUT + (CHECKBOX | SWITCH), en todas las columnas de `config.keys`.
+   */
   protected checkAll(value: boolean): void {
-    console.log({value})
+    const columnKeys = this.config()?.keys ?? []
+    this.data.update((rows) =>
+      rows.map((row) => {
+        let nextRowData: T = { ...row.rowData }
+        let changed = false
+        for (const key of columnKeys) {
+          if (this.isInputCheckboxOrSwitchCell(row, key)) {
+            nextRowData = { ...nextRowData, [key]: value } as T
+            changed = true
+          }
+        }
+        if (!changed) return row
+        return { ...row, rowData: nextRowData }
+      })
+    )
   }
 
   //#region Labels Configuration
@@ -275,24 +301,26 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
    * Si hay mezcla o todo es false, devuelve false.
    */
   protected booleanColumnHeaderReflectValue(columnKey: string): boolean {
-    const rows = this.data()
+    const rows = this.data().filter((row) => this.isInputCheckboxOrSwitchCell(row, columnKey))
     if (rows.length === 0) return false
     return rows.every((row) => !!row.rowData?.[columnKey as keyof T])
   }
 
   /**
-   * Asigna el mismo booleano a `rowData[columnKey]` en todas las filas (toggle masivo desde el header).
-   * Las celdas `INPUT` siguen usando solo `[(ngModel)]`; este método solo debe dispararse desde el header.
+   * Asigna el mismo booleano solo a filas cuya celda en esa columna sea INPUT + (CHECKBOX | SWITCH).
    */
   applyBulkBooleanToColumn(value: boolean, columnKey: string): void {
     this.data.update((rows) =>
-      rows.map((row) => ({
-        ...row,
-        rowData: {
-          ...row.rowData,
-          [columnKey]: value
-        } as T
-      }))
+      rows.map((row) => {
+        if (!this.isInputCheckboxOrSwitchCell(row, columnKey)) return row
+        return {
+          ...row,
+          rowData: {
+            ...row.rowData,
+            [columnKey]: value
+          } as T
+        }
+      })
     )
   }
 
