@@ -256,6 +256,10 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     return ETypeInput
   }
 
+  outputValueInput(value: any, key: string) {
+    console.log({value, key, item: this.data()})
+  }
+
   handleAdvancedFiltersPerformed(filters: TableFilterEvent['filters']) {
     if (!filters) return
     const entriesFilters = Object.entries(filters)

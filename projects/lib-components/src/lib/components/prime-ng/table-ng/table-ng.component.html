@@ -535,6 +535,11 @@
           <ng-container
             *ngTemplateOutlet="item.rowDataComponents?.[key]; context: { $implicit: item.raw }"></ng-container>
           }
+          @case (ETypeInput.INPUT) {
+          <lib-inline-input [(ngModel)]="item.rowData[key]" (outputValue)="outputValueInput($event, key)"
+            [config]="item.rowDataInput?.[key] ?? {typeInput: ETypeInput.TEXT}">
+          </lib-inline-input>
+          }
           @default {
           @if (isDate(item.rowData[key])) {
           {{ item.rowData[key] | date: "dd/MM/yyyy" }}

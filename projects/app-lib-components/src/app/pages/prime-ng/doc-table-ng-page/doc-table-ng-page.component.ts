@@ -19,6 +19,7 @@ interface ExampleRowData {
   email: string;
   age: number;
   status: string;
+  isActive?: boolean;
 }
 
 // Interfaz para la respuesta del servidor simulada
@@ -534,6 +535,36 @@ export class DocTableNgPageComponent implements OnInit {
       },
       isDisabledAddButton: false,
       isDisabledDeleteButton: false
+    }
+  };
+
+  // Ejemplo (pruebas): INPUT por celda para disparar outputValueInput() interno
+  inputCellTableData = signal<ITableNgData<ExampleRowData>[]>([
+    {
+      id: '1',
+      rowData: { id: '1', name: 'Prueba input', email: 'input@example.com', age: 22, status: 'Activo', isActive: true },
+      // typeCell define cómo se renderiza la celda dentro de la tabla
+      typeCell: { name: ETypeInput.INPUT, isActive: ETypeInput.INPUT },
+      // rowDataInput configura el lib-inline-input de esa celda
+      rowDataInput: { name: { typeInput: ETypeInput.TEXT }, isActive: { typeInput: ETypeInput.SWITCH } },
+      raw: {},
+      onClick: () => {}
+    }
+  ]);
+
+  inputCellTableConfig: ITableNgConfig = {
+    keys: ['name', 'email', 'age', 'isActive'],
+    keysNames: {
+      name: 'Nombre (INPUT)',
+      email: 'Email',
+      age: 'Edad',
+      status: 'Estado',
+      isActive: 'Activo'
+    },
+    paginationConfig: {
+      paginator: false,
+      rows: 5,
+      rowsPerPageOptions: [5, 10, 20]
     }
   };
 

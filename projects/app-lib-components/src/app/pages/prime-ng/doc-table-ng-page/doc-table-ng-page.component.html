@@ -332,6 +332,48 @@ onLazyLoad(event: ILazyLoadResponse): void {{ '{' }}
         [editConfig]="editableRowEditConfig"
       />
     </div>
+
+    <h3>Prueba rápida: `ETypeInput.INPUT` (dispara `outputValueInput`)</h3>
+    <p>
+      Este ejemplo está pensado solo para pruebas. Fuerza que la columna <code>name</code> se renderice como un
+      <code>lib-inline-input</code> dentro de la tabla usando <code>typeCell</code> y <code>rowDataInput</code>.
+      Al escribir, se dispara el <code>console.log</code> del método interno <code>outputValueInput(value, key)</code>
+      de <code>TableNgComponent</code>.
+    </p>
+    <div class="code-block">
+      <pre><code>// Configuración por fila (ITableNgData)
+{{ '{' }}
+  rowData: {{ '{' }} name: 'Prueba input', ... {{ '}' }},
+  typeCell: {{ '{' }} name: ETypeInput.INPUT {{ '}' }},
+  rowDataInput: {{ '{' }} name: {{ '{' }} typeInput: ETypeInput.TEXT {{ '}' }} {{ '}' }}
+{{ '}' }}</code></pre>
+    </div>
+    <div class="code-block">
+      <pre><code>// Implementación interna (TableNgComponent template)
+&#64;case (ETypeInput.INPUT) &#123;
+  &lt;lib-inline-input
+    [(ngModel)]="item.rowData[key]"
+    (outputValue)="outputValueInput($event, key)"
+    [config]="item.rowDataInput?.[key] ?? &#123;typeInput: ETypeInput.TEXT&#125;"
+  &gt;&lt;/lib-inline-input&gt;
+&#125;</code></pre>
+    </div>
+    <div class="code-block">
+      <pre><code>// Implementación interna (TableNgComponent class)
+outputValueInput(value: any, key: string) &#123;
+  console.log('value', &#123; value, key &#125;)
+&#125;</code></pre>
+    </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="inputCellTableData()"
+        [config]="inputCellTableConfig"
+      />
+    </div>
+    <p class="note">
+      Abre la consola del navegador y edita la celda <strong>Nombre (INPUT)</strong>: deberías ver el log con
+      <code>value</code> y <code>key</code>.
+    </p>
   </section>
 
   <section class="doc-section">

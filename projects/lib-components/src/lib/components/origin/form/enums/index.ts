@@ -34,5 +34,6 @@ export enum ETypeInput {
   DECIMAL = 'decimal',
   IMAGE = 'image',
 
-  COMPONENT = 'component'
+  COMPONENT = 'component',
+  INPUT = 'input'
 }

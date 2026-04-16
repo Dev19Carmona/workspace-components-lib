@@ -11,6 +11,7 @@ export interface ITableNgData<T = IRowData, R = unknown> {
     rowData: T;
     rowDataButtons?: Record<string, IButtonConfig[]>;
     rowDataComponents?: Record<string, TemplateRef<{ $implicit: T }>>
+    rowDataInput?: Record<string, InlineControlConfig>
     typeCell?: Record<string, ETypeInput>
     currencyTypeCellConfig?: Record<string, ICurrencyConfig>
     componentTypeCellConfig?: Record<string, TemplateRef<unknown>>
