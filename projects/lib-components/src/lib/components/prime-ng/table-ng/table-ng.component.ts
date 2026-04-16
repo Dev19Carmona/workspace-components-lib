@@ -102,6 +102,14 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     }
   }
 
+  protected inlineConfigCheckHeaderCheckAll: InlineControlConfig = {
+    typeInput: ETypeInput.SWITCH
+  }
+
+  protected checkAll(value: boolean): void {
+    console.log({value})
+  }
+
   //#region Labels Configuration
   /** Get pagination report template with default English value */
   protected getCustomPageReport(): string {

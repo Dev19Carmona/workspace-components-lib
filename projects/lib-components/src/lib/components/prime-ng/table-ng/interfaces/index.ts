@@ -103,6 +103,7 @@ export interface ITableNgConfig {
     labelsConfig?: ITableNgLabelsTitleConfig
     refreshConfig?: IRefreshConfig
     inputConfig?: Record<string, IInputConfig>
+    hasCheckRows?: boolean;
 }
 
 export interface IInputConfig {

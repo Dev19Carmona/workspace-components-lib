@@ -595,7 +595,8 @@ export class DocTableNgPageComponent implements OnInit {
         isEnabled: true,
         type: ETypeInput.SWITCH
       }
-    }
+    },
+    hasCheckRows: true
   };
 
   // Ejemplo con labels personalizados en español

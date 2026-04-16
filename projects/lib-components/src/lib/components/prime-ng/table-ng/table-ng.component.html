@@ -18,7 +18,7 @@
 @let rowExpansionConfig = config()?.rowExpansionConfig;
 @let advancedIdentifierFiltersConfig = config()?.globalFilterConfig?.advancedIdentifierFiltersConfig;
 @let inputConfig = config()?.inputConfig;
-
+@let hasCheckRows = config()?.hasCheckRows ?? false;
 <div class="p-datatable-wrapper">
   @if (titleConfig?.isEnabled && titleConfig?.title) {
   <div class="table-title-container">
@@ -38,6 +38,16 @@
       }
       @if (filteredValue || advancedFiltersPerformed.length > 0) {
       <lib-button-ng class="animate__animated animate__fadeIn" [buttonConfig]="clearFiltersButton()"></lib-button-ng>
+      }
+      @if (hasCheckRows) {
+      <div class="inline-flex" (click)="$event.stopPropagation()">
+        <lib-inline-input
+          (outputValue)="checkAll($event)"
+          [config]="inlineConfigCheckHeaderCheckAll"
+          
+          >
+        </lib-inline-input>
+      </div>
       }
     </div>
     <div class="flex gap-2" toolbarEnd>
