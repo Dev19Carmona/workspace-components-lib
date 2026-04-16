@@ -565,6 +565,12 @@ export class DocTableNgPageComponent implements OnInit {
       paginator: false,
       rows: 5,
       rowsPerPageOptions: [5, 10, 20]
+    },
+    inputConfig: {
+      isActive: {
+        isEnabled: true,
+        type: ETypeInput.SWITCH
+      }
     }
   };
 

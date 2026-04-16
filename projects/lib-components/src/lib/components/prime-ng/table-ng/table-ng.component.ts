@@ -23,14 +23,14 @@ import { ButtonNgComponent } from '../button-ng/button-ng.component'
 import type { IButtonConfig } from '../button-ng/interfaces'
 import { ToolbarNgComponent } from '../toolbar-ng/toolbar-ng.component'
 // import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
+import { InlineControlConfig, SpeedDialComponent } from "../../origin"
+import { ISpeedDialConfig } from '../../origin/speed-dial/interfaces'
 import { CustomDialogService } from '../dynamic-dialog/services/custom-dialog.service'
 import { IColumnPrimeNg, IPrimeNgSelection } from '../interfaces'
 import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
 import type { IEditTableNgConfig, IErrorConfig, IFooterConfig, IGlobalSearchForm, ILazyLoadResponse, IMetaPagination, IPipeConfig, ITableNgConfig, ITableNgData, ITableNgLazyLoading } from './interfaces'
 import { TableNgEditService } from './services/table-ng-edit.service'
 import { TableNgService } from './services/table-ng.service'
-import { ISpeedDialConfig } from '../../origin/speed-dial/interfaces'
-import { SpeedDialComponent } from "../../origin";
 
 
 @Component({
@@ -95,6 +95,12 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   @ViewChild('dt') dt!: Table
 
   private readonly fb = inject(NonNullableFormBuilder)
+
+  protected inlineConfigCheckHeader(typeInput: ETypeInput): InlineControlConfig {
+    return {
+      typeInput
+    }
+  }
 
   //#region Labels Configuration
   /** Get pagination report template with default English value */
@@ -256,7 +262,7 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     return ETypeInput
   }
 
-  outputValueInput(value: any, key: string) {
+  outputValueInput(value: boolean, key: string) {
     console.log({value, key, item: this.data()})
   }
 

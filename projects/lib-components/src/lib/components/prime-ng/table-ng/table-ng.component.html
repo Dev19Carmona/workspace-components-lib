@@ -17,6 +17,7 @@
 @let selectedColumns = config()?.selectedColumns;
 @let rowExpansionConfig = config()?.rowExpansionConfig;
 @let advancedIdentifierFiltersConfig = config()?.globalFilterConfig?.advancedIdentifierFiltersConfig;
+@let inputConfig = config()?.inputConfig;
 
 <div class="p-datatable-wrapper">
   @if (titleConfig?.isEnabled && titleConfig?.title) {
@@ -155,8 +156,20 @@
           class="p-datatable-header-cell" [style.width.%]="columnConfig?.sizeByKey?.[key] ?? null" [ngClass]="{
               'p-frozen-column': frozenHandle(frozenColumnConfigByKey?.[key]),
             }">
+            
           <div class="flex gap-2 justify-center items-center py-0 px-0">
             {{ key | keyToDisplayName: keysNames }}
+            @if(inputConfig?.[key]?.isEnabled) {
+              @switch (inputConfig?.[key]?.type) {
+                @case (ETypeInput.SWITCH || ETypeInput.CHECKBOX) {
+                  <lib-inline-input
+                    (outputValue)="outputValueInput($event, key)"
+                    [config]="inlineConfigCheckHeader(inputConfig?.[key]?.type ?? ETypeInput.CHECKBOX)">
+                  </lib-inline-input>
+                }
+              }
+
+            }
             @if(!editEnabled){
             <p-sortIcon [field]="key" />
             }

@@ -102,6 +102,12 @@ export interface ITableNgConfig {
     pdfConfig?: IPdfConfig
     labelsConfig?: ITableNgLabelsTitleConfig
     refreshConfig?: IRefreshConfig
+    inputConfig?: Record<string, IInputConfig>
+}
+
+export interface IInputConfig {
+    isEnabled: boolean;
+    type: ETypeInput;
 }
 
 export interface IRefreshConfig {
