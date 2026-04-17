@@ -116,6 +116,26 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   }
 
   /**
+   * Estado del check "todos" del toolbar: true solo si hay al menos una celda
+   * INPUT + (CHECKBOX | SWITCH) y todas esas celdas (todas las columnas y filas) son truthy.
+   */
+  protected checkAllHeaderReflectValue(): boolean {
+    const columnKeys = this.config()?.keys ?? []
+    let hasAnyCheckable = false
+    for (const row of this.data()) {
+      for (const key of columnKeys) {
+        if (this.isInputCheckboxOrSwitchCell(row, key)) {
+          hasAnyCheckable = true
+          if (!row.rowData?.[key as keyof T]) {
+            return false
+          }
+        }
+      }
+    }
+    return hasAnyCheckable
+  }
+
+  /**
    * Toolbar: pone `value` en todas las celdas que cumplan INPUT + (CHECKBOX | SWITCH), en todas las columnas de `config.keys`.
    */
   protected checkAll(value: boolean): void {

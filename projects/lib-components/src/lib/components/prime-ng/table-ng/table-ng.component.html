@@ -42,12 +42,11 @@
       @if (hasCheckRows) {
       <div class="inline-flex" (click)="$event.stopPropagation()">
         <lib-inline-input
-          (outputValue)="checkAll($event)"
-          [config]="inlineConfigCheckHeaderCheckAll"
-          
-          >
+          [ngModel]="checkAllHeaderReflectValue()"
+          (ngModelChange)="checkAll($event)"
+          [config]="inlineConfigCheckHeaderCheckAll">
         </lib-inline-input>
-      </div>
+    </div>
       }
     </div>
     <div class="flex gap-2" toolbarEnd>
