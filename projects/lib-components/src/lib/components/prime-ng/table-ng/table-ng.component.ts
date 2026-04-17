@@ -154,6 +154,7 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
         return { ...row, rowData: nextRowData }
       })
     )
+    this.outputChangeData.emit([...this.data()])
   }
 
   //#region Labels Configuration
@@ -342,6 +343,10 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
         }
       })
     )
+  }
+
+  handleCheckValue(): void {
+    this.outputChangeData.emit([...this.data()])
   }
 
   handleAdvancedFiltersPerformed(filters: TableFilterEvent['filters']) {

@@ -570,7 +570,9 @@
           }
           @case (ETypeInput.INPUT) {
           <lib-inline-input [(ngModel)]="item.rowData[key]"
-            [config]="item.rowDataInput?.[key] ?? {typeInput: ETypeInput.TEXT}">
+            [config]="item.rowDataInput?.[key] ?? {typeInput: ETypeInput.TEXT}"
+            (outputValue)="handleCheckValue()"
+            >
           </lib-inline-input>
           }
           @default {
