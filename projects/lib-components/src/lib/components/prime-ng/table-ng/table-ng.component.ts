@@ -85,6 +85,7 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   public outputRowDataChange = output<ITableNgData<T>>()
   public outputEditData = output<ITableNgData<T>[]>()
   public outputIsEditing = output<boolean>()
+  public outputCheckAll = output<boolean>()
 
   public resetData(): void {
     this.data.set([])
@@ -155,6 +156,7 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
       })
     )
     this.outputChangeData.emit([...this.data()])
+    this.outputCheckAll.emit(value)
   }
 
   //#region Labels Configuration
