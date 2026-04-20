@@ -8,6 +8,7 @@
     "build:libs": "ng build lib-components && npm start",
     "build:app": "ng build app-lib-components --configuration production",
     "build:app:github-pages": "ng build app-lib-components --configuration github-pages",
+    "publish:lib-components": "ng build lib-components && npm publish dist/lib-components",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

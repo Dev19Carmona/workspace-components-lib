@@ -97,10 +97,25 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
 
   private readonly fb = inject(NonNullableFormBuilder)
 
-  protected inlineConfigCheckHeader(typeInput: ETypeInput): InlineControlConfig {
+  /**
+   * Config del control booleano en el header por columna.
+   * Si todas las celdas checkeables (INPUT + CHECKBOX|SWITCH) de esa columna son readonly,
+   * el control del header también debe ser readonly.
+   */
+  protected inlineConfigCheckHeader(columnKey: string, typeInput: ETypeInput): InlineControlConfig {
     return {
-      typeInput
+      typeInput,
+      readonly: this.isColumnBulkReadonly(columnKey)
     }
+  }
+
+  /**
+   * True si hay al menos una celda checkeable en la columna y todas son readonly.
+   */
+  protected isColumnBulkReadonly(columnKey: string): boolean {
+    const rows = this.data().filter((row) => this.isInputCheckboxOrSwitchCell(row, columnKey))
+    if (rows.length === 0) return false
+    return rows.every((row) => row.rowDataInput?.[columnKey]?.readonly === true)
   }
 
   protected inlineConfigCheckHeaderCheckAll: InlineControlConfig = {
