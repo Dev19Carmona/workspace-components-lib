@@ -298,7 +298,12 @@
               <div class="text-left">
                 {{ item.rowData[column.field] | date: "dd/MM/yyyy HH:mm" }}
               </div>
-              } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.SWITCH) {
+              }@else if(inlineControls?.[column.field]?.typeInput === ETypeInput.SELECT) {
+              <div class="text-left">
+                {{ item.rowData[column.field].value }}
+              </div>
+              }
+              @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.SWITCH) {
               <div class="text-center">
                 @if (item.rowData[column.field]) {
                 <i class="fa-solid fa-check text-green-500"></i>
