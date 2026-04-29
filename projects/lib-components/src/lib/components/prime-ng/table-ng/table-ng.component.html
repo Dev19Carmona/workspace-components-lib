@@ -329,6 +329,12 @@
 
             </ng-template>
           </p-cellEditor>
+
+          @if (rowErrorConfig?.isEnabled && enableErrors && rowErrorConfig?.fieldErrors?.[item.id]?.[column.field]) {
+          <span class="text-red-500 italic text-xs">
+            {{ rowErrorConfig?.fieldErrors?.[item.id]?.[column.field]?.message ?? '' }}
+          </span>
+          }
         </td>
         }
         } @else {
@@ -386,6 +392,12 @@
               }
             </ng-template>
           </p-cellEditor>
+
+          @if (rowErrorConfig?.isEnabled && enableErrors && rowErrorConfig?.fieldErrors?.[item.id]?.[key]) {
+          <span class="text-red-500 italic text-xs">
+            {{ rowErrorConfig?.fieldErrors?.[item.id]?.[key]?.message ?? '' }}
+          </span>
+          }
         </td>
         }
         }

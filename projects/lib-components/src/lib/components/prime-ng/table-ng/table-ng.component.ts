@@ -204,6 +204,16 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     this.tableNgEditService.setEditConfig(this.editConfig())
     this.tableNgEditService.setKeysNames(this.config()?.keysNames ?? {})
 
+    // Si hay configuración de errores y estamos en modo edición por celda,
+    // mostramos las validaciones de inmediato.
+    effect(() => {
+      const editConfig = this.editConfig()
+      const rowErrorConfig = editConfig?.rowEditConfig?.rowErrorConfig
+      if (editConfig?.isEnabled && editConfig?.type === 'cell' && (rowErrorConfig?.isEnabled ?? false)) {
+        this.setEnableErrors(true)
+      }
+    })
+
     // Effect para sincronizar el config con el servicio cuando cambie
     effect(() => {
       const configValue = this.config()
