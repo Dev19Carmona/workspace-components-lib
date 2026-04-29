@@ -300,7 +300,7 @@
               </div>
               }@else if(inlineControls?.[column.field]?.typeInput === ETypeInput.SELECT) {
               <div class="text-left">
-                {{ item.rowData[column.field].value }}
+                {{ item.rowData[column.field]?.name ?? item.rowData[column.field]?.value ?? '' }}
               </div>
               }
               @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.SWITCH) {
@@ -333,7 +333,27 @@
               </lib-inline-input>
             </ng-template>
             <ng-template #output>
-              @if (inlineControls?.[key]?.typeInput === ETypeInput.SWITCH) {
+              @if (inlineControls?.[key]?.typeInput === ETypeInput.NUMBER) {
+              <div class="text-right">
+                {{ item.rowData[key] | number: '1.2-2' }}
+              </div>
+              } @else if(inlineControls?.[key]?.typeInput === ETypeInput.CURRENCY) {
+              <div class="text-right">
+                {{ item.rowData[key] | currency: item?.currencyTypeCellConfig?.[key]?.currency ?? 'USD' }}
+              </div>
+              } @else if(inlineControls?.[key]?.typeInput === ETypeInput.DATE) {
+              <div class="text-left">
+                {{ item.rowData[key] | date: "dd/MM/yyyy" }}
+              </div>
+              } @else if(inlineControls?.[key]?.typeInput === ETypeInput.DATETIME_LOCAL) {
+              <div class="text-left">
+                {{ item.rowData[key] | date: "dd/MM/yyyy HH:mm" }}
+              </div>
+              } @else if(inlineControls?.[key]?.typeInput === ETypeInput.SELECT) {
+              <div class="text-left">
+                {{ item.rowData[key]?.name ?? item.rowData[key]?.value ?? '' }}
+              </div>
+              } @else if (inlineControls?.[key]?.typeInput === ETypeInput.SWITCH) {
               <div class="text-center">
                 @if (item.rowData[key]) {
                 <i class="fa-solid fa-check text-green-500"></i>
@@ -342,7 +362,11 @@
                 }
               </div>
               } @else {
+              @if (item.rowData[key]?.name) {
+              {{ item.rowData[key]?.name }}
+              } @else {
               {{ item.rowData[key] }}
+              }
               }
             </ng-template>
           </p-cellEditor>
