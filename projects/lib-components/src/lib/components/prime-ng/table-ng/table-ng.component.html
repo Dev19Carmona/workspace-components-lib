@@ -282,7 +282,15 @@
             <ng-template #output>
               @if (inlineControls?.[column.field]?.typeInput === ETypeInput.NUMBER) {
               <div class="text-right">
-                {{ item.rowData[column.field] | number: '1.2-2' }}
+                {{
+                  item.rowData[column.field]
+                  | number: (
+                    inlineControls?.[column.field]?.numberConfig?.minFractionDigits === 0 &&
+                    inlineControls?.[column.field]?.numberConfig?.maxFractionDigits === 0
+                      ? '1.0-0'
+                      : '1.2-2'
+                  )
+                }}
 
               </div>
               } @else if(inlineControls?.[column.field]?.typeInput === ETypeInput.CURRENCY) {
@@ -335,7 +343,15 @@
             <ng-template #output>
               @if (inlineControls?.[key]?.typeInput === ETypeInput.NUMBER) {
               <div class="text-right">
-                {{ item.rowData[key] | number: '1.2-2' }}
+                {{
+                  item.rowData[key]
+                  | number: (
+                    inlineControls?.[key]?.numberConfig?.minFractionDigits === 0 &&
+                    inlineControls?.[key]?.numberConfig?.maxFractionDigits === 0
+                      ? '1.0-0'
+                      : '1.2-2'
+                  )
+                }}
               </div>
               } @else if(inlineControls?.[key]?.typeInput === ETypeInput.CURRENCY) {
               <div class="text-right">
@@ -613,7 +629,15 @@
           {{ item.rowData[key].name }}
           } @else if(typeof item.rowData[key] === "number") {
           <p class="text-right">
-            {{ item.rowData[key] | number: '1.2-2' }}
+            {{
+              item.rowData[key]
+              | number: (
+                item.rowDataInput?.[key]?.numberConfig?.minFractionDigits === 0 &&
+                item.rowDataInput?.[key]?.numberConfig?.maxFractionDigits === 0
+                  ? '1.0-0'
+                  : '1.2-2'
+              )
+            }}
           </p>
           }
           }
