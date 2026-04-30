@@ -710,7 +710,7 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
       rounded: true,
       severity: 'success',
       tooltipConfig: {
-        pTooltip: 'Agregar registro',
+        pTooltip: isDisabled ? 'No hay datos para agregar' : 'Agregar registro',
         tooltipPosition: 'top'
       },
       onClick: () => {
