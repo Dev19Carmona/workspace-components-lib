@@ -64,7 +64,7 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
 
   // Loading state management
   private loadingTimeout: any = null
-  protected isLoading = signal<boolean>(false)
+  isLoading = model<boolean>(false)
   protected timeoutExpired = signal<boolean>(false)
   readonly config = model<ITableNgConfig>()
   readonly editConfig = model<IEditTableNgConfig<T>>()
