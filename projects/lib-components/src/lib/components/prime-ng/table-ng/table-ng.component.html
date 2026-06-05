@@ -126,41 +126,25 @@
             <p-sortIcon [field]="column.field" />
             }
             @if (filterConfigByKey?.[column.field]?.isEnabled) {
-            <p-columnFilter type="text" [field]="`rowData.${column.field}`" display="menu" [ngClass]="{
+            @let columnFilterConfig = filterConfigByKey![column.field]!;
+            <p-columnFilter [field]="`rowData.${column.field}`" display="menu" [ngClass]="{
                   'bg-green-200 rounded-full p-1 shadow-sm text-green-500 transition-all duration-300 ease-in-out':
                     advancedFiltersPerformed.includes(column.field),
-                }" [type]="
-                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig?.type ??
-                  'text'
-                " [matchMode]="
-                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
-                    ?.matchMode
-                " [showMatchModes]="
-                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
-                    ?.showMatchModes ?? false
-                " [showOperator]="
-                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
-                    ?.showOperator ?? false
-                " [showAddButton]="
-                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
-                    ?.showAddButton ?? false
-                " [showApplyButton]="
-                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
-                    ?.showApplyButton ?? false
-                " [showClearButton]="
-                  filterConfigByKey?.[column.field]?.primeNgColumnFilterConfig
-                    ?.showClearButton ?? false
-                ">
-              @if (
-              filterConfigByKey?.[column.field]?.customColumnFilterConfig
-              ?.isEnabled ?? false
-              ) {
-              <ng-template #filter let-value let-filter="filterCallback">
-                <div style="min-width: 20rem" class="">
+                }" [type]="columnFilterConfig.primeNgColumnFilterConfig?.type ?? 'text'"
+              [matchMode]="columnFilterConfig.primeNgColumnFilterConfig?.matchMode"
+              [showMatchModes]="columnFilterConfig.primeNgColumnFilterConfig?.showMatchModes ?? false"
+              [showOperator]="columnFilterConfig.primeNgColumnFilterConfig?.showOperator ?? false"
+              [showAddButton]="columnFilterConfig.primeNgColumnFilterConfig?.showAddButton ?? false"
+              [showApplyButton]="columnFilterConfig.primeNgColumnFilterConfig?.showApplyButton ?? false"
+              [showClearButton]="columnFilterConfig.primeNgColumnFilterConfig?.showClearButton ?? false">
+              @if (isCustomColumnFilterEnabled(columnFilterConfig)) {
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <div style="min-width: 20rem">
                   <lib-inline-input
-                    (outputValue)="inlineFormChanges($event, filter, filterConfigByKey?.[column.field]?.customColumnFilterConfig?.inlineControlConfig?.typeInput, column.field)"
-                    (outputDebounced)="onFilter($event)" [(ngModel)]="advancedFiltersValues()[column.field]"
-                    [config]="filterConfigByKey?.[column.field]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></lib-inline-input>
+                    [ngModel]="value"
+                    (outputValue)="inlineFormChanges($event, filter, columnFilterConfig.customColumnFilterConfig?.inlineControlConfig?.typeInput, column.field)"
+                    [config]="columnFilterConfig.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}">
+                  </lib-inline-input>
                 </div>
               </ng-template>
               }
@@ -194,30 +178,25 @@
             <p-sortIcon [field]="key" />
             }
             @if (filterConfigByKey?.[key]?.isEnabled) {
-            <p-columnFilter type="text" [field]="`rowData.${key}`" display="menu" [ngClass]="{
+            @let columnFilterConfig = filterConfigByKey![key]!;
+            <p-columnFilter [field]="`rowData.${key}`" display="menu" [ngClass]="{
                   'bg-green-200 rounded-full p-1 shadow-sm text-green-500 transition-all duration-300 ease-in-out':
                     advancedFiltersPerformed.includes(key),
-                }" [type]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.type ?? 'text'"
-              [matchMode]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.matchMode"
-              [showMatchModes]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showMatchModes ?? false"
-              [showOperator]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showOperator ?? false"
-              [showAddButton]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showAddButton ?? false"
-              [showApplyButton]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showApplyButton ?? false"
-              [showClearButton]="filterConfigByKey?.[key]?.primeNgColumnFilterConfig?.showClearButton ?? false">
-              @if (
-              filterConfigByKey?.[key]?.customColumnFilterConfig
-              ?.isEnabled ?? false
-              ) {
-              <ng-template #filter let-value let-filter="filterCallback">
-                <div style="min-width: 20rem" class="">
-                  <!-- <app-custom-advanced-filter filter
-                      [customColumnFilterConfig]="filterConfigByKey![key]!.customColumnFilterConfig!"
-                      (formChanges)="formChanges($event, filter, key)"
-                      [initialValue]="advancedFiltersValues[key]"></app-custom-advanced-filter> -->
+                }" [type]="columnFilterConfig.primeNgColumnFilterConfig?.type ?? 'text'"
+              [matchMode]="columnFilterConfig.primeNgColumnFilterConfig?.matchMode"
+              [showMatchModes]="columnFilterConfig.primeNgColumnFilterConfig?.showMatchModes ?? false"
+              [showOperator]="columnFilterConfig.primeNgColumnFilterConfig?.showOperator ?? false"
+              [showAddButton]="columnFilterConfig.primeNgColumnFilterConfig?.showAddButton ?? false"
+              [showApplyButton]="columnFilterConfig.primeNgColumnFilterConfig?.showApplyButton ?? false"
+              [showClearButton]="columnFilterConfig.primeNgColumnFilterConfig?.showClearButton ?? false">
+              @if (isCustomColumnFilterEnabled(columnFilterConfig)) {
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <div style="min-width: 20rem">
                   <lib-inline-input
-                    (outputValue)="inlineFormChanges($event, filter, filterConfigByKey?.[key]?.customColumnFilterConfig?.inlineControlConfig?.typeInput, key)"
-                    [(ngModel)]="advancedFiltersValues()[key]"
-                    [config]="filterConfigByKey?.[key]?.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}"></lib-inline-input>
+                    [ngModel]="value"
+                    (outputValue)="inlineFormChanges($event, filter, columnFilterConfig.customColumnFilterConfig?.inlineControlConfig?.typeInput, key)"
+                    [config]="columnFilterConfig.customColumnFilterConfig?.inlineControlConfig ?? {typeInput: ETypeInput.TEXT}">
+                  </lib-inline-input>
                 </div>
               </ng-template>
               }

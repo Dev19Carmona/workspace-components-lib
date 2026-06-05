@@ -599,6 +599,95 @@ export class DocTableNgPageComponent implements OnInit {
     hasCheckRows: true
   };
 
+  // Ejemplo con filtros por columna (PrimeNG nativo y customColumnFilterConfig)
+  columnFilterTableData = signal<ITableNgData<ExampleRowData>[]>([
+    {
+      id: '1',
+      rowData: { id: '1', name: 'Juan Pérez', email: 'juan@example.com', age: 30, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '2',
+      rowData: { id: '2', name: 'María García', email: 'maria@example.com', age: 25, status: 'Activo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '3',
+      rowData: { id: '3', name: 'Carlos López', email: 'carlos@example.com', age: 35, status: 'Inactivo' },
+      raw: {},
+      onClick: () => {}
+    },
+    {
+      id: '4',
+      rowData: { id: '4', name: 'Ana Martínez', email: 'ana@example.com', age: 28, status: 'Pendiente' },
+      raw: {},
+      onClick: () => {}
+    }
+  ]);
+
+  columnFilterTableConfig: ITableNgConfig = {
+    keys: ['name', 'email', 'status'],
+    keysNames: {
+      name: 'Nombre',
+      email: 'Email',
+      status: 'Estado'
+    },
+    paginationConfig: {
+      paginator: true,
+      rows: 5,
+      rowsPerPageOptions: [5, 10, 20]
+    },
+    filterConfigByKey: {
+      name: {
+        isEnabled: true,
+        customColumnFilterConfig: {
+          isEnabled: true,
+          inlineControlConfig: { typeInput: ETypeInput.TEXT }
+        },
+        primeNgColumnFilterConfig: {
+          matchMode: 'contains',
+          showApplyButton: false,
+          showClearButton: true
+        }
+      },
+      status: {
+        isEnabled: true,
+        customColumnFilterConfig: {
+          isEnabled: true,
+          inlineControlConfig: {
+            typeInput: ETypeInput.SELECT,
+            selectConfig: {
+              options: [
+                { code: 'Activo', name: 'Activo' },
+                { code: 'Inactivo', name: 'Inactivo' },
+                { code: 'Pendiente', name: 'Pendiente' }
+              ]
+            }
+          }
+        },
+        primeNgColumnFilterConfig: {
+          matchMode: 'equals',
+          showApplyButton: false,
+          showClearButton: true
+        }
+      },
+      email: {
+        isEnabled: true,
+        primeNgColumnFilterConfig: {
+          type: 'text',
+          matchMode: 'contains',
+          showMatchModes: false,
+          showOperator: false,
+          showAddButton: false,
+          showApplyButton: false,
+          showClearButton: true
+        }
+      }
+    }
+  };
+
   // Ejemplo con labels personalizados en español
   labelsTableData = signal<ITableNgData<ExampleRowData>[]>([
     {

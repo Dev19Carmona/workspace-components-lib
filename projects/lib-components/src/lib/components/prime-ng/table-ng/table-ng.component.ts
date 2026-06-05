@@ -28,7 +28,7 @@ import { ISpeedDialConfig } from '../../origin/speed-dial/interfaces'
 import { CustomDialogService } from '../dynamic-dialog/services/custom-dialog.service'
 import { IColumnPrimeNg, IPrimeNgSelection } from '../interfaces'
 import { ModalAdvancedFilterComponent } from './components/modal-advanced-filter/modal-advanced-filter.component'
-import type { IEditTableNgConfig, IErrorConfig, IFooterConfig, IGlobalSearchForm, ILazyLoadResponse, IMetaPagination, IPipeConfig, ITableNgConfig, ITableNgData, ITableNgLazyLoading } from './interfaces'
+import type { IEditTableNgConfig, IErrorConfig, IFilterConfigByKey, IFooterConfig, IGlobalSearchForm, ILazyLoadResponse, IMetaPagination, IPipeConfig, ITableNgConfig, ITableNgData, ITableNgLazyLoading } from './interfaces'
 import { TableNgEditService } from './services/table-ng-edit.service'
 import { TableNgService } from './services/table-ng.service'
 
@@ -570,11 +570,19 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   //#endregion
 
   //#region Custom Filter
+  isCustomColumnFilterEnabled(filterConfig?: IFilterConfigByKey): boolean {
+    return filterConfig?.customColumnFilterConfig?.isEnabled ?? false
+  }
+
   inlineFormChanges(inlineValue: unknown, filter: (value: any) => void, typeInput?: ETypeInput, key?: string): void {
     const lazyLoadingConfig = this.config()?.lazyLoadingConfig
+
     if (typeInput === ETypeInput.MULTISELECT) {
-      const options: IPrimeNgSelection[] | undefined = inlineValue ?  inlineValue as IPrimeNgSelection[] : undefined
-      const arrayValue: string[] | undefined = options ? options.map((data: IPrimeNgSelection) => lazyLoadingConfig?.isEnabled ? data.code : data.name) : undefined
+      const options: IPrimeNgSelection[] | undefined = inlineValue ? inlineValue as IPrimeNgSelection[] : undefined
+      const arrayValue: string[] | undefined = options
+        ? options.map((data: IPrimeNgSelection) => lazyLoadingConfig?.isEnabled ? data.code : data.name)
+        : undefined
+
       if (Array.isArray(arrayValue) && arrayValue.length === 0) {
         if (key) {
           this.advancedFiltersValues.update((prev: Record<string, any>) => {
@@ -582,11 +590,44 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
             return { ...rest }
           })
         }
+        filter(null)
+        return
       }
-      if (inlineValue && (Array.isArray(arrayValue) && arrayValue.length > 0)) {
+
+      if (inlineValue && Array.isArray(arrayValue) && arrayValue.length > 0) {
+        if (key) {
+          this.advancedFiltersValues.update((prev: Record<string, any>) => ({ ...prev, [key]: inlineValue }))
+        }
         filter(arrayValue)
       }
+      return
     }
+
+    let filterValue: unknown = inlineValue
+
+    if (
+      typeInput === ETypeInput.SELECT &&
+      inlineValue &&
+      typeof inlineValue === 'object' &&
+      'code' in (inlineValue as object)
+    ) {
+      filterValue = (inlineValue as IPrimeNgSelection).code
+    }
+
+    const isEmpty = filterValue === '' || filterValue === null || filterValue === undefined
+
+    if (key) {
+      if (isEmpty) {
+        this.advancedFiltersValues.update((prev: Record<string, any>) => {
+          const { [key]: _value, ...rest } = prev
+          return { ...rest }
+        })
+      } else {
+        this.advancedFiltersValues.update((prev: Record<string, any>) => ({ ...prev, [key]: filterValue }))
+      }
+    }
+
+    filter(isEmpty ? null : filterValue)
   }
   formChanges(formValue: Record<string, any>, filter: (value: any) => void, key: string): void {
 

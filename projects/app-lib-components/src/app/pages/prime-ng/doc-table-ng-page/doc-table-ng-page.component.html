@@ -384,10 +384,42 @@ applyBulkBooleanToColumn(value: boolean, columnKey: string) &#123;
 
   <section class="doc-section">
     <h2>Filtros por Columna</h2>
-    <p>Configura filtros específicos para cada columna con diferentes tipos y modos de coincidencia.</p>
+    <p>
+      Configura filtros específicos por columna con <code>filterConfigByKey</code>. Puedes usar el filtro nativo de
+      PrimeNG con <code>primeNgColumnFilterConfig</code> o reemplazar el control del menú con
+      <code>customColumnFilterConfig</code> y un <code>lib-inline-input</code>.
+    </p>
     <div class="code-block">
       <pre><code>filterConfigByKey: {{ '{' }}
-  'status': {{ '{' }}
+  name: {{ '{' }}
+    isEnabled: true,
+    customColumnFilterConfig: {{ '{' }}
+      isEnabled: true,
+      inlineControlConfig: {{ '{' }} typeInput: ETypeInput.TEXT {{ '}' }}
+    {{ '}' }},
+    primeNgColumnFilterConfig: {{ '{' }}
+      matchMode: 'contains',
+      showApplyButton: false,
+      showClearButton: true
+    {{ '}' }}
+  {{ '}' }},
+  status: {{ '{' }}
+    isEnabled: true,
+    customColumnFilterConfig: {{ '{' }}
+      isEnabled: true,
+      inlineControlConfig: {{ '{' }}
+        typeInput: ETypeInput.SELECT,
+        selectConfig: {{ '{' }}
+          options: [
+            {{ '{' }} code: 'Activo', name: 'Activo' {{ '}' }},
+            {{ '{' }} code: 'Inactivo', name: 'Inactivo' {{ '}' }}
+          ]
+        {{ '}' }}
+      {{ '}' }}
+    {{ '}' }},
+    primeNgColumnFilterConfig: {{ '{' }} matchMode: 'equals' {{ '}' }}
+  {{ '}' }},
+  email: {{ '{' }}
     isEnabled: true,
     primeNgColumnFilterConfig: {{ '{' }}
       type: 'text',
@@ -396,6 +428,16 @@ applyBulkBooleanToColumn(value: boolean, columnKey: string) &#123;
   {{ '}' }}
 {{ '}' }}</code></pre>
     </div>
+    <div class="example-container">
+      <lib-table-ng
+        [data]="columnFilterTableData()"
+        [config]="columnFilterTableConfig"
+      />
+    </div>
+    <p class="note">
+      En este ejemplo, <strong>Nombre</strong> y <strong>Estado</strong> usan <code>customColumnFilterConfig</code>
+      (texto y select personalizados). <strong>Email</strong> usa el filtro nativo de PrimeNG.
+    </p>
   </section>
 
   <section class="doc-section">
