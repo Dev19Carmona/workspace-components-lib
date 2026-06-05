@@ -78,7 +78,7 @@
   <p-table #dt styleClass="p-datatable-sm" tableStyleClass="table table-xs" [value]="data()" [lazy]="lazyLoadingConfig?.isEnabled ?? false"
     [editMode]="editType" [totalRecords]="
         lazyLoadingConfig?.isEnabled
-          ? (lazyLoadingConfig?.totalRecords ?? 0)
+          ? lazyLoadingConfig!.totalRecords
           : data().length
       " [customSort]="true" [paginator]="paginationConfig?.paginator ?? true" [showCurrentPageReport]="true"
     [rows]="paginationConfig?.rows ?? 5" [rowsPerPageOptions]="paginationConfig?.rowsPerPageOptions ?? [5, 10, 20]"
@@ -112,12 +112,13 @@
           <div class="flex gap-2 justify-center items-center py-0 px-0">
             {{ column.field | keyToDisplayName: keysNames }}
             @if (inputConfig?.[column.field]?.isEnabled) {
-              @if (inputConfig?.[column.field]?.type === ETypeInput.SWITCH || inputConfig?.[column.field]?.type === ETypeInput.CHECKBOX) {
+              @let columnInputConfig = inputConfig![column.field]!;
+              @if (columnInputConfig.type === ETypeInput.SWITCH || columnInputConfig.type === ETypeInput.CHECKBOX) {
                 <div class="inline-flex" (click)="$event.stopPropagation()">
                   <lib-inline-input
                     [ngModel]="booleanColumnHeaderReflectValue(column.field)"
                     (ngModelChange)="applyBulkBooleanToColumn($event, column.field)"
-                    [config]="inlineConfigCheckHeader(column.field, inputConfig![column.field]!.type)">
+                    [config]="inlineConfigCheckHeader(column.field, columnInputConfig.type)">
                   </lib-inline-input>
                 </div>
               }
@@ -164,12 +165,13 @@
           <div class="flex gap-2 justify-center items-center py-0 px-0">
             {{ key | keyToDisplayName: keysNames }}
             @if (inputConfig?.[key]?.isEnabled) {
-              @if (inputConfig?.[key]?.type === ETypeInput.SWITCH || inputConfig?.[key]?.type === ETypeInput.CHECKBOX) {
+              @let keyInputConfig = inputConfig![key]!;
+              @if (keyInputConfig.type === ETypeInput.SWITCH || keyInputConfig.type === ETypeInput.CHECKBOX) {
                 <div class="inline-flex" (click)="$event.stopPropagation()">
                   <lib-inline-input
                     [ngModel]="booleanColumnHeaderReflectValue(key)"
                     (ngModelChange)="applyBulkBooleanToColumn($event, key)"
-                    [config]="inlineConfigCheckHeader(key, inputConfig![key]!.type)">
+                    [config]="inlineConfigCheckHeader(key, keyInputConfig.type)">
                   </lib-inline-input>
                 </div>
               }
@@ -309,10 +311,12 @@
             </ng-template>
           </p-cellEditor>
 
-          @if (rowErrorConfig?.isEnabled && enableErrors && rowErrorConfig?.fieldErrors?.[item.id]?.[column.field]) {
+          @if (rowErrorConfig; as errorConfig) {
+          @if (errorConfig.isEnabled && enableErrors && errorConfig.fieldErrors[item.id][column.field]; as columnFieldError) {
           <span class="text-red-500 italic text-xs">
-            {{ rowErrorConfig?.fieldErrors?.[item.id]?.[column.field]?.message ?? '' }}
+            {{ columnFieldError.message }}
           </span>
+          }
           }
         </td>
         }
@@ -372,10 +376,12 @@
             </ng-template>
           </p-cellEditor>
 
-          @if (rowErrorConfig?.isEnabled && enableErrors && rowErrorConfig?.fieldErrors?.[item.id]?.[key]) {
+          @if (rowErrorConfig; as errorConfig) {
+          @if (errorConfig.isEnabled && enableErrors && errorConfig.fieldErrors[item.id][key]; as keyFieldError) {
           <span class="text-red-500 italic text-xs">
-            {{ rowErrorConfig?.fieldErrors?.[item.id]?.[key]?.message ?? '' }}
+            {{ keyFieldError.message }}
           </span>
+          }
           }
         </td>
         }
@@ -445,10 +451,10 @@
               </ng-template>
             </p-cellEditor>
 
-            @if (rowErrorConfig?.isEnabled && enableErrors && !rowFieldsHasValue()[column.field]) {
-            <span class="text-red-500 italic text-xs">{{
-              rowErrorConfig?.fieldErrors?.[item.id]?.[column.field]?.message ??
-              '' }}</span>
+            @if (rowErrorConfig; as errorConfig) {
+            @if (errorConfig.isEnabled && enableErrors && !rowFieldsHasValue()[column.field] && errorConfig.fieldErrors[item.id][column.field]; as columnFieldError) {
+            <span class="text-red-500 italic text-xs">{{ columnFieldError.message }}</span>
+            }
             }
           </div>
         </td>
@@ -495,9 +501,10 @@
               </ng-template>
             </p-cellEditor>
 
-            @if (rowErrorConfig?.isEnabled && enableErrors && !rowFieldsHasValue()[key]) {
-            <span class="text-red-500 italic text-xs">{{ rowErrorConfig?.fieldErrors?.[item.id]?.[key]?.message ??
-              '' }}</span>
+            @if (rowErrorConfig; as errorConfig) {
+            @if (errorConfig.isEnabled && enableErrors && !rowFieldsHasValue()[key] && errorConfig.fieldErrors[item.id][key]; as keyFieldError) {
+            <span class="text-red-500 italic text-xs">{{ keyFieldError.message }}</span>
+            }
             }
           </div>
         </td>
