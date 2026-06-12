@@ -312,7 +312,7 @@
           </p-cellEditor>
 
           @if (rowErrorConfig; as errorConfig) {
-          @if (errorConfig.isEnabled && enableErrors && errorConfig.fieldErrors[item.id][column.field]; as columnFieldError) {
+          @if (errorConfig.isEnabled && enableErrors && errorConfig.fieldErrors[item.id]?.[column.field]; as columnFieldError) {
           <span class="text-red-500 italic text-xs">
             {{ columnFieldError.message }}
           </span>
@@ -377,7 +377,7 @@
           </p-cellEditor>
 
           @if (rowErrorConfig; as errorConfig) {
-          @if (errorConfig.isEnabled && enableErrors && errorConfig.fieldErrors[item.id][key]; as keyFieldError) {
+          @if (errorConfig.isEnabled && enableErrors && errorConfig.fieldErrors[item.id]?.[key]; as keyFieldError) {
           <span class="text-red-500 italic text-xs">
             {{ keyFieldError.message }}
           </span>
@@ -452,7 +452,7 @@
             </p-cellEditor>
 
             @if (rowErrorConfig; as errorConfig) {
-            @if (errorConfig.isEnabled && enableErrors && !rowFieldsHasValue()[column.field] && errorConfig.fieldErrors[item.id][column.field]; as columnFieldError) {
+            @if (errorConfig.isEnabled && enableErrors && !rowFieldsHasValue()[column.field] && errorConfig.fieldErrors[item.id]?.[column.field]; as columnFieldError) {
             <span class="text-red-500 italic text-xs">{{ columnFieldError.message }}</span>
             }
             }
@@ -502,7 +502,7 @@
             </p-cellEditor>
 
             @if (rowErrorConfig; as errorConfig) {
-            @if (errorConfig.isEnabled && enableErrors && !rowFieldsHasValue()[key] && errorConfig.fieldErrors[item.id][key]; as keyFieldError) {
+            @if (errorConfig.isEnabled && enableErrors && !rowFieldsHasValue()[key] && errorConfig.fieldErrors[item.id]?.[key]; as keyFieldError) {
             <span class="text-red-500 italic text-xs">{{ keyFieldError.message }}</span>
             }
             }

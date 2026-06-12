@@ -1066,13 +1066,13 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   }
   private handleTableValueToSourceElements(): void {
     const value = this.data()
-    if (!value.some((item: ITableNgData<T>) => item.rowData['identifier'])) {
+    if (!value.some((item: ITableNgData<T>) => item.rowData?.['identifier'])) {
       return
     }
     const sourceElements: IPickListElement[] = value.map((item: ITableNgData<T>) => ({
       id: item.id,
       buttonConfig: {
-        label: item.rowData['identifier'],
+        label: item.rowData?.['identifier'],
         fullWidth: true,
         fullHeight: true
       },
@@ -1082,10 +1082,10 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
   }
   private handleSelectedItemsToSourceElements(): void {
     const selectedItems: ITableNgData<T>[] = this.selectedItems()
-    if (!selectedItems.some((item: ITableNgData<T>) => item.rowData['identifier'])) {
+    if (!selectedItems.some((item: ITableNgData<T>) => item.rowData?.['identifier'])) {
       return
     }
-    const identifiers: string[] = selectedItems.map((item: ITableNgData<T>) => item.rowData['identifier'])
+    const identifiers: string[] = selectedItems.map((item: ITableNgData<T>) => item.rowData?.['identifier'])
     const sourceElements: IPickListElement[] = this.sourceElements().map((item: IPickListElement) => ({
       ...item,
       isSelected: identifiers.includes(item.buttonConfig?.label as string)
