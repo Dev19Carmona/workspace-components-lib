@@ -578,8 +578,10 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
     const lazyLoadingConfig = this.config()?.lazyLoadingConfig
 
     if (typeInput === ETypeInput.MULTISELECT) {
-      const options: IPrimeNgSelection[] | undefined = inlineValue ? inlineValue as IPrimeNgSelection[] : undefined
-      const arrayValue: string[] | undefined = options
+      const options: IPrimeNgSelection[] = Array.isArray(inlineValue)
+        ? inlineValue.filter((item): item is IPrimeNgSelection => PrimeNgUtil.isPrimeNgSelection(item))
+        : []
+      const arrayValue: string[] | undefined = options.length > 0
         ? options.map((data: IPrimeNgSelection) => lazyLoadingConfig?.isEnabled ? data.code : data.name)
         : undefined
 

@@ -39,7 +39,7 @@
 }
 @case (ETypeInput.MULTISELECT) {
 <p-multiselect [options]="config().multiSelectConfig?.options ?? []"
-  [optionLabel]="config().multiSelectConfig?.optionLabel ?? 'name'" [ngModel]="valueInput"
+  [optionLabel]="config().multiSelectConfig?.optionLabel ?? 'name'" [ngModel]="multiSelectValue()"
   (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()" (keydown)="onKeyDown($event)" [filter]="true"
   appendTo="body" class="w-full" [disabled]="isDisabled" />
 }

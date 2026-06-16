@@ -20,6 +20,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs'
 import type { PrimeTemplate as PrimeTemplateType } from 'primeng/api'
 import { PrimeTemplate } from 'primeng/api'
 import { IPrimeNgSelection } from '../../../../prime-ng/interfaces'
+import { PrimeNgUtil } from '../../../../../utils'
 
 @Component({
   selector: 'lib-inline-input',
@@ -114,9 +115,15 @@ export class InlineInputComponent<T = string | number | boolean | null> implemen
     this.onTouched = fn
   }
 
-  onChangeValue(value: string | number | boolean | null | IPrimeNgSelection<string | boolean>) {
-    this.value.set(value as T)
-    this.onChange(value)
+  onChangeValue(value: string | number | boolean | null | IPrimeNgSelection<string | boolean> | IPrimeNgSelection[]) {
+    let nextValue: typeof value = value
+
+    if (this.type === ETypeInput.MULTISELECT && Array.isArray(value)) {
+      nextValue = value.filter((item) => item != null && this.isSelection(item))
+    }
+
+    this.value.set(nextValue as T)
+    this.onChange(nextValue)
   }
 
   onBlur() {
@@ -137,7 +144,40 @@ export class InlineInputComponent<T = string | number | boolean | null> implemen
   }
 
   private isSelection(value: unknown): value is IPrimeNgSelection<string | boolean> {
-    return !!value && typeof value === 'object' && 'code' in (value as Record<string, unknown>) && 'name' in (value as Record<string, unknown>)
+    return PrimeNgUtil.isPrimeNgSelection(value)
+  }
+
+  /**
+   * Normaliza el valor del multiselect: PrimeNG ColumnFilter devuelve string[] (name/code)
+   * pero p-multiselect espera IPrimeNgSelection[] cuando las options son objetos.
+   */
+  protected multiSelectValue: Signal<IPrimeNgSelection[]> = computed(() => {
+    return this.normalizeMultiSelectValue(this.value())
+  })
+
+  private normalizeMultiSelectValue(value: unknown): IPrimeNgSelection[] {
+    if (value == null) {
+      return []
+    }
+
+    if (!Array.isArray(value)) {
+      return []
+    }
+
+    const options = this.config()?.multiSelectConfig?.options ?? []
+
+    return value
+      .filter((item) => item != null && item !== '')
+      .map((item) => {
+        if (this.isSelection(item)) {
+          return item
+        }
+        if (typeof item === 'string') {
+          return options.find((option) => option.code === item || option.name === item)
+        }
+        return undefined
+      })
+      .filter((item): item is IPrimeNgSelection => !!item)
   }
 
   valueSelect: WritableSignal<IPrimeNgSelection<string | boolean> | undefined> = signal<IPrimeNgSelection<string | boolean> | undefined>(undefined)
