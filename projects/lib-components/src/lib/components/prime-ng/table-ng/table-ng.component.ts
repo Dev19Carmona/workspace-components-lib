@@ -596,9 +596,9 @@ export class TableNgComponent<T extends Record<string, any> = Record<string, any
         return
       }
 
-      if (inlineValue && Array.isArray(arrayValue) && arrayValue.length > 0) {
+      if (options.length > 0) {
         if (key) {
-          this.advancedFiltersValues.update((prev: Record<string, any>) => ({ ...prev, [key]: inlineValue }))
+          this.advancedFiltersValues.update((prev: Record<string, any>) => ({ ...prev, [key]: options }))
         }
         filter(arrayValue)
       }
