@@ -57,6 +57,22 @@ export class CustomInputComponent implements ControlValueAccessor {
   private control: Signal<FormControl> = computed(() => this.controlData().control)
   private controlValue: Signal<any> = computed(() => this.control().value)
   protected hasControlValue: Signal<boolean> = computed(() => this.controlValue() !== null && this.controlValue() !== undefined)
+  protected isBooleanInput: Signal<boolean> = computed(() => {
+    const type = this.controlData().typeInput
+    return type === ETypeInput.CHECKBOX || type === ETypeInput.SWITCH || type === ETypeInput.TOGGLE
+  })
+  protected booleanStateLabel: Signal<string> = computed(() => {
+    const value = !!this.controlValue()
+    const config = this.controlData()
+
+    if (config.typeInput === ETypeInput.TOGGLE) {
+      return value
+        ? (config.toggleConfig?.onLabel || 'Sí')
+        : (config.toggleConfig?.offLabel || 'No')
+    }
+
+    return value ? 'Sí' : 'No'
+  })
 
   writeValue(value: any): void {
     if (value !== this.controlData().control.value) {

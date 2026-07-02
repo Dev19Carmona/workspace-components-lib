@@ -11,13 +11,17 @@
 @let currencyConfig = controlData().currencyConfig;
 @let decimalConfig = controlData().decimalConfig;
 @let autoFocus = controlData().autoFocus ?? false;
+@let fieldId = generateUniqueId(name);
+@let isInvalid = localControl.invalid && (localControl.dirty || localControl.touched);
 <div class="flex flex-col gap-1 ">
   <lib-disabled-container [disabled]="readonly">
 
+    @if (showLabel && !isBooleanInput()) {
     <p style="font-size: 12px; letter-spacing: 0.5px;" class="text-sm text-gray-600 dark:text-gray-300 truncate"
       [pTooltip]="placeholder" tooltipPosition="top" [showDelay]="300">
       {{ placeholder }}
     </p>
+    }
     @switch (typeInput) {
     @case (inputTypesEnum.EMAIL_PASSWORD) {
     <input [formControl]="localControl" (blur)="onTouched()" pInputText [id]="generateUniqueId(name)" [name]="name"
@@ -88,9 +92,20 @@
     </lib-disabled-container>
     }
     @case (inputTypesEnum.TOGGLE) {
-    <div class="flex justify-center items-center p-4">
-      <p-togglebutton [formControl]="localControl" [onLabel]="toggleConfig?.onLabel || 'Si'"
-        [offLabel]="toggleConfig?.offLabel || 'No'" class="custom-toggle" />
+    <div class="boolean-field" [ngClass]="{
+      'boolean-field--checked': !!localControl.value,
+      'boolean-field--invalid': isInvalid,
+      'boolean-field--readonly': readonly
+    }">
+      @if (showLabel) {
+      <span class="boolean-field__label" [pTooltip]="placeholder" tooltipPosition="top" [showDelay]="300">
+        {{ placeholder }}
+      </span>
+      }
+      <div class="boolean-field__control">
+        <p-togglebutton [formControl]="localControl" [onLabel]="toggleConfig?.onLabel || 'Sí'"
+          [offLabel]="toggleConfig?.offLabel || 'No'" class="boolean-field__toggle" />
+      </div>
     </div>
     }
     @case (inputTypesEnum.MULTISELECT) {
@@ -108,12 +123,24 @@
     }
     
     @case (inputTypesEnum.CHECKBOX) {
-    <div class="flex justify-center items-center p-4">
-      <input [id]="generateUniqueId(name)" [readOnly]="readonly" [type]="typeInput" [checked]="localControl.value"
-        (change)="onCheckboxChange($event, localControl)"
-        class="custom-checkbox h-5 w-5 border-2 border-gray-300 dark:border-transparent rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 transition-all duration-200"
-        [formControl]="localControl" />
-    </div>
+    <label class="boolean-field" [attr.for]="fieldId" [ngClass]="{
+      'boolean-field--checked': !!localControl.value,
+      'boolean-field--invalid': isInvalid,
+      'boolean-field--readonly': readonly
+    }">
+      @if (showLabel) {
+      <span class="boolean-field__label" [pTooltip]="placeholder" tooltipPosition="top" [showDelay]="300">
+        {{ placeholder }}
+      </span>
+      }
+      <div class="boolean-field__control">
+        <span class="boolean-field__state" [class.boolean-field__state--active]="!!localControl.value">
+          {{ booleanStateLabel() }}
+        </span>
+        <p-checkbox [inputId]="fieldId" [formControl]="localControl" [binary]="true" [readonly]="readonly"
+          class="boolean-field__checkbox" (onChange)="onTouched()" />
+      </div>
+    </label>
     }
     @case (inputTypesEnum.OTP) {
     <div class="flex justify-center items-center p-4">
@@ -124,21 +151,30 @@
     </div>
     }
     @case (inputTypesEnum.SWITCH) {
-    <div class="flex justify-center items-center p-4">
-      <p-toggleswitch [id]="generateUniqueId(name)" [formControl]="localControl" [readonly]="readonly" [disabled]="readonly"
-        class="custom-switch border-2 border-gray-300 dark:border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 transition-all duration-200"
-        (change)="onCheckboxChange($event, localControl)">
-        <ng-template #handle let-checked="checked">
-          <span class="text-xs bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-full px-1">
-            @if (checked) {
-            Si
-            }
-            @else {
-            No
-            }
-          </span>
-        </ng-template>
-      </p-toggleswitch>
+    <div class="boolean-field" [ngClass]="{
+      'boolean-field--checked': !!localControl.value,
+      'boolean-field--invalid': isInvalid,
+      'boolean-field--readonly': readonly
+    }">
+      @if (showLabel) {
+      <span class="boolean-field__label" [id]="fieldId + '-label'" [pTooltip]="placeholder" tooltipPosition="top"
+        [showDelay]="300">
+        {{ placeholder }}
+      </span>
+      }
+      <div class="boolean-field__control">
+        <span class="boolean-field__state" [class.boolean-field__state--active]="!!localControl.value">
+          {{ booleanStateLabel() }}
+        </span>
+        <p-toggleswitch [inputId]="fieldId" [formControl]="localControl" [readonly]="readonly" [disabled]="readonly"
+          class="boolean-field__switch" [attr.aria-labelledby]="fieldId + '-label'" (onChange)="onTouched()">
+          <ng-template #handle let-checked="checked">
+            <span class="boolean-field__switch-handle">
+              {{ checked ? 'Sí' : 'No' }}
+            </span>
+          </ng-template>
+        </p-toggleswitch>
+      </div>
     </div>
     }
     @case (inputTypesEnum.DECIMAL) {

@@ -274,6 +274,28 @@
       }
     }
   }
+
+  // showGridlines: Aura dark usa surface.800, poco contraste con el fondo
+  ::ng-deep .p-datatable.p-datatable-gridlines {
+    --p-datatable-border-color: var(--p-surface-600);
+    --p-datatable-header-border-color: var(--p-surface-600);
+    --p-datatable-header-cell-border-color: var(--p-surface-600);
+    --p-datatable-body-cell-border-color: var(--p-surface-600);
+    --p-datatable-footer-border-color: var(--p-surface-600);
+    --p-datatable-footer-cell-border-color: var(--p-surface-600);
+    --p-datatable-paginator-top-border-color: var(--p-surface-600);
+    --p-datatable-paginator-bottom-border-color: var(--p-surface-600);
+
+    .p-datatable-header,
+    .p-datatable-footer,
+    .p-datatable-paginator-top,
+    .p-datatable-paginator-bottom,
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td,
+    .p-datatable-tfoot > tr > td {
+      border-color: var(--p-surface-600);
+    }
+  }
 }
 
 // Utility classes - Flexbox
