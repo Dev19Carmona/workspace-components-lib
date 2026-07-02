@@ -83,8 +83,8 @@
     @case (inputTypesEnum.DATE) {
     <lib-disabled-container [disabled]="readonly">
       <p-datepicker [formControl]="localControl" [selectionMode]="dateConfig?.selectionMode || 'single'"
-        [maxDate]="dateConfig?.maxDate || null" [minDate]="dateConfig?.minDate || null" class="custom-datepicker"
-        appendTo="body" />
+        [maxDate]="dateConfig?.maxDate || null" [minDate]="dateConfig?.minDate || null" dateFormat="dd/mm/yy"
+        class="custom-datepicker" appendTo="body" />
     </lib-disabled-container>
     }
     @case (inputTypesEnum.TOGGLE) {

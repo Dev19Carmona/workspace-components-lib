@@ -19,12 +19,13 @@
 @case (ETypeInput.DATE) {
 <p-datepicker [ngModel]="valueInput" appendTo="body" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()"
   (keydown)="onKeyDown($event)" class="w-full" [disabled]="isDisabled" [maxDate]="dateConfig?.maxDate || null"
-  [minDate]="dateConfig?.minDate || null" [selectionMode]="dateConfig?.selectionMode || 'single'" />
+  [minDate]="dateConfig?.minDate || null" [selectionMode]="dateConfig?.selectionMode || 'single'" dateFormat="dd/mm/yy" />
 }
 @case (ETypeInput.DATETIME_LOCAL) {
 <p-datepicker [ngModel]="valueInput" appendTo="body" (ngModelChange)="onChangeValue($event)" (onBlur)="onBlur()"
   (keydown)="onKeyDown($event)" class="w-full" [showTime]="true" [hourFormat]="'24'" [disabled]="isDisabled"
-  [maxDate]="dateConfig?.maxDate || null" [minDate]="dateConfig?.minDate || null" [selectionMode]="dateConfig?.selectionMode || 'single'" />
+  [maxDate]="dateConfig?.maxDate || null" [minDate]="dateConfig?.minDate || null" [selectionMode]="dateConfig?.selectionMode || 'single'"
+  dateFormat="dd/mm/yy" />
 }
 @case (ETypeInput.SELECT) {
 <p-select [options]="config().selectConfig?.options ?? []" [optionLabel]="config().selectConfig?.optionLabel ?? 'name'"

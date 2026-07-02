@@ -81,6 +81,7 @@
           ? lazyLoadingConfig!.totalRecords
           : data().length
       " [customSort]="true" [paginator]="paginationConfig?.paginator ?? true" [showCurrentPageReport]="true"
+      showGridlines
     [rows]="paginationConfig?.rows ?? 5" [rowsPerPageOptions]="paginationConfig?.rowsPerPageOptions ?? [5, 10, 20]"
     [paginatorStyleClass]="paginatorStyleClass()" [resizableColumns]="true" [rowTrackBy]="trackById"
     [columns]="selectedColumns" [scrollable]="scrollConfig?.isEnabled ?? false"
